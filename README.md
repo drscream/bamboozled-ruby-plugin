@@ -15,14 +15,18 @@ The preferred method for ruby runtimes is using [RVM](http://rvm.io).  Using the
 ## Usage
 This is still a bit clunky, but a shared runtime is much more maintainable than the known alternatives.  (ideas are welcome)
 1. Install the `bamboozled-ruby-plugin`
+
 ..* Obtain via the Atlassian Plugin site (TODO)
-..* or [download the binary](https://www.dropbox.com/sh/of18yggwwfs7i69/sGDkijyaPW) and upload to via the Bamboo universal plugin manager. 
+..* or [download the binary](https://www.dropbox.com/sh/of18yggwwfs7i69/sGDkijyaPW) and upload to via the Bamboo universal plugin manager.
+ 
 2. Navigate to the Bamboo `Administration | Server capabilities` and click `Detect server capabilities`, this will detect existing RVM/ruby and their associated gemsets.
-3. Configure the plan: 
+3. Configure the plan:
+ 
 ..* New Plan
 ...1. `Create | Create a new plan` and fill out appropriate information then click `Configure tasks`
 ...2. **Skip** adding tasks and click `Create` *without* the plan enabled *(this is a workaround for configuring a global ruby runtime)*
-...3. Now follow the existing plan instructions starting with #2 below  
+...3. Now follow the existing plan instructions starting with #2 below
+  
 ..* Existing Plan
 ...1. Choose `Actions | Configure plan`
 ...2. Choose the `Miscellaneous` tab to select the appropriate RVM or ruby runtime and set any common environment variables
@@ -80,6 +84,11 @@ While we do care about backwards compatibility, we care most about being easy to
 ## Contributing
 
 Please contribute! We will readily accept contributions and try to stay on top of them.  Any contribution should contain additional Junit tests and all tests should pass.
+
+### To Do:
+- [ ] Deployment reuse of common runtime configuration (@rosskevin)
+- [ ] More cleanup after recent additions
+- [ ] More reuse to reduce duplicate code
 
 ### To contribute:
 
