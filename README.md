@@ -1,8 +1,8 @@
-# Bamboozled Ruby Plugin for Atlassian Bamboo continuous integration/continuous deployment
+# Bamboozled Ruby Plugin
 
-This [Bamboo](http://www.atlassian.com/software/bamboo/overview) plugin enables easy configuration of build and deployment tasks to run various ruby based build tools including bundler, rake, and capistrano.
+This continuous integration/continuous deployment plugin for Atlassian [Bamboo](http://www.atlassian.com/software/bamboo/overview) enables easy configuration of build and deployment tasks to run various ruby based build tools including bundler, rake, and capistrano.
 
-## Features
+## Features for both build and deploy plans
 Via [Bamboo](http://www.atlassian.com/software/bamboo/overview) tasks, this plugin enables configure a ruby runtime environment once per plan and run:
 * Bundler
 * Rake
@@ -11,9 +11,8 @@ Via [Bamboo](http://www.atlassian.com/software/bamboo/overview) tasks, this plug
 ## RVM Support
 The preferred method for ruby runtimes is using [RVM](http://rvm.io).  Using the miscellaneous tab on the plan configuration, you can select the appropriate RVM environment as well as specify common environment variables such as `RAILS_ENV`.
 
-
 ## Usage
-This is still a bit clunky, but a shared runtime is much more maintainable than the known alternatives.  (ideas are welcome)
+This is still a bit clunky, but a shared runtime configuration is much more maintainable than the known alternatives.  (ideas are welcome)
 
 1. Install the `bamboozled-ruby-plugin`
   * Obtain via the Atlassian Plugin site (TODO)
