@@ -1,0 +1,205 @@
+package com.alienfast.bamboozled.ruby.rt.rvm;
+
+import java.io.File;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang.StringUtils;
+
+import com.alienfast.bamboozled.ruby.rt.BaseRubyLocator;
+import com.alienfast.bamboozled.ruby.rt.RubyLocator;
+import com.alienfast.bamboozled.ruby.rt.RubyRuntime;
+import com.alienfast.bamboozled.ruby.rt.RubyRuntimeName;
+import com.alienfast.bamboozled.ruby.util.EnvUtils;
+import com.alienfast.bamboozled.ruby.util.FileSystemHelper;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
+/**
+ * This class locates ruby installations within an Rvm Installation.
+ */
+public class RvmRubyLocator extends BaseRubyLocator implements RubyLocator {
+
+    final RvmInstallation rvmInstallation;
+
+    public RvmRubyLocator(FileSystemHelper fileSystemHelper, RvmInstallation rvmInstallation) {
+
+        this.fileSystemHelper = fileSystemHelper;
+        this.rvmInstallation = rvmInstallation;
+    }
+
+    /**
+     * Given a ruby runtime it will assert it exists, then build the environment variables required
+     * to execute commands under this runtime.
+     *
+     * @param rubyRuntimeName The name of the ruby runtime.
+     * @return Map of environment variables.
+     */
+    @Override
+    public Map<String, String> buildEnv( String rubyRuntimeName, String rubyExecutablePath, Map<String, String> currentEnv ) {
+
+        RubyRuntime rubyRuntime = getRubyRuntime( rubyRuntimeName );
+
+        final String rubyHomePath = RvmUtils.buildRubyHomePath( this.rvmInstallation.getRubiesPath(), rubyRuntime.getName() );
+        final String rubyName = rubyRuntime.getName();
+        final String gemHomePath = rubyRuntime.getGemPath();
+        final String gemPath = RvmUtils.buildGemPath(
+                this.rvmInstallation.getGemsPath(),
+                rubyRuntime.getName(),
+                rubyRuntime.getGemSetName() );
+        final String rvmGemSetName = rubyRuntime.getGemSetName();
+        final String rvmPathPrefix = RvmUtils.buildBinPath(
+                this.rvmInstallation.getRubiesPath(),
+                this.rvmInstallation.getGemsPath(),
+                rubyRuntime.getName(),
+                rubyRuntime.getGemSetName() );
+
+        // get the existing path.
+        final String currentPath = StringUtils.defaultString( currentEnv.get( "PATH" ), "" );
+
+        Map<String, String> envVars = Maps.newHashMap();
+
+        // propagate existing environment
+        envVars.putAll( currentEnv );
+
+        // overwrite all the ruby related variables
+        envVars.put( EnvUtils.MY_RUBY_HOME, rubyHomePath );
+        envVars.put( EnvUtils.GEM_HOME, gemHomePath );
+        envVars.put( EnvUtils.GEM_PATH, gemPath );
+        envVars.put( EnvUtils.BUNDLE_HOME, gemHomePath );
+        envVars.put( RvmUtils.RVM_GEM_SET, rvmGemSetName );
+        envVars.put( RvmUtils.RVM_RUBY_STRING, rubyName );
+        envVars.put( EnvUtils.PATH, rvmPathPrefix + File.pathSeparator + currentPath );
+
+        return envVars;
+    }
+
+    /**
+     * Given a ruby name 1.9.3-p0 and gem set name rails31 return a ruby runtime object for it.
+     * <p/>
+     * This also checks the ruby and gem set exist.
+     *
+     * @param rubyName   The name of the ruby
+     * @param gemSetName The name of the gem set
+     * @return A ruby runtime.
+     * @throws IllegalArgumentException thrown if the ruby runtime name is an invalid format.
+     * @throws com.alienfast.bamboozled.ruby.util.PathNotFoundException
+     *                                  thrown if the ruby runtime supplied doesn't exist in rvm.
+     */
+    @Override
+    public RubyRuntime getRubyRuntime( final String rubyName, final String gemSetName ) {
+
+        final String rubyExecutableName = RvmUtils.buildRubyExecutablePath( this.rvmInstallation.getRubiesPath(), rubyName );
+
+        this.fileSystemHelper.assertPathExists( rubyExecutableName, "Cannot locate ruby executable" );
+
+        final String gemHomePath = RvmUtils.buildGemHomePath( this.rvmInstallation.getGemsPath(), rubyName, gemSetName );
+
+        this.fileSystemHelper.assertPathExists( gemHomePath, "Cannot locate ruby executable" );
+
+        return new RubyRuntime( rubyName, gemSetName, rubyExecutableName, gemHomePath );
+    }
+
+    /**
+     * Given a ruby runtime name for example 1.9.3-p0@rails31 return a ruby runtime object for it.
+     * <p/>
+     * This also checks the ruby and gem set exist.
+     *
+     * @param rubyRuntimeName The name of the ruby runtime
+     * @return A ruby runtime.
+     * @throws IllegalArgumentException thrown if the ruby runtime name is an invalid format.
+     * @throws com.alienfast.bamboozled.ruby.util.PathNotFoundException
+     *                                  thrown if the ruby runtime supplied doesn't exist in rvm.
+     */
+    @Override
+    public RubyRuntime getRubyRuntime( String rubyRuntimeName ) {
+
+        RubyRuntimeName rubyRuntimeTokens = RvmUtils.parseRubyRuntimeName( rubyRuntimeName );
+
+        final String rubyName = rubyRuntimeTokens.getVersion();
+        final String gemSetName = rubyRuntimeTokens.getGemSet();
+
+        return getRubyRuntime( rubyName, gemSetName );
+    }
+
+    /**
+     * Build a list of ruby run time and gem set combinations from rvm.
+     *
+     * @return List of ruby run times and gem sets.
+     */
+    @Override
+    public List<RubyRuntime> listRubyRuntimes() {
+
+        List<RubyRuntime> rubyRuntimeList = Lists.newArrayList();
+
+        List<String> rubiesList = this.fileSystemHelper.listPathDirNames( this.rvmInstallation.getRubiesPath() );
+        List<String> gemSetList = this.fileSystemHelper.listPathDirNames( this.rvmInstallation.getGemsPath() );
+
+        for (String rubyName : rubiesList) {
+            // locate each ruby to gem set combination
+            for (String gemSetDirectoryName : gemSetList) {
+                if ( gemSetDirectoryName.startsWith( rubyName ) && !gemSetDirectoryName.endsWith( RvmUtils.GLOBAL_GEMSET_NAME ) ) {
+                    if ( rubyName.equals( gemSetDirectoryName ) ) {
+                        rubyRuntimeList.add( getRubyRuntime( rubyName, "default" ) );
+                    }
+                    else {
+                        RubyRuntimeName rubyRuntimeTokens = RvmUtils.parseRubyRuntimeName( gemSetDirectoryName );
+                        rubyRuntimeList.add( getRubyRuntime( rubyRuntimeTokens.getVersion(), rubyRuntimeTokens.getGemSet() ) );
+                    }
+                }
+            }
+        }
+
+        return rubyRuntimeList;
+    }
+
+    /**
+     * Given a the name and version of a ruby interpreter check if it is installed in RVM.
+     *
+     * @param rubyNamePattern will be checked against the rubies installed using String#startsWith
+     * @return true if it is installed, otherwise false.
+     */
+    @Override
+    public boolean hasRuby( String rubyNamePattern ) {
+
+        List<String> rubiesList = this.fileSystemHelper.listPathDirNames( this.rvmInstallation.getRubiesPath() );
+
+        for (String rubyName : rubiesList) {
+            if ( rubyName.startsWith( rubyNamePattern ) ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public String buildExecutablePath( String rubyRuntimeName, String rubyExecutablePath, String command ) {
+
+        RubyRuntime rubyRuntime = getRubyRuntime( rubyRuntimeName );
+
+        List<String> gemBinSearchList = RvmUtils.buildGemBinSearchPath(
+                this.rvmInstallation.getGemsPath(),
+                rubyRuntime.getName(),
+                rubyRuntime.getGemSetName() );
+
+        for (String pathBinSearch : gemBinSearchList) {
+
+            String binCandidate = FilenameUtils.concat( pathBinSearch, command );
+
+            if ( this.fileSystemHelper.executableFileExists( binCandidate ) ) {
+                return binCandidate;
+            }
+        }
+
+        throw new IllegalArgumentException( "Unable to locate executable " + command + " in gem path for ruby runtime " + rubyRuntimeName );
+    }
+
+    @Override
+    public boolean isReadOnly() {
+
+        return this.rvmInstallation.isSystemInstall();
+    }
+
+}

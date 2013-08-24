@@ -1,0 +1,146 @@
+package com.alienfast.bamboozled.ruby.rt.rvm;
+
+import java.io.File;
+
+import org.apache.commons.lang.SystemUtils;
+import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.alienfast.bamboozled.ruby.rt.RubyLocator;
+import com.alienfast.bamboozled.ruby.rt.RubyRuntimeLocatorService;
+import com.alienfast.bamboozled.ruby.util.FileSystemHelper;
+import com.alienfast.bamboozled.ruby.util.PathNotFoundException;
+
+/**
+ * RVM Utility methods, these are entirely  as there is only one filesystem involved.
+ */
+public class RvmRubyRuntimeLocatorService implements RubyRuntimeLocatorService {
+
+    private static final Logger log = LoggerFactory.getLogger( RvmRubyRuntimeLocatorService.class );
+
+    public static final String MANAGER_LABEL = "RVM";
+
+    static final String[] KNOWN_RVM_HOME_PATHS = new String[] { "/usr/local/rvm", "/opt/local/rvm" };
+
+    private final FileSystemHelper fileSystemHelper;
+
+    public RvmRubyRuntimeLocatorService() {
+
+        this( new FileSystemHelper() );
+    }
+
+    public RvmRubyRuntimeLocatorService(FileSystemHelper fileSystemHelper) {
+
+        this.fileSystemHelper = fileSystemHelper;
+    }
+
+    /**
+     * This method will locate the RVM installation, preferring user installations before system ones.
+     *
+     * @return RvmInstallation located.
+     */
+    @Nullable
+    public RvmInstallation locateRvmInstallation() {
+
+        // No RVM on windows at the moment.
+        if ( SystemUtils.IS_OS_WINDOWS ) {
+            log.warn( "Windows isn't support for RVM installations" );
+            return null;
+        }
+
+        final String userRvmInstallPath = this.fileSystemHelper.getUserHome() + File.separator + Constants.LOCAL_RVM_HOME_FOLDER_NAME;
+
+        log.info( "Searching for rvm installation in users home directory located at - {}", userRvmInstallPath );
+
+        // Is rvm is installed in the users home directory
+        if ( this.fileSystemHelper.pathExists( userRvmInstallPath ) ) {
+            return checkRvmInstallation( userRvmInstallPath, RvmInstallation.Type.USER );
+        }
+
+        log.info( "Search for rvm installation in system paths {}", KNOWN_RVM_HOME_PATHS );
+
+        // Is rvm is installed in one of the system paths
+        for (String rvmSystemPath : KNOWN_RVM_HOME_PATHS) {
+            if ( this.fileSystemHelper.pathExists( rvmSystemPath ) ) {
+                return checkRvmInstallation( rvmSystemPath, RvmInstallation.Type.SYSTEM );
+            }
+        }
+
+        // none found
+        return null;
+    }
+
+    private RvmInstallation checkRvmInstallation( String rvmInstallPath, RvmInstallation.Type installType ) {
+
+        final String rubiesPath = RvmUtils.buildRvmRubiesPath( rvmInstallPath );
+
+        this.fileSystemHelper.assertPathExists( rubiesPath, "RVM Installation missing rubies directory" );
+
+        final String gemsPath = RvmUtils.buildRvmGemsPath( rvmInstallPath );
+
+        this.fileSystemHelper.assertPathExists( gemsPath, "RVM Installation missing gems directory" );
+
+        return new RvmInstallation( rvmInstallPath, installType, rubiesPath, gemsPath );
+    }
+
+    /**
+     * Locates the rvm installation on the host and builds an instance of the ruby locator.
+     *
+     * @return Instance of a Ruby locator.
+     * @throws PathNotFoundException if unable to locate an RVM installation.
+     */
+    public RubyLocator getRvmRubyLocator() {
+
+        final RvmInstallation rvmInstallation = locateRvmInstallation();
+
+        if ( rvmInstallation != null ) {
+            return new RvmRubyLocator( this.fileSystemHelper, rvmInstallation );
+        }
+
+        // no rvm installed so not able to supply a ruby locator
+        throw new PathNotFoundException( "Unable to locate RVM installation." );
+    }
+
+    /**
+     * Check if rvm is installed.
+     *
+     * @return boolean, true indicates rvm is installed.
+     */
+    public boolean isRvmInstalled() {
+
+        return locateRvmInstallation() != null;
+    }
+
+    public interface Constants {
+
+        String LOCAL_RVM_HOME_FOLDER_NAME = ".rvm";
+        String RVM_GEMS_FOLDER_NAME = "gems";
+        String RVM_RUBIES_FOLDER_NAME = "rubies";
+    }
+
+    @Override
+    public RubyLocator getRubyLocator() {
+
+        final RvmInstallation rvmInstallation = locateRvmInstallation();
+
+        if ( rvmInstallation != null ) {
+            return new RvmRubyLocator( this.fileSystemHelper, rvmInstallation );
+        }
+
+        // no rvm installed so not able to supply a ruby locator
+        throw new PathNotFoundException( "Unable to locate RVM installation." );
+    }
+
+    @Override
+    public boolean isInstalled() {
+
+        return locateRvmInstallation() != null;
+    }
+
+    @Override
+    public String getRuntimeManagerName() {
+
+        return MANAGER_LABEL;
+    }
+}

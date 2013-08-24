@@ -1,0 +1,98 @@
+<atlassian-plugin key="${project.groupId}.${project.artifactId}" name="${project.name}" plugins-version="2">
+	<plugin-info>
+		<description>${project.description}</description>
+		<version>${project.version}</version>
+		<vendor name="${project.organization.name}" url="${project.organization.url}" />
+	</plugin-info>
+
+	<additionalBuildConfigurationPlugin key="ruby.environment" name="Ruby Environment" class="com.alienfast.bamboozled.ruby.config.RubyBuildConfigurationPlugin">
+		<description>Plugin to configure ruby environment for all of this plan's build tasks.</description>
+		
+		<capabilityDefaultsHelper class="com.alienfast.bamboozled.ruby.rt.RubyCapabilityDefaultsHelper" />
+		
+		<resource type="freemarker" name="edit" location="config/editRubyEnvironment.ftl" />
+		<resource type="freemarker" name="view" location="config/viewRubyEnvironment.ftl" />
+	</additionalBuildConfigurationPlugin>
+
+	<taskType name="Bundler Install" class="com.alienfast.bamboozled.ruby.tasks.bundler.install.BundlerInstallTask" key="task.bundler.install">
+
+		<description>Use Bundler to install project dependencies.</description>
+
+		<!--This binds to the ui for create and edit and saves settings -->
+		<configuration class="com.alienfast.bamboozled.ruby.tasks.bundler.install.BundlerInstallConfigurator" />
+
+		<category name="builder" />
+
+		<!--Some magic that makes a list of executables appear in a box on the UI -->
+		<executable key="ruby" nameKey="builder.ruby.executableName" pathHelpKey="builder.ruby.helpPath" />
+
+		<!--The UI fragments used to configure the plugin -->
+		<resource type="freemarker" name="edit" location="bundler/install/editBundlerInstallTask.ftl" />
+		<resource type="freemarker" name="view" location="bundler/install/viewBundlerInstallTask.ftl" />
+
+	</taskType>
+
+	<taskType name="Bundler CLI" class="com.alienfast.bamboozled.ruby.tasks.bundler.cli.BundlerCliTask" key="task.bundler.cli">
+
+		<description>Use Bundler with any command line options.</description>
+
+		<!--This binds to the ui for create and edit and saves settings -->
+		<configuration class="com.alienfast.bamboozled.ruby.tasks.bundler.cli.BundlerCliConfigurator" />
+
+		<!--This detects the ruby installations on the system -->
+<!-- 		<capabilityDefaultsHelper class="com.alienfast.bamboozled.ruby.rt.RubyCapabilityDefaultsHelper" />
+ -->
+		<category name="builder" />
+
+		<!--Some magic that makes a list of executables appear in a box on the UI -->
+		<executable key="ruby" nameKey="builder.ruby.executableName" pathHelpKey="builder.ruby.helpPath" />
+
+		<!--The UI fragments used to configure the plugin -->
+		<resource type="freemarker" name="edit" location="bundler/cli/editBundlerCliTask.ftl" />
+		<resource type="freemarker" name="view" location="bundler/cli/viewBundlerCliTask.ftl" />
+
+	</taskType>
+
+	<taskType name="Rake" class="com.alienfast.bamboozled.ruby.tasks.rake.RakeTask" key="task.rake">
+
+		<description>Use to run any Rake task.</description>
+
+		<!--This binds to the ui for create and edit and saves settings -->
+		<configuration class="com.alienfast.bamboozled.ruby.tasks.rake.RakeConfigurator" />
+
+		<!--This detects the ruby installations on the system -->
+<!-- 		<capabilityDefaultsHelper class="com.alienfast.bamboozled.ruby.rt.RubyCapabilityDefaultsHelper" />
+ -->
+		<category name="builder" />
+
+		<!--Some magic that makes a list of executables appear in a box on the UI -->
+		<executable key="ruby" nameKey="builder.ruby.executableName" pathHelpKey="builder.ruby.helpPath" />
+
+		<!--The UI fragments used to configure the plugin -->
+		<resource type="freemarker" name="edit" location="rake/editRakeTask.ftl" />
+		<resource type="freemarker" name="view" location="rake/viewRakeTask.ftl" />
+
+	</taskType>
+
+	<taskType name="Capistrano" class="com.alienfast.bamboozled.ruby.tasks.capistrano.CapistranoTask" key="task.capistrano">
+
+		<description>Use to run Capistrano.</description>
+
+		<!--This binds to the ui for create and edit and saves settings -->
+		<configuration class="com.alienfast.bamboozled.ruby.tasks.capistrano.CapistranoConfigurator" />
+
+		<category name="builder" />
+
+		<!--Some magic that makes a list of executables appear in a box on the UI -->
+		<executable key="ruby" nameKey="builder.ruby.executableName" pathHelpKey="builder.ruby.helpPath" />
+
+		<!--The UI fragments used to configure the plugin -->
+		<resource type="freemarker" name="edit" location="capistrano/editCapistranoTask.ftl" />
+		<resource type="freemarker" name="view" location="capistrano/viewCapistranoTask.ftl" />
+
+	</taskType>
+
+	<!-- internationalization -->
+	<resource type="i18n" name="english language" location="english" />
+
+</atlassian-plugin>
