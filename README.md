@@ -16,22 +16,20 @@ The preferred method for ruby runtimes is using [RVM](http://rvm.io).  Using the
 This is still a bit clunky, but a shared runtime is much more maintainable than the known alternatives.  (ideas are welcome)
 
 1. Install the `bamboozled-ruby-plugin`
-  1. Obtain via the Atlassian Plugin site (TODO)
-  2. or [download the binary](https://www.dropbox.com/sh/of18yggwwfs7i69/sGDkijyaPW) and upload to via the Bamboo universal plugin manager. 
+  * Obtain via the Atlassian Plugin site (TODO)
+  * or [download the binary](https://www.dropbox.com/sh/of18yggwwfs7i69/sGDkijyaPW) and upload to via the Bamboo universal plugin manager. 
 2. Navigate to the Bamboo `Administration | Server capabilities` and click `Detect server capabilities`, this will detect existing RVM/ruby and their associated gemsets.
 3. Configure the plan:
- 
-..* New Plan
-...1. `Create | Create a new plan` and fill out appropriate information then click `Configure tasks`
-...2. **Skip** adding tasks and click `Create` *without* the plan enabled *(this is a workaround for configuring a global ruby runtime)*
-...3. Now follow the existing plan instructions starting with #2 below
-  
-..* Existing Plan
-...1. Choose `Actions | Configure plan`
-...2. Choose the `Miscellaneous` tab to select the appropriate RVM or ruby runtime and set any common environment variables
-...3. Choose the `Tasks` tab
-...4. Choose the `Stage` i.e. `Default Stage`
-...5. Click `Add task` and choose your weapon of choice i.e. `Bundler Install`, `Bundler CLI`, `Rake`, or `Capistrano`
+  * New Plan
+   1. `Create | Create a new plan` and fill out appropriate information then click `Configure tasks`
+   2. **Skip** adding tasks and click `Create` *without* the plan enabled *(this is a workaround for configuring a global ruby runtime)*
+   3. Now follow the existing plan instructions starting with #2 below  
+  * Existing Plan
+   1. Choose `Actions | Configure plan`
+   2. Choose the `Miscellaneous` tab to select the appropriate RVM or ruby runtime and set any common environment variables
+   3. Choose the `Tasks` tab
+   4. Choose the `Stage` i.e. `Default Stage`
+   5. Click `Add task` and choose your weapon of choice i.e. `Bundler Install`, `Bundler CLI`, `Rake`, or `Capistrano`
 
 ## Bundler Features
 
