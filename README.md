@@ -16,8 +16,8 @@ The preferred method for ruby runtimes is using [RVM](http://rvm.io).  Using the
 This is still a bit clunky, but a shared runtime is much more maintainable than the known alternatives.  (ideas are welcome)
 
 1. Install the `bamboozled-ruby-plugin`
-..1 Obtain via the Atlassian Plugin site (TODO)
-..2 or [download the binary](https://www.dropbox.com/sh/of18yggwwfs7i69/sGDkijyaPW) and upload to via the Bamboo universal plugin manager. 
+  1. Obtain via the Atlassian Plugin site (TODO)
+  2. or [download the binary](https://www.dropbox.com/sh/of18yggwwfs7i69/sGDkijyaPW) and upload to via the Bamboo universal plugin manager. 
 2. Navigate to the Bamboo `Administration | Server capabilities` and click `Detect server capabilities`, this will detect existing RVM/ruby and their associated gemsets.
 3. Configure the plan:
  
