@@ -84,6 +84,7 @@ Please contribute! We will readily accept contributions and try to stay on top o
 - [ ] Deployment reuse of common runtime configuration (@rosskevin)
 - [ ] More cleanup after recent additions
 - [ ] More reuse to reduce duplicate code
+- [ ] Make available via Atlassian UPM (@rosskevin)
 
 ### To contribute:
 
