@@ -18,7 +18,10 @@ Notes:
 1.  The RVM utilized is exclusively designated in the Bamboo Plan Miscellaneous tab and does not recognize any files such as .rvmrc, .ruby-version or .ruby-manager.  
 2.  If your latest RVM gemset is not showing up in the dropdown,  navigate to the Bamboo `Administration | Server capabilities` and click `Detect server capabilities`
 
-## Usage
+## Download
+[download the binary](https://www.dropbox.com/sh/of18yggwwfs7i69/sGDkijyaPW) 
+
+## Installation and Usage
 This is still a bit clunky, but a shared runtime configuration is much more maintainable than the known alternatives.  (ideas are welcome)
 
 1. Install the `bamboozled-ruby-plugin`
