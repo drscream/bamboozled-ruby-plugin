@@ -14,7 +14,7 @@
 <!-- Additional config environment variables -->
 [@ww.label labelKey='ruby.config.environment' name='custom.ruby-config-environmentVariables'/]
 
-[@ww.label labelKey="rake.environment" name="environmentVariables"/]
+[@ww.label labelKey="common.environment" name="environmentVariables"/]
 [@ww.label labelKey="ruby.bundleexec" name="bundleexec"/]
 [@ww.label labelKey="bundler.cli.trace" name="trace"/]
 [@ww.label labelKey="rake.verbose" name="verbose"/]

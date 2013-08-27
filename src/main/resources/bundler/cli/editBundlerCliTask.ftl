@@ -17,7 +17,7 @@
 <!-- Additional config environment variables -->
 [@ww.label labelKey='ruby.config.environment' name='custom.ruby-config-environmentVariables'/]
 
-[@ww.textfield labelKey='rake.environment' name='environmentVariables' required='false' cssClass="long-field" /]
+[@ww.textfield labelKey='common.environment' name='environmentVariables' required='false' cssClass="long-field" /]
 
 [@ww.checkbox labelKey='ruby.bundleexec'
                   name='bundleexec'

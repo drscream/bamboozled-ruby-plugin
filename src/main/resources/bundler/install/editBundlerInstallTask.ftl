@@ -17,7 +17,5 @@
 [@ww.label labelKey='ruby.config.environment' name='custom.ruby-config-environmentVariables'/]
 
 
-[@ww.textfield labelKey='bundler.environment' name='environmentVariables' required='false' cssClass="long-field" /]
-[@ww.checkbox labelKey='bundler.binstubs'
-                  name='binstubs'
-                  toggle='true' /]
+[@ww.textfield labelKey='common.environment' name='environmentVariables' required='false' cssClass="long-field" /]
+[@ww.checkbox labelKey='bundler.binstubs' name='binstubs' toggle='true' /]

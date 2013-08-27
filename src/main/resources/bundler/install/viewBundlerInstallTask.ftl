@@ -12,5 +12,5 @@
 
 <!-- Additional config environment variables -->
 [@ww.label labelKey='ruby.config.environment' name='custom.ruby-config-environmentVariables'/]
-[@ww.label labelKey='bundler.environment' name='environmentVariables'/]
+[@ww.label labelKey='common.environment' name='environmentVariables'/]
 [@ww.label labelKey="bundler.binstubs" name="binstubs"/]

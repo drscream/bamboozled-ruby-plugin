@@ -31,6 +31,6 @@ public class BundlerInstallConfigurator extends AbstractRubyTaskConfigurator {
     public void populateContextForCreate( @NotNull Map<String, Object> context ) {
 
         super.populateContextForCreate( context );
-        context.put( BundlerInstallTask.PATH, "vendor/bundle" );
+        //        context.put( BundlerInstallTask.PATH, "vendor/bundle" );
     }
 }

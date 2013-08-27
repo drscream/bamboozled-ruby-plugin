@@ -12,7 +12,7 @@
 
 <!-- Additional config environment variables -->
 [@ww.label labelKey='ruby.config.environment' name='custom.ruby-config-environmentVariables'/]
-[@ww.label labelKey='capistrano.environment' name='environmentVariables'/]
+[@ww.label labelKey='common.environment' name='environmentVariables'/]
 [@ww.label labelKey="capistrano.bundleexec" name="bundleexec"/]
 [@ww.label labelKey="capistrano.debug" name="debug"/]
 [@ww.label labelKey="capistrano.verbose" name="verbose"/]
