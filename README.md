@@ -9,11 +9,12 @@ Via [Bamboo](http://www.atlassian.com/software/bamboo/overview) tasks, this plug
 * Capistrano
 
 ## RVM Support
-The preferred method for ruby runtimes is using [RVM](http://rvm.io).  
+The preferred method for managing ruby runtimes and gemsets is [RVM](http://rvm.io).  
 
 Using the miscellaneous tab on the plan configuration, you can select the appropriate RVM environment as well as specify common environment variables such as `RAILS_ENV`.  These settings are shared across all build and deploy tasks.
 
 Notes: 
+
 1.  The RVM utilized is exclusively designated in the Bamboo Plan Miscellaneous tab and does not recognize any files such as .rvmrc, .ruby-version or .ruby-manager.  
 2.  If your latest RVM gemset is not showing up in the dropdown,  navigate to the Bamboo `Administration | Server capabilities` and click `Detect server capabilities`
 
