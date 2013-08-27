@@ -106,6 +106,7 @@ public abstract class AbstractTaskTest {
         // buildContext.getBuildDefinition
         when( getBuildContext().getBuildDefinition() ).thenReturn( getBuildDefinition() );
 
-        task.init( getBuildContext() );
+        task.setBuildContext( getBuildContext() );
+        task.setBuildDefinition( getBuildDefinition() );
     }
 }

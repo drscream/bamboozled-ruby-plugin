@@ -12,7 +12,13 @@ import com.alienfast.bamboozled.ruby.rt.RubyLabel;
 import com.alienfast.bamboozled.ruby.rt.RubyLocator;
 import com.alienfast.bamboozled.ruby.rt.RubyLocatorServiceFactory;
 import com.alienfast.bamboozled.ruby.util.PathNotFoundException;
+import com.atlassian.bamboo.build.BuildDefinition;
 import com.atlassian.bamboo.configuration.ConfigurationMap;
+import com.atlassian.bamboo.deployments.execution.DeploymentTaskContext;
+import com.atlassian.bamboo.deployments.projects.DeploymentProject;
+import com.atlassian.bamboo.deployments.projects.service.DeploymentProjectService;
+import com.atlassian.bamboo.plan.Plan;
+import com.atlassian.bamboo.plan.PlanManager;
 import com.atlassian.bamboo.process.EnvironmentVariableAccessor;
 import com.atlassian.bamboo.process.ExternalProcessBuilder;
 import com.atlassian.bamboo.process.ProcessService;
@@ -37,50 +43,48 @@ public abstract class AbstractRubyTask implements CommonTaskType {
 
     public static final String ENVIRONMENT = "environmentVariables";
     protected final Logger log = LoggerFactory.getLogger( AbstractRubyTask.class );
-    protected ProcessService processService;
+    private ProcessService processService;
     private RubyLocatorServiceFactory rubyLocatorServiceFactory;
-    protected EnvironmentVariableAccessor environmentVariableAccessor;
-    protected CapabilityContext capabilityContext;
+    private EnvironmentVariableAccessor environmentVariableAccessor;
+    private CapabilityContext capabilityContext;
 
     private BuildContext buildContext;
+    private BuildDefinition buildDefinition;
+
+    private DeploymentProjectService deploymentProjectService;
+    private PlanManager planManager;
 
     public AbstractRubyTask() {
 
     }
 
-    public void init( @NotNull BuildContext buildContext ) {
-
-        setBuildContext( buildContext );
-    }
-
     @Override
     @NotNull
-    public TaskResult execute( @NotNull CommonTaskContext taskContext ) throws TaskException {
+    public TaskResult execute( @NotNull CommonTaskContext commonTaskContext ) throws TaskException {
 
-        final TaskResultBuilder taskResultBuilder = TaskResultBuilder.newBuilder( taskContext );
-        final TaskContext buildTaskContext = Narrow.to( taskContext, TaskContext.class );
+        final TaskResultBuilder taskResultBuilder = TaskResultBuilder.newBuilder( commonTaskContext );
+        final TaskContext taskContext = Narrow.to( commonTaskContext, TaskContext.class );
 
-        final ConfigurationMap config = taskContext.getConfigurationMap();
+        // move this crazy resolution out of here.
+        resolveContext(taskContext, commonTaskContext);
 
-        // TODO: hackish.  Remove later once call stack is better understood.  BuildContext is no longer injected
-        setBuildContext( buildTaskContext.getBuildContext() );
-        
-        final String rubyRuntimeLabel = RubyBuildConfigurationPlugin.getRubyRuntime(  getBuildContext().getBuildDefinition() );
+        final String rubyRuntimeLabel = RubyBuildConfigurationPlugin.getRubyRuntime( getBuildDefinition() );
 
         try {
 
             final RubyLabel rubyLabel = RubyLabel.fromString( rubyRuntimeLabel );
 
+            final ConfigurationMap config = commonTaskContext.getConfigurationMap();
             Map<String, String> envVars = buildEnvironment( rubyLabel, config );
 
             List<String> commandsList = buildCommandList( rubyLabel, config );
 
-            ExternalProcess externalProcess = this.processService.createExternalProcess(
-                    taskContext,
+            ExternalProcess externalProcess = getProcessService().createExternalProcess(
+                    commonTaskContext,
                     new ExternalProcessBuilder()
                             .env( envVars )
                             .command( commandsList )
-                            .workingDirectory( taskContext.getWorkingDirectory() ) );
+                            .workingDirectory( commonTaskContext.getWorkingDirectory() ) );
 
             externalProcess.execute();
 
@@ -88,15 +92,36 @@ public abstract class AbstractRubyTask implements CommonTaskType {
 
         }
         catch (IllegalArgumentException e) {
-            logError( e, buildTaskContext );
+            logError( e, taskContext );
             return taskResultBuilder.failedWithError().build();
         }
         catch (PathNotFoundException e) {
-            logError( e, buildTaskContext );
+            logError( e, taskContext );
             return taskResultBuilder.failedWithError().build();
         }
 
         return taskResultBuilder.build();
+    }
+
+    private void resolveContext( TaskContext taskContext, CommonTaskContext commonTaskContext ) {
+
+        // This is a hack to ultimately resolve the BuildDefinition.  Unfortunately this is not well encapsulated and the lack of
+        //      information provided to the deploy task makes it difficult to navigate back to.
+        if ( taskContext != null ) {
+            // taskContext is null for deploy tasks
+            setBuildContext( taskContext.getBuildContext() );
+            setBuildDefinition( getBuildContext().getBuildDefinition() );
+        }
+        else {
+
+            // this is a deploy task
+            final DeploymentTaskContext deploymentTaskContext = Narrow.to( commonTaskContext, DeploymentTaskContext.class );
+            long environmentId = deploymentTaskContext.getDeploymentContext().getEnvironmentId();
+
+            DeploymentProject deploymentProject = getDeploymentProjectService().getDeploymentProjectForEnvironment( environmentId );
+            Plan plan = getPlanManager().getPlanByKey( deploymentProject.getPlanKey() );
+            setBuildDefinition( plan.getBuildDefinition() );
+        }
     }
 
     private void logError( Throwable e, TaskContext taskContext ) {
@@ -124,6 +149,82 @@ public abstract class AbstractRubyTask implements CommonTaskType {
         return this.rubyLocatorServiceFactory.acquireRubyLocator( rubyRuntimeManager );
     }
 
+    protected String getRubyExecutablePath( final RubyLabel rubyRuntimeLabel ) {
+
+        final Capability capability = this.getCapabilityContext().getCapabilitySet().getCapability( rubyRuntimeLabel.toCapabilityLabel() );
+        Preconditions.checkNotNull( capability, "Capability" );
+        final String rubyRuntimeExecutable = capability.getValue();
+        Preconditions.checkNotNull( rubyRuntimeExecutable, "rubyRuntimeExecutable" );
+        return rubyRuntimeExecutable;
+    }
+
+    public Map<String, String> buildEnvironment( RubyLabel rubyRuntimeLabel, ConfigurationMap config ) {
+
+        this.log.info( "Using manager {} runtime {}", rubyRuntimeLabel.getRubyRuntimeManager(), rubyRuntimeLabel.getRubyRuntime() );
+
+        final Map<String, String> currentEnvVars = this.getEnvironmentVariableAccessor().getEnvironment();
+
+        // Get the variables from our configuration
+        final String taskEnvironmentVariables = config.get( ENVIRONMENT );
+        final String globalEnvironmentVariables = RubyBuildConfigurationPlugin.getRubyEnvironmentVariables( getBuildDefinition() );
+
+        Map<String, String> configEnvVars = this.getEnvironmentVariableAccessor().splitEnvironmentAssignments(
+                globalEnvironmentVariables + " " + taskEnvironmentVariables );
+
+        final RubyLocator rubyLocator = getRubyLocator( rubyRuntimeLabel.getRubyRuntimeManager() );
+
+        return rubyLocator.buildEnv( rubyRuntimeLabel.getRubyRuntime(), getRubyExecutablePath( rubyRuntimeLabel ), ImmutableMap
+                .<String, String> builder()
+                .putAll( currentEnvVars )
+                .putAll( configEnvVars )
+                .build() );
+    }
+
+    protected BuildContext getBuildContext() {
+
+        return this.buildContext;
+    }
+
+    public void setBuildContext( BuildContext buildContext ) {
+
+        this.buildContext = buildContext;
+    }
+
+    protected EnvironmentVariableAccessor getEnvironmentVariableAccessor() {
+
+        return environmentVariableAccessor;
+    }
+
+    protected CapabilityContext getCapabilityContext() {
+
+        return capabilityContext;
+    }
+
+    protected ProcessService getProcessService() {
+
+        return processService;
+    }
+
+    public DeploymentProjectService getDeploymentProjectService() {
+
+        return deploymentProjectService;
+    }
+
+    public void setDeploymentProjectService( DeploymentProjectService deploymentProjectService ) {
+
+        this.deploymentProjectService = deploymentProjectService;
+    }
+
+    public PlanManager getPlanManager() {
+
+        return planManager;
+    }
+
+    public void setPlanManager( PlanManager planManager ) {
+
+        this.planManager = planManager;
+    }
+
     public void setProcessService( ProcessService processService ) {
 
         this.processService = processService;
@@ -144,45 +245,13 @@ public abstract class AbstractRubyTask implements CommonTaskType {
         this.environmentVariableAccessor = environmentVariableAccessor;
     }
 
-    protected String getRubyExecutablePath( final RubyLabel rubyRuntimeLabel ) {
+    public BuildDefinition getBuildDefinition() {
 
-        final Capability capability = this.capabilityContext.getCapabilitySet().getCapability( rubyRuntimeLabel.toCapabilityLabel() );
-        Preconditions.checkNotNull( capability, "Capability" );
-        final String rubyRuntimeExecutable = capability.getValue();
-        Preconditions.checkNotNull( rubyRuntimeExecutable, "rubyRuntimeExecutable" );
-        return rubyRuntimeExecutable;
+        return buildDefinition;
     }
 
-    public Map<String, String> buildEnvironment( RubyLabel rubyRuntimeLabel, ConfigurationMap config ) {
+    public void setBuildDefinition( BuildDefinition buildDefinition ) {
 
-        this.log.info( "Using manager {} runtime {}", rubyRuntimeLabel.getRubyRuntimeManager(), rubyRuntimeLabel.getRubyRuntime() );
-
-        final Map<String, String> currentEnvVars = this.environmentVariableAccessor.getEnvironment();
-
-        // Get the variables from our configuration
-        final String taskEnvironmentVariables = config.get( ENVIRONMENT );
-        final String globalEnvironmentVariables = RubyBuildConfigurationPlugin.getRubyEnvironmentVariables( getBuildContext()
-                .getBuildDefinition() );
-
-        Map<String, String> configEnvVars = this.environmentVariableAccessor.splitEnvironmentAssignments( globalEnvironmentVariables + " "
-                + taskEnvironmentVariables );
-
-        final RubyLocator rubyLocator = getRubyLocator( rubyRuntimeLabel.getRubyRuntimeManager() );
-
-        return rubyLocator.buildEnv( rubyRuntimeLabel.getRubyRuntime(), getRubyExecutablePath( rubyRuntimeLabel ), ImmutableMap
-                .<String, String> builder()
-                .putAll( currentEnvVars )
-                .putAll( configEnvVars )
-                .build() );
-    }
-
-    protected BuildContext getBuildContext() {
-
-        return this.buildContext;
-    }
-
-    protected void setBuildContext( BuildContext buildContext ) {
-
-        this.buildContext = buildContext;
+        this.buildDefinition = buildDefinition;
     }
 }

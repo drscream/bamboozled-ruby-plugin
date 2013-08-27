@@ -2,12 +2,16 @@ package com.alienfast.bamboozled.ruby.tasks.bundler.cli;
 
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.alienfast.bamboozled.ruby.rt.RubyLabel;
 import com.alienfast.bamboozled.ruby.rt.RubyLocator;
 import com.alienfast.bamboozled.ruby.rt.RubyRuntime;
 import com.alienfast.bamboozled.ruby.rt.rvm.RvmUtils;
 import com.alienfast.bamboozled.ruby.tasks.AbstractRubyTask;
 import com.atlassian.bamboo.configuration.ConfigurationMap;
+import com.atlassian.bamboo.deployments.projects.DeploymentProject;
+import com.atlassian.bamboo.v2.build.BuildContext;
 import com.google.common.base.Preconditions;
 
 /**
@@ -54,5 +58,5 @@ public class BundlerCliTask extends AbstractRubyTask {
 //        final String rubyExecutablePath = getRubyExecutablePath( rubyRuntimeLabel );
 //
 //        return (BundlerCliCommandBuilder) BundlerCliCommandBuilder.class.getConstructor( new Object[]{RubyLocator.class,RubyRuntime.class, String.class}).newInstance(new Object[]{rubyLocator, rubyRuntime, rubyExecutablePath});
-//    }
+//    } 
 }

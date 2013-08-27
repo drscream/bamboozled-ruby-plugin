@@ -42,7 +42,7 @@
 		<developerConnection>scm:git:ssh://git@github.com/alienfast/bamboozled-ruby-plugin.git</developerConnection>
 	</scm>
 	<properties>
-		<bamboo.version>5.0</bamboo.version>
+		<bamboo.version>5.0.1</bamboo.version>
 		<bamboo.data.version>3.2.2</bamboo.data.version>
 		<amps.version>4.2.3</amps.version>
 	</properties>
@@ -146,4 +146,8 @@
 	</build>
 	<!-- <distributionManagement> <repository> <id>alienfast</id> <name>AlienFast Repository</name> <url>scp://repo.alienfast.com/repository</url> <layout>default</layout> </repository> 
 		</distributionManagement> -->
+	<issueManagement>
+		<system>github</system>
+		<url>https://github.com/alienfast/bamboozled-ruby-plugin/issues</url>
+	</issueManagement>
 </project>
