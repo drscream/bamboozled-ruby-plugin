@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import com.atlassian.bamboo.build.BuildDefinition;
 import com.atlassian.bamboo.plan.Plan;
+import com.atlassian.bamboo.plan.TopLevelPlan;
 import com.atlassian.bamboo.plan.cache.ImmutablePlan;
 import com.atlassian.bamboo.utils.error.ErrorCollection;
 import com.atlassian.bamboo.v2.build.BaseBuildConfigurationAwarePlugin;
@@ -59,10 +60,10 @@ public class RubyBuildConfigurationPlugin extends BaseBuildConfigurationAwarePlu
     @Override
     public boolean isApplicableTo( Plan plan ) {
 
-        // always make this available, regardless of context
-        return true;
-        //only top level Plans see this option.
         //        return plan instanceof TopLevelPlan || Job;
+
+        //only top level Plans see this option.
+        return plan instanceof TopLevelPlan;
     }
 
     @Override

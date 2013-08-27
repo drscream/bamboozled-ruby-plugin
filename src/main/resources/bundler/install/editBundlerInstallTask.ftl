@@ -5,7 +5,7 @@
 	[@ww.label labelKey='ruby.config.runtime.invalid' 
 						required='true' 
 						cssClass='error'
-						value='Set in the Miscellaneous tab. Execution will fail until runtime is chosen.'/]
+						value='Set in the Build Plan Miscellaneous tab. Execution will fail until runtime is chosen.'/]
 [#else]
 	[@ww.label labelKey='ruby.config.runtime' name='custom.ruby-config-runtime'/]
 [/#if]
