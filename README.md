@@ -72,7 +72,7 @@ To enable the [RSpec JUnit XML Formatter](https://github.com/sj26/rspec_junit_fo
 ### Cucumber
 1. Edit the `config/cucumber.yml` and change the `std_opts` to include the `junit` formatter as well as specifiy the output directory. For example:
 
-	std_opts = "-r features/support/ -r features/step_definitions --quiet -f pretty -f junit -o test-reports --strict --tags ~@wip --tags ~@todo"
+		std_opts = "-r features/support/ -r features/step_definitions --quiet -f pretty -f junit -o test-reports --strict --tags ~@wip --tags ~@todo"
 
 2. Add a JUnit Parser task to the `Final tasks` section of your Job with `**/test-reports/*.xml` in the `Specify custom results directories` field (if not already done for rspec above).
 
