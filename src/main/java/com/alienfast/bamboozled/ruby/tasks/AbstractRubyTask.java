@@ -66,7 +66,7 @@ public abstract class AbstractRubyTask implements CommonTaskType {
         final TaskContext taskContext = Narrow.to( commonTaskContext, TaskContext.class );
 
         // move this crazy resolution out of here.
-        resolveContext(taskContext, commonTaskContext);
+        resolveContext( taskContext, commonTaskContext );
 
         final String rubyRuntimeLabel = RubyBuildConfigurationPlugin.getRubyRuntime( getBuildDefinition() );
 
@@ -126,9 +126,10 @@ public abstract class AbstractRubyTask implements CommonTaskType {
 
     private void logError( Throwable e, TaskContext taskContext ) {
 
-        this.log.error( e.getMessage(), e );
+        log.error( e.getMessage(), e );
         if ( taskContext != null ) {
             taskContext.getBuildContext().getErrorCollection().addErrorMessage( e.getMessage() );
+            taskContext.getBuildLogger().addErrorLogEntry( e.getMessage(), e );
         }
     }
 
