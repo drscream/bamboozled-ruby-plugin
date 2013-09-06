@@ -21,6 +21,9 @@
 		<!--This binds to the ui for create and edit and saves settings -->
 		<configuration class="com.alienfast.bamboozled.ruby.tasks.bundler.install.BundlerInstallConfigurator" />
 
+		<!--This detects the ruby installations on the system -->
+ 		<capabilityDefaultsHelper class="com.alienfast.bamboozled.ruby.rt.RubyCapabilityDefaultsHelper" />
+
 		<category name="builder" />
 
 		<!--Some magic that makes a list of executables appear in a box on the UI -->
@@ -40,8 +43,8 @@
 		<configuration class="com.alienfast.bamboozled.ruby.tasks.bundler.cli.BundlerCliConfigurator" />
 
 		<!--This detects the ruby installations on the system -->
-<!-- 		<capabilityDefaultsHelper class="com.alienfast.bamboozled.ruby.rt.RubyCapabilityDefaultsHelper" />
- -->
+ 		<capabilityDefaultsHelper class="com.alienfast.bamboozled.ruby.rt.RubyCapabilityDefaultsHelper" />
+
 		<category name="builder" />
 
 		<!--Some magic that makes a list of executables appear in a box on the UI -->
@@ -61,8 +64,8 @@
 		<configuration class="com.alienfast.bamboozled.ruby.tasks.rake.RakeConfigurator" />
 
 		<!--This detects the ruby installations on the system -->
-<!-- 		<capabilityDefaultsHelper class="com.alienfast.bamboozled.ruby.rt.RubyCapabilityDefaultsHelper" />
- -->
+ 		<capabilityDefaultsHelper class="com.alienfast.bamboozled.ruby.rt.RubyCapabilityDefaultsHelper" />
+
 		<category name="builder" />
 
 		<!--Some magic that makes a list of executables appear in a box on the UI -->
@@ -80,6 +83,9 @@
 
 		<!--This binds to the ui for create and edit and saves settings -->
 		<configuration class="com.alienfast.bamboozled.ruby.tasks.capistrano.CapistranoConfigurator" />
+
+		<!--This detects the ruby installations on the system -->
+ 		<capabilityDefaultsHelper class="com.alienfast.bamboozled.ruby.rt.RubyCapabilityDefaultsHelper" />
 
 		<category name="builder" />
 
