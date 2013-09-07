@@ -109,7 +109,7 @@ public abstract class AbstractRubyTask implements CommonTaskType {
         //      information provided to the deploy task makes it difficult to navigate back to.
         if ( taskContext != null ) {
             // taskContext is null for deploy tasks
-            setBuildContext( taskContext.getBuildContext() );
+            setBuildContext( taskContext.getBuildContext().getParentBuildContext() );
             setBuildDefinition( getBuildContext().getBuildDefinition() );
         }
         else {

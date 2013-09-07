@@ -8,7 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.atlassian.bamboo.build.BuildDefinition;
+import com.atlassian.bamboo.build.DefaultJob;
 import com.atlassian.bamboo.plan.Plan;
+import com.atlassian.bamboo.plan.PlanManager;
 import com.atlassian.bamboo.plan.TopLevelPlan;
 import com.atlassian.bamboo.plan.cache.ImmutablePlan;
 import com.atlassian.bamboo.utils.error.ErrorCollection;
@@ -27,15 +29,17 @@ public class RubyBuildConfigurationPlugin extends BaseBuildConfigurationAwarePlu
     public static String RUBY_CONFIG_RUNTIME = "custom.ruby-config-runtime";
     public static String RUBY_CONFIG_ENVIRONMENT_VARIABLES = "custom.ruby-config-environmentVariables";
 
+    private PlanManager planManager;
+
     @Override
     protected void populateContextForView( @NotNull final Map<String, Object> context, @NotNull final Plan plan ) {
 
         super.populateContextForView( context, plan );
 
-        populateContext( context );
+        populateContext( getPlanManager(), context );
     }
 
-    public static void populateContext( final Map<String, Object> context ) {
+    public static void populateContext( PlanManager planManager, final Map<String, Object> context ) {
 
         ImmutablePlan plan = (ImmutablePlan) context.get( "plan" );
         if ( plan == null ) {
@@ -43,6 +47,20 @@ public class RubyBuildConfigurationPlugin extends BaseBuildConfigurationAwarePlu
             // in case it is a deployment plan
             plan = (ImmutablePlan) context.get( "relatedPlan" );
         }
+
+        if ( plan instanceof DefaultJob ) {
+            DefaultJob job = (DefaultJob) plan;
+            String topLevelPlanKey = plan.getPlanKey().toString();
+            String suffix = "-" + job.getBuildKey();
+            String[] tokens = topLevelPlanKey.split( suffix );
+            topLevelPlanKey = tokens[0];
+
+            // this needs to come from the parent/top level plan; the context on the plan here is not guaranteed to be top level i.e.         
+            // get configuration from this (job) context's parent (plan) - need to cut off the job name if it is here
+            plan = planManager.getPlanByKey( topLevelPlanKey );
+        }
+
+        //        Map<String, String> customConfig = plan.getBuildDefinition().getCustomConfiguration();
         BuildDefinition buildDefinition = plan.getBuildDefinition();
 
         String runtime = getRubyRuntime( buildDefinition );
@@ -105,5 +123,15 @@ public class RubyBuildConfigurationPlugin extends BaseBuildConfigurationAwarePlu
         }
         String result = (String) customConfig.get( name );
         return result;
+    }
+
+    public PlanManager getPlanManager() {
+
+        return planManager;
+    }
+
+    public void setPlanManager( PlanManager planManager ) {
+
+        this.planManager = planManager;
     }
 }

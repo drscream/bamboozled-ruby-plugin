@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import com.alienfast.bamboozled.ruby.config.RubyBuildConfigurationPlugin;
 import com.atlassian.bamboo.collections.ActionParametersMap;
+import com.atlassian.bamboo.plan.PlanManager;
 import com.atlassian.bamboo.task.AbstractTaskConfigurator;
 import com.atlassian.bamboo.task.TaskDefinition;
 import com.atlassian.bamboo.utils.error.ErrorCollection;
@@ -31,6 +32,8 @@ public abstract class AbstractRubyTaskConfigurator extends AbstractTaskConfigura
     protected static final String CTX_UI_CONFIG_BEAN = "uiConfigBean";
     private UIConfigSupport uiConfigBean;
 
+    private PlanManager planManager;
+    
     public void setUiConfigBean( final UIConfigSupport uiConfigBean ) {
 
         this.uiConfigBean = uiConfigBean;
@@ -55,7 +58,7 @@ public abstract class AbstractRubyTaskConfigurator extends AbstractTaskConfigura
         context.put( MODE, CREATE_MODE );
         context.put( CTX_UI_CONFIG_BEAN, this.uiConfigBean ); // NOTE: This is not normally necessary and will be fixed in 3.3.3
 
-        RubyBuildConfigurationPlugin.populateContext( context );
+        RubyBuildConfigurationPlugin.populateContext(getPlanManager(), context );
     }
 
     @Override
@@ -67,7 +70,7 @@ public abstract class AbstractRubyTaskConfigurator extends AbstractTaskConfigura
         context.put( MODE, EDIT_MODE );
         context.put( CTX_UI_CONFIG_BEAN, this.uiConfigBean ); // NOTE: This is not normally necessary and will be fixed in 3.3.3
 
-        RubyBuildConfigurationPlugin.populateContext( context );
+        RubyBuildConfigurationPlugin.populateContext(getPlanManager(), context );
     }
 
     @Override
@@ -76,7 +79,7 @@ public abstract class AbstractRubyTaskConfigurator extends AbstractTaskConfigura
         log.debug( "populateContextForView" );
         this.taskConfiguratorHelper.populateContextWithConfiguration( context, taskDefinition, getFieldsToCopy() );
 
-        RubyBuildConfigurationPlugin.populateContext( context );
+        RubyBuildConfigurationPlugin.populateContext(getPlanManager(), context );
     }
 
     @Override
@@ -88,5 +91,17 @@ public abstract class AbstractRubyTaskConfigurator extends AbstractTaskConfigura
         //        if ( StringUtils.isEmpty( ruby ) ) {
         //            errorCollection.addError( RUBY_KEY, "You must specify a ruby runtime" );
         //        }
+    }
+
+    
+    public PlanManager getPlanManager() {
+    
+        return planManager;
+    }
+
+    
+    public void setPlanManager( PlanManager planManager ) {
+    
+        this.planManager = planManager;
     }
 }
