@@ -3,6 +3,14 @@
 		<description>${project.description}</description>
 		<version>${project.version}</version>
 		<vendor name="${project.organization.name}" url="${project.organization.url}" />
+		
+        <!-- Support for the following marketing assets has been implemented -->
+        <param name="plugin-icon">images/addon_icn_bamboozled.png</param>
+        <param name="plugin-logo">images/addon_logo_bamboozled.png</param>
+        <!-- Support for the following marketing assets will be implemented soon -->
+        <param name="plugin-banner">images/banner.gif</param>
+        <param name="vendor-icon">images/vendor_icn_alienfast.png</param>
+        <param name="vendor-logo">images/vendor_logo_alienfast.png</param>		
 	</plugin-info>
 
 	<additionalBuildConfigurationPlugin key="ruby.environment" name="Ruby Environment" class="com.alienfast.bamboozled.ruby.config.RubyBuildConfigurationPlugin">
