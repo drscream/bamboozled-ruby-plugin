@@ -17,6 +17,7 @@
 	<taskType name="Bundler Install" class="com.alienfast.bamboozled.ruby.tasks.bundler.install.BundlerInstallTask" key="task.bundler.install">
 
 		<description>Use Bundler to install project dependencies.</description>
+		<resource type="download" name="icon" location="images/icn_bundler_install.png"/>
 
 		<!--This binds to the ui for create and edit and saves settings -->
 		<configuration class="com.alienfast.bamboozled.ruby.tasks.bundler.install.BundlerInstallConfigurator" />
@@ -38,6 +39,7 @@
 	<taskType name="Bundler CLI" class="com.alienfast.bamboozled.ruby.tasks.bundler.cli.BundlerCliTask" key="task.bundler.cli">
 
 		<description>Use Bundler with any command line options.</description>
+		<resource type="download" name="icon" location="images/icn_bundler_cli.png"/>
 
 		<!--This binds to the ui for create and edit and saves settings -->
 		<configuration class="com.alienfast.bamboozled.ruby.tasks.bundler.cli.BundlerCliConfigurator" />
@@ -59,6 +61,7 @@
 	<taskType name="Rake" class="com.alienfast.bamboozled.ruby.tasks.rake.RakeTask" key="task.rake">
 
 		<description>Use to run any Rake task.</description>
+		<resource type="download" name="icon" location="images/icn_rake.png"/>
 
 		<!--This binds to the ui for create and edit and saves settings -->
 		<configuration class="com.alienfast.bamboozled.ruby.tasks.rake.RakeConfigurator" />
@@ -80,6 +83,7 @@
 	<taskType name="Capistrano" class="com.alienfast.bamboozled.ruby.tasks.capistrano.CapistranoTask" key="task.capistrano">
 
 		<description>Use to run Capistrano.</description>
+		<resource type="download" name="icon" location="images/icn_capistrano.png"/>
 
 		<!--This binds to the ui for create and edit and saves settings -->
 		<configuration class="com.alienfast.bamboozled.ruby.tasks.capistrano.CapistranoConfigurator" />
