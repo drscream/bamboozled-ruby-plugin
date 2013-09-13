@@ -36,7 +36,7 @@
 		<category name="builder" />
 
 		<!--Some magic that makes a list of executables appear in a box on the UI -->
-		<executable key="ruby" nameKey="builder.ruby.executableName" pathHelpKey="builder.ruby.helpPath" />
+		<executable key="ruby" nameKey="builder.ruby.executableName" pathHelpKey="builder.ruby.helpPath" primaryCapabilityProvider="false"/>
 
 		<!--The UI fragments used to configure the plugin -->
 		<resource type="freemarker" name="edit" location="bundler/install/editBundlerInstallTask.ftl" />
@@ -58,7 +58,7 @@
 		<category name="builder" />
 
 		<!--Some magic that makes a list of executables appear in a box on the UI -->
-		<executable key="ruby" nameKey="builder.ruby.executableName" pathHelpKey="builder.ruby.helpPath" />
+		<executable key="ruby" nameKey="builder.ruby.executableName" pathHelpKey="builder.ruby.helpPath" primaryCapabilityProvider="false"/>
 
 		<!--The UI fragments used to configure the plugin -->
 		<resource type="freemarker" name="edit" location="bundler/cli/editBundlerCliTask.ftl" />
@@ -80,7 +80,7 @@
 		<category name="builder" />
 
 		<!--Some magic that makes a list of executables appear in a box on the UI -->
-		<executable key="ruby" nameKey="builder.ruby.executableName" pathHelpKey="builder.ruby.helpPath" />
+		<executable key="ruby" nameKey="builder.ruby.executableName" pathHelpKey="builder.ruby.helpPath" primaryCapabilityProvider="false"/>
 
 		<!--The UI fragments used to configure the plugin -->
 		<resource type="freemarker" name="edit" location="rake/editRakeTask.ftl" />
@@ -102,7 +102,7 @@
 		<category name="builder" />
 
 		<!--Some magic that makes a list of executables appear in a box on the UI -->
-		<executable key="ruby" nameKey="builder.ruby.executableName" pathHelpKey="builder.ruby.helpPath" />
+		<executable key="ruby" nameKey="builder.ruby.executableName" pathHelpKey="builder.ruby.helpPath" primaryCapabilityProvider="false"/>
 
 		<!--The UI fragments used to configure the plugin -->
 		<resource type="freemarker" name="edit" location="capistrano/editCapistranoTask.ftl" />
