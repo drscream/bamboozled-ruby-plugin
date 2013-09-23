@@ -8,10 +8,11 @@ Via [Bamboo](http://www.atlassian.com/software/bamboo/overview) tasks, this plug
 * Rake
 * Capistrano
 
+## Shared Configuration
+Using the miscellaneous tab on the plan configuration, you can select the appropriate RVM environment as well as specify common environment variables such as `RAILS_ENV`.  These settings are shared across all build and deploy tasks.
+
 ## RVM Support
 The preferred method for managing ruby runtimes and gemsets is [RVM](http://rvm.io).  
-
-Using the miscellaneous tab on the plan configuration, you can select the appropriate RVM environment as well as specify common environment variables such as `RAILS_ENV`.  These settings are shared across all build and deploy tasks.
 
 Notes: 
 
