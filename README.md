@@ -77,30 +77,38 @@ To enable the [RSpec JUnit XML Formatter](https://github.com/sj26/rspec_junit_fo
 
 2. Add a JUnit Parser task to the `Final tasks` section of your Job with `**/test-reports/*.xml` in the `Specify custom results directories` field (if not already done for rspec above).
 
-## Example Build Configuration (for Rails app to be deployed to AWS Elastic Beanstalk)
+## Example Configurations
+
+### Example Build Configuration
+*Rails app to be deployed to AWS Elastic Beanstalk*
 Assumes you have followed _Installation and Usage_ above.
 
 1.  Add a _Source Code Checkout_ task
 2.  Add a _Bundler Install_ task (it should display the RVM chosen if you followed the _Installation and Usage_ instructions)
 3.  Add a _Rake_ task:
+
         Tasks: db:drop db:create db:migrate db:seed spec cucumber
         Additional Environment Variables: RAILS_ENV=test
         Bundler Exec: checked
 4. _Optional_ step to package [elastic-beanstalk](https://github.com/alienfast/elastic-beanstalk) for deployment.  Add a _Rake_ task:
+
         Tasks: eb:package
         Additional Environment Variables: RAILS_ENV=test
         Bundler Exec: checked
 
-## Example Deploy Configuration (to AWS Elastic Beanstalk)
+### Example Deploy Configuration
+*To AWS Elastic Beanstalk*
 Assumes you have followed the _Example Build Configuration_ above, and that the build produces the artifacts `eb:package`, `eb:yml`, `eb:gemfiles` for an [elastic-beanstalk](https://github.com/alienfast/elastic-beanstalk) deployment.
 
 1.  Add a _Clean working directory task_.
 2.  Add an _Artifact download task_ with each of `eb:package`, `eb:yml`, `eb:gemfiles` listed.
 3.  Add a _Bundler Install_ task (it should display the RVM chosen if you followed the _Installation and Usage_ instructions)
 4.  Add a _Bundler CLI_ task:
+
         Task description: bundle binstubs elastic-beanstalk
         Arguments: binstubs elastic-beanstalk
 5.  Add a _Bundle CLI_ task:
+
         Task description: bundle exec ./bin/elastic-beanstalk eb:deploy
         Arguments: ./bin/elastic-beanstalk eb:deploy[${bamboo.buildNumber}]
         Additional Environment Variables: RAILS_ENV=staging
