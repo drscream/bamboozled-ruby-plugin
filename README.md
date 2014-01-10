@@ -77,6 +77,10 @@ To enable the [RSpec JUnit XML Formatter](https://github.com/sj26/rspec_junit_fo
 
 2. Add a JUnit Parser task to the `Final tasks` section of your Job with `**/test-reports/*.xml` in the `Specify custom results directories` field (if not already done for rspec above).
 
+## Example Build Configuration
+Assuming you have followed _Installation and Usage_ above:
+1.  Add a _Source Code Checkout_ task
+
 ## Other stuff
 
 ### Fork
