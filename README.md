@@ -80,7 +80,9 @@ To enable the [RSpec JUnit XML Formatter](https://github.com/sj26/rspec_junit_fo
 ## Example Configurations
 
 ### Example Build Configuration
+
 *Rails app to be deployed to AWS Elastic Beanstalk*
+
 Assumes you have followed _Installation and Usage_ above.
 
 1.  Add a _Source Code Checkout_ task
@@ -97,7 +99,9 @@ Assumes you have followed _Installation and Usage_ above.
         Bundler Exec: checked
 
 ### Example Deploy Configuration
+
 *To AWS Elastic Beanstalk*
+
 Assumes you have followed the _Example Build Configuration_ above, and that the build produces the artifacts `eb:package`, `eb:yml`, `eb:gemfiles` for an [elastic-beanstalk](https://github.com/alienfast/elastic-beanstalk) deployment.
 
 1.  Add a _Clean working directory task_.
