@@ -135,7 +135,7 @@ Please contribute! We will readily accept contributions and try to stay on top o
 
 ### To Do:
 - [ ] More reuse to reduce duplicate code
-- [ ] Make available via Atlassian UPM (@rosskevin)
+- [x] Make available via [Atlassian UPM](https://marketplace.atlassian.com/plugins/com.alienfast.bamboozled.ruby.bamboozled-ruby-plugin) (@rosskevin)
 
 ### To contribute:
 
