@@ -118,16 +118,9 @@ To enable the [RSpec JUnit XML Formatter](https://github.com/sj26/rspec_junit_fo
 
 2. Add a JUnit Parser task to the `Final tasks` section of your Job with `**/test-reports/*.xml` in the `Specify custom results directories` field (if not already done for rspec above).
 
-## Other stuff
-
-### Fork
-This code was originally forked from the [rake-bamboo-plugin version 2.1](https://github.com/wolfeidau/rake-bamboo-plugin) published by Mark Wolfe.  We wanted to move the plugin forward in a specific way, so we brought it into our own repository.  Many thanks to Mark Wolfe for establishing a solid codebase.
-
-### Supported and Unsupported environment/OS/etc
+## Supported and Unsupported environment/OS/etc
 We use Linux, RVM, Bundler and Rake in a continuous integration/continuous deployment environment.  These will have the most attention given to them, while Windows and other ruby configurations (i.e. rbenv, system rubies) will likely be neglected unless contributors step up to fill the gaps (which we welcome!).
 
-### Speed/Agility/Backwards compatibility
-While we do care about backwards compatibility, we care most about being easy to use and having a high degree of utility.  Additions and changes will come readily if there is a need, so be aware when upgrading.  If your primary concern is backwards compatibility, please take a look at the [rake-bamboo-plugin](https://github.com/wolfeidau/rake-bamboo-plugin) instead as strong backwards compatibility is a goal. 
 
 ## Contributing
 
@@ -138,6 +131,7 @@ Please contribute! We will readily accept contributions and try to stay on top o
 - [x] Make available via [Atlassian UPM](https://marketplace.atlassian.com/plugins/com.alienfast.bamboozled.ruby.bamboozled-ruby-plugin) (@rosskevin)
 
 ### To contribute:
+[Setup your development environment according to the wiki](https://github.com/alienfast/bamboozled-ruby-plugin/wiki/Development) (and feel free to update the instructions with anything missing)
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
