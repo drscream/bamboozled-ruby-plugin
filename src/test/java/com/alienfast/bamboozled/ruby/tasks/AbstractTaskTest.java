@@ -11,6 +11,7 @@ import com.alienfast.bamboozled.ruby.fixtures.RvmFixtures;
 import com.alienfast.bamboozled.ruby.rt.RubyLabel;
 import com.alienfast.bamboozled.ruby.rt.RubyLocatorServiceFactory;
 import com.alienfast.bamboozled.ruby.rt.RubyRuntime;
+import com.alienfast.bamboozled.ruby.rt.RuntimeLocatorException;
 import com.alienfast.bamboozled.ruby.rt.rvm.RvmRubyLocator;
 import com.atlassian.bamboo.build.BuildDefinition;
 import com.atlassian.bamboo.configuration.ConfigurationMap;
@@ -59,9 +60,9 @@ public abstract class AbstractTaskTest {
     @Mock
     protected RvmRubyLocator rvmRubyLocator;
 
-    public abstract void testBuildCommandList();
+    public abstract void testBuildCommandList() throws RuntimeLocatorException;
 
-    public abstract void testBuildEnvironment();
+    public abstract void testBuildEnvironment() throws RuntimeLocatorException;
 
     protected RubyRuntime getRubyRuntime() {
 

@@ -15,6 +15,7 @@ import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.alienfast.bamboozled.ruby.fixtures.RvmFixtures;
+import com.alienfast.bamboozled.ruby.rt.RuntimeLocatorException;
 import com.alienfast.bamboozled.ruby.tasks.AbstractTaskTest;
 import com.google.common.collect.Maps;
 
@@ -47,7 +48,7 @@ public class BundlerInstallTaskTest extends AbstractTaskTest {
 
     @Override
     @Test
-    public void testBuildCommandList() {
+    public void testBuildCommandList() throws RuntimeLocatorException {
 
         when( this.rvmRubyLocator.getRubyRuntime( getRubyRuntime().getRubyRuntimeName() ) ).thenReturn( getRubyRuntime() );
         when(
@@ -67,7 +68,7 @@ public class BundlerInstallTaskTest extends AbstractTaskTest {
     }
 
     @Test
-    public void testBuildCommandListWithPathAndBinStubs() {
+    public void testBuildCommandListWithPathAndBinStubs() throws RuntimeLocatorException {
 
         when( this.rvmRubyLocator.getRubyRuntime( getRubyRuntime().getRubyRuntimeName() ) ).thenReturn( getRubyRuntime() );
         when(
@@ -93,7 +94,7 @@ public class BundlerInstallTaskTest extends AbstractTaskTest {
 
     @Override
     @Test
-    public void testBuildEnvironment() {
+    public void testBuildEnvironment() throws RuntimeLocatorException {
 
         when(
                 this.rvmRubyLocator.buildEnv(

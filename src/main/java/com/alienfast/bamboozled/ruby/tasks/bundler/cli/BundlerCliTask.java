@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import com.alienfast.bamboozled.ruby.rt.RubyLabel;
 import com.alienfast.bamboozled.ruby.rt.RubyLocator;
 import com.alienfast.bamboozled.ruby.rt.RubyRuntime;
+import com.alienfast.bamboozled.ruby.rt.RuntimeLocatorException;
 import com.alienfast.bamboozled.ruby.rt.rvm.RvmUtils;
 import com.alienfast.bamboozled.ruby.tasks.AbstractRubyTask;
 import com.atlassian.bamboo.configuration.ConfigurationMap;
@@ -26,10 +27,10 @@ public class BundlerCliTask extends AbstractRubyTask {
     public static final String TRACE = "trace";
 
     @Override
-    protected List<String> buildCommandList( RubyLabel rubyRuntimeLabel, ConfigurationMap config ) {
+    protected List<String> buildCommandList( RubyLabel rubyRuntimeLabel, ConfigurationMap config ) throws RuntimeLocatorException {
 
         final String arguments = config.get( ARGUMENTS );
-        Preconditions.checkArgument( arguments != null ); // TODO Fix Error handling
+        Preconditions.checkArgument( arguments != null ); 
 
         final String bundleExecFlag = config.get( BUNDLE_EXEC );
         final String verboseFlag = config.get( VERBOSE );

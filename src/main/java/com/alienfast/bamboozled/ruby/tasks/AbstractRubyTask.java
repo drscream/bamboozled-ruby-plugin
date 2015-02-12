@@ -11,12 +11,15 @@ import com.alienfast.bamboozled.ruby.config.RubyBuildConfigurationPlugin;
 import com.alienfast.bamboozled.ruby.rt.RubyLabel;
 import com.alienfast.bamboozled.ruby.rt.RubyLocator;
 import com.alienfast.bamboozled.ruby.rt.RubyLocatorServiceFactory;
+import com.alienfast.bamboozled.ruby.rt.RuntimeLocatorException;
 import com.alienfast.bamboozled.ruby.util.PathNotFoundException;
 import com.atlassian.bamboo.build.BuildDefinition;
+import com.atlassian.bamboo.build.logger.BuildLogger;
 import com.atlassian.bamboo.configuration.ConfigurationMap;
 import com.atlassian.bamboo.deployments.execution.DeploymentTaskContext;
 import com.atlassian.bamboo.deployments.projects.DeploymentProject;
 import com.atlassian.bamboo.deployments.projects.service.DeploymentProjectService;
+import com.atlassian.bamboo.logger.ErrorUpdateHandler;
 import com.atlassian.bamboo.plan.Plan;
 import com.atlassian.bamboo.plan.PlanManager;
 import com.atlassian.bamboo.process.EnvironmentVariableAccessor;
@@ -47,6 +50,8 @@ public abstract class AbstractRubyTask implements CommonTaskType {
     private RubyLocatorServiceFactory rubyLocatorServiceFactory;
     private EnvironmentVariableAccessor environmentVariableAccessor;
     private CapabilityContext capabilityContext;
+    protected ErrorUpdateHandler errorUpdateHandler;
+    protected BuildLogger buildLogger;
 
     private BuildContext buildContext;
     private BuildDefinition buildDefinition;
@@ -72,6 +77,8 @@ public abstract class AbstractRubyTask implements CommonTaskType {
 
         try {
 
+            @SuppressWarnings( "unused" )
+            final BuildLogger buildLogger = taskContext.getBuildLogger();
             final RubyLabel rubyLabel = RubyLabel.fromString( rubyRuntimeLabel );
 
             final ConfigurationMap config = commonTaskContext.getConfigurationMap();
@@ -92,12 +99,16 @@ public abstract class AbstractRubyTask implements CommonTaskType {
 
         }
         catch (IllegalArgumentException e) {
-            logError( e, taskContext );
-            return taskResultBuilder.failedWithError().build();
+            buildLogger.addErrorLogEntry( "Could not run ruby task: " + e.getMessage(), e );
+            taskResultBuilder.failed();
         }
         catch (PathNotFoundException e) {
-            logError( e, taskContext );
-            return taskResultBuilder.failedWithError().build();
+            buildLogger.addErrorLogEntry( "Could not run ruby task: " + e.getMessage(), e );
+            taskResultBuilder.failed();
+        }
+        catch (RuntimeLocatorException e) {
+            buildLogger.addErrorLogEntry( "Could not run ruby task: " + e.getMessage(), e );
+            taskResultBuilder.failed();
         }
 
         return taskResultBuilder.build();
@@ -124,25 +135,17 @@ public abstract class AbstractRubyTask implements CommonTaskType {
         }
     }
 
-    private void logError( Throwable e, TaskContext taskContext ) {
-
-        log.error( e.getMessage(), e );
-        if ( taskContext != null ) {
-            taskContext.getBuildContext().getErrorCollection().addErrorMessage( e.getMessage() );
-            taskContext.getBuildLogger().addErrorLogEntry( e.getMessage(), e );
-        }
-    }
-
     /**
      * Invoked as a part of the task execute routine to enable building of a list of elements which will be executed.
      *
      * @param rubyRuntimeLabel The ruby runtime label.
      * @param config           The configuration map.
      * @return List of command elements to be executed.
+     * @throws RuntimeLocatorException 
      */
-    protected abstract List<String> buildCommandList( RubyLabel rubyRuntimeLabel, ConfigurationMap config );
+    protected abstract List<String> buildCommandList( RubyLabel rubyRuntimeLabel, ConfigurationMap config ) throws RuntimeLocatorException;
 
-    protected RubyLocator getRubyLocator( String rubyRuntimeManager ) {
+    protected RubyLocator getRubyLocator( String rubyRuntimeManager ) throws RuntimeLocatorException {
 
         if ( this.rubyLocatorServiceFactory == null ) {
             this.rubyLocatorServiceFactory = new RubyLocatorServiceFactory();
@@ -159,7 +162,7 @@ public abstract class AbstractRubyTask implements CommonTaskType {
         return rubyRuntimeExecutable;
     }
 
-    public Map<String, String> buildEnvironment( RubyLabel rubyRuntimeLabel, ConfigurationMap config ) {
+    public Map<String, String> buildEnvironment( RubyLabel rubyRuntimeLabel, ConfigurationMap config ) throws RuntimeLocatorException {
 
         this.log.info( "Using manager {} runtime {}", rubyRuntimeLabel.getRubyRuntimeManager(), rubyRuntimeLabel.getRubyRuntime() );
 
@@ -189,6 +192,16 @@ public abstract class AbstractRubyTask implements CommonTaskType {
     public void setBuildContext( BuildContext buildContext ) {
 
         this.buildContext = buildContext;
+    }
+
+    public void setErrorUpdateHandler( ErrorUpdateHandler errorUpdateHandler ) {
+
+        this.errorUpdateHandler = errorUpdateHandler;
+    }
+
+    public void setBuildLogger( BuildLogger buildLogger ) {
+
+        this.buildLogger = buildLogger;
     }
 
     protected EnvironmentVariableAccessor getEnvironmentVariableAccessor() {

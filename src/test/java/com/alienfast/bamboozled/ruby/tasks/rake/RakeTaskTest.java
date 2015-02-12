@@ -16,6 +16,7 @@ import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.alienfast.bamboozled.ruby.fixtures.RvmFixtures;
+import com.alienfast.bamboozled.ruby.rt.RuntimeLocatorException;
 import com.alienfast.bamboozled.ruby.tasks.AbstractBundleExecCommandBuilder;
 import com.alienfast.bamboozled.ruby.tasks.AbstractTaskTest;
 import com.google.common.collect.Maps;
@@ -48,7 +49,7 @@ public class RakeTaskTest extends AbstractTaskTest {
 
     @Override
     @Test
-    public void testBuildCommandList() {
+    public void testBuildCommandList() throws RuntimeLocatorException {
 
         this.getConfigurationMap().put( "ruby", this.getRubyRuntime().getRubyRuntimeName() );
         this.getConfigurationMap().put( "targets", DB_MIGRATE_TARGET );
@@ -86,7 +87,7 @@ public class RakeTaskTest extends AbstractTaskTest {
 
     @Override
     @Test
-    public void testBuildEnvironment() {
+    public void testBuildEnvironment() throws RuntimeLocatorException {
 
         this.getConfigurationMap().put( "ruby", this.getRubyRuntime().getRubyRuntimeName() );
 

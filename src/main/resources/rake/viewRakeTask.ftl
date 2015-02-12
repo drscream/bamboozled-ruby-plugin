@@ -15,6 +15,7 @@
 <!-- Additional config environment variables -->
 [@ww.label labelKey='ruby.config.environment' name='custom.ruby-config-environmentVariables'/]
 [@ww.label labelKey="common.environment" name="environmentVariables"/]
+[@ww.label labelKey="rake.xvfbrun" name="xvfbrun"/]
 [@ww.label labelKey="ruby.bundleexec" name="bundleexec"/]
 [@ww.label labelKey="rake.trace" name="trace"/]
 [@ww.label labelKey="rake.verbose" name="verbose"/]

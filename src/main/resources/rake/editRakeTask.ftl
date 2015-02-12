@@ -19,6 +19,10 @@
 [@ww.label labelKey='ruby.config.environment' name='custom.ruby-config-environmentVariables'/]
 [@ww.textfield labelKey='common.environment' name='environmentVariables' required='false' cssClass="long-field" /]
 
+[@ww.checkbox labelKey='rake.xvfbrun'
+                  name='xvfbrun'
+                  toggle='true' /]
+
 [@ww.checkbox labelKey='ruby.bundleexec'
                   name='bundleexec'
                   toggle='true' /]

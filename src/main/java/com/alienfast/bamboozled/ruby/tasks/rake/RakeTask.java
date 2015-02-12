@@ -5,6 +5,7 @@ import java.util.List;
 import com.alienfast.bamboozled.ruby.rt.RubyLabel;
 import com.alienfast.bamboozled.ruby.rt.RubyLocator;
 import com.alienfast.bamboozled.ruby.rt.RubyRuntime;
+import com.alienfast.bamboozled.ruby.rt.RuntimeLocatorException;
 import com.alienfast.bamboozled.ruby.rt.rvm.RvmUtils;
 import com.alienfast.bamboozled.ruby.tasks.AbstractRubyTask;
 import com.atlassian.bamboo.configuration.ConfigurationMap;
@@ -18,13 +19,14 @@ public class RakeTask extends AbstractRubyTask {
     public static final String RAKE_FILE = "rakefile";
     public static final String RAKE_LIB_DIR = "rakelibdir";
     public static final String TARGETS = "targets";
+    public static final String XVFB_RUN = "xvfbrun";
     public static final String BUNDLE_EXEC = "bundleexec";
 
     public static final String VERBOSE = "verbose";
     public static final String TRACE = "trace";
 
     @Override
-    protected List<String> buildCommandList( RubyLabel rubyRuntimeLabel, ConfigurationMap config ) {
+    protected List<String> buildCommandList( RubyLabel rubyRuntimeLabel, ConfigurationMap config ) throws RuntimeLocatorException {
 
         final RubyLocator rvmRubyLocator = getRubyLocator( rubyRuntimeLabel.getRubyRuntimeManager() ); // TODO Fix Error handling
 
@@ -34,6 +36,7 @@ public class RakeTask extends AbstractRubyTask {
         final String targets = config.get( TARGETS );
         Preconditions.checkArgument( targets != null ); // TODO Fix Error handling
 
+        final String xvfbRunFlag = config.get( XVFB_RUN );
         final String bundleExecFlag = config.get( BUNDLE_EXEC );
         final String verboseFlag = config.get( VERBOSE );
         final String traceFlag = config.get( TRACE );
@@ -44,7 +47,9 @@ public class RakeTask extends AbstractRubyTask {
 
         final String rubyExecutablePath = getRubyExecutablePath( rubyRuntimeLabel );
 
+        // RAILS_ENV=test xvfb-run -a bundle exec rake parallel:features
         return new RakeCommandBuilder( rvmRubyLocator, rubyRuntime, rubyExecutablePath )
+                .addIfXvfbRun( xvfbRunFlag )
                 .addRubyExecutable()
                 .addIfBundleExec( bundleExecFlag )
                 .addRakeExecutable( bundleExecFlag )

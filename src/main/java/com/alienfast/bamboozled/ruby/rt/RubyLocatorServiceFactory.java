@@ -51,7 +51,7 @@ public class RubyLocatorServiceFactory {
         return this.rubyRuntimeLocatorServices;
     }
 
-    public RubyLocator acquireRubyLocator( String rubyRuntimeManager ) {
+    public RubyLocator acquireRubyLocator( String rubyRuntimeManager ) throws RuntimeLocatorException {
 
         // default to RVM in the case of a missing runtime manager tag.
         if ( rubyRuntimeManager == null || rubyRuntimeManager.equals( "" ) ) {
@@ -64,11 +64,11 @@ public class RubyLocatorServiceFactory {
                     return rubyRuntimeLocatorService.getRubyLocator();
                 }
                 else {
-                    throw new PathNotFoundException( "Unable to locate Runtime Manager installation." );
+                    throw new RuntimeLocatorException( "Unable to locate Runtime Manager installation." );
                 }
             }
         }
 
-        throw new IllegalArgumentException( "Unable to locate runtime manager for - " + rubyRuntimeManager );
+        throw new RuntimeLocatorException( "Unable to locate runtime manager for - " + rubyRuntimeManager );
     }
 }

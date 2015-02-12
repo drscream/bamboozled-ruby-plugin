@@ -17,6 +17,7 @@ import com.alienfast.bamboozled.ruby.tasks.AbstractBundleExecCommandBuilder;
  */
 public class RakeCommandBuilder extends AbstractBundleExecCommandBuilder<RakeCommandBuilder> {
 
+    public static final String XVFB_RUN_ARG = "xvfb-run -a";
     public static final String RAKE_COMMAND = "rake";
 
     public static final String RAKEFILE_ARG = "-f";
@@ -29,6 +30,20 @@ public class RakeCommandBuilder extends AbstractBundleExecCommandBuilder<RakeCom
         super( rvmRubyLocator, rubyRuntime, rubyExecutablePath );
     }
 
+    /**
+     * Will conditionally prepend the xvfb-run command if xvfb-run flag is "true".
+     *
+     * @param xvfbRun String which takes null or "true".
+     * @return T command builder.
+     */
+    public RakeCommandBuilder addIfXvfbRun( @Nullable String xvfbRunFlag ) {
+
+        if ( BooleanUtils.toBoolean( xvfbRunFlag ) ) {
+            getCommandList().add( XVFB_RUN_ARG );
+        }
+        return this;
+    }           
+    
     /**
      * Append the rake executable to the command list.
      *

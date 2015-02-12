@@ -17,6 +17,7 @@ import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.alienfast.bamboozled.ruby.fixtures.RvmFixtures;
+import com.alienfast.bamboozled.ruby.rt.RuntimeLocatorException;
 import com.alienfast.bamboozled.ruby.tasks.AbstractBundleExecCommandBuilder;
 import com.alienfast.bamboozled.ruby.tasks.AbstractTaskTest;
 import com.google.common.collect.Maps;
@@ -51,7 +52,7 @@ public class BundlerCliTaskTest extends AbstractTaskTest {
 
     @Override
     @Test
-    public void testBuildCommandList() {
+    public void testBuildCommandList() throws RuntimeLocatorException {
 
         //        this.configurationMap.put( AbstractRubyTask.RUBY, this.rubyRuntime.getRubyRuntimeName() );
         getConfigurationMap().put( BundlerCliTask.ARGUMENTS, ARGS_BINSTUBS_ELASTIC_BEANSTALK );
@@ -82,7 +83,7 @@ public class BundlerCliTaskTest extends AbstractTaskTest {
 
     @Override
     @Test
-    public void testBuildEnvironment() {
+    public void testBuildEnvironment() throws RuntimeLocatorException {
 
         getConfigurationMap().put( "ruby", getRubyRuntime().getRubyRuntimeName() );
 

@@ -5,7 +5,7 @@ This continuous integration/continuous deployment plugin for Atlassian [Bamboo](
 ## Features for both build and deploy plans
 Via [Bamboo](http://www.atlassian.com/software/bamboo/overview) tasks, this plugin enables configure a ruby runtime environment once per plan and run:
 * Bundler
-* Rake
+* Rake (with `bundle exec` and `xvfb-run` options)
 * Capistrano
 
 ## Shared Configuration
@@ -90,7 +90,7 @@ The `Bundler Install` task by default is setup to quickly execute `bundle instal
 The `Bundler CLI` is setup to allow for any variations on command line execution of `bundler`
 
 #### Bundle exec with Rake
-The `Rake` task has the option to be run from `bundle exec`
+The `Rake` task has the option to be run from `bundle exec`, as well as prefixed with `xvfb-run -a` for headless exection of tests.
 
 
 ## Test Reporting

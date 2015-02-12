@@ -38,7 +38,7 @@ public class AbstractBundleExecCommandBuilder<T extends AbstractBundleExecComman
      * Will conditionally append the verbose switch if verbose flag is "true".
      *
      * @param verboseFlag String which takes null or "true".
-     * @return Rake command builder.
+     * @return T command builder.
      */
     @SuppressWarnings( "unchecked" )
     public T addIfVerbose( @Nullable String verboseFlag ) {

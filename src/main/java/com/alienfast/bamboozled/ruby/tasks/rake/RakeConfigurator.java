@@ -23,6 +23,7 @@ public class RakeConfigurator extends AbstractRubyTaskConfigurator {
             RakeTask.RAKE_FILE,
             RakeTask.RAKE_LIB_DIR,
             RakeTask.TARGETS,
+            RakeTask.XVFB_RUN,
             RakeTask.BUNDLE_EXEC,
             AbstractRubyTask.ENVIRONMENT,
             RakeTask.VERBOSE,

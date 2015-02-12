@@ -5,6 +5,7 @@ import java.util.List;
 import com.alienfast.bamboozled.ruby.rt.RubyLabel;
 import com.alienfast.bamboozled.ruby.rt.RubyLocator;
 import com.alienfast.bamboozled.ruby.rt.RubyRuntime;
+import com.alienfast.bamboozled.ruby.rt.RuntimeLocatorException;
 import com.alienfast.bamboozled.ruby.tasks.AbstractRubyTask;
 import com.atlassian.bamboo.configuration.ConfigurationMap;
 
@@ -17,7 +18,7 @@ public class BundlerInstallTask extends AbstractRubyTask {
     public static final String BIN_STUBS = "binstubs";
 
     @Override
-    protected List<String> buildCommandList( RubyLabel rubyRuntimeLabel, ConfigurationMap config ) {
+    protected List<String> buildCommandList( RubyLabel rubyRuntimeLabel, ConfigurationMap config ) throws RuntimeLocatorException {
 
 
         final String path = config.get( PATH );

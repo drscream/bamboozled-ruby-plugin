@@ -122,6 +122,44 @@ public class RakeCommandBuilderTest {
     }
 
     @Test
+    public void testAddIfBundleExec() throws Exception {
+
+        this.rakeCommandBuilder.addIfBundleExec(  null );
+        assertEquals( 0, this.rakeCommandBuilder.build().size() );
+
+        this.rakeCommandBuilder.addIfBundleExec( "false" );
+        assertEquals( 0, this.rakeCommandBuilder.build().size() );
+
+        this.rakeCommandBuilder.addIfBundleExec( "true" );
+
+        assertEquals( 2, this.rakeCommandBuilder.build().size() );
+
+        Iterator<String> commandsIterator = this.rakeCommandBuilder.build().iterator();
+
+        commandsIterator.next(); // bundle
+        assertEquals( AbstractBundleExecCommandBuilder.BUNDLE_EXEC_ARG, commandsIterator.next() );
+    }    
+    
+    @Test
+    public void testAddIfXvfbRun() throws Exception {
+
+        this.rakeCommandBuilder.addIfXvfbRun(  null );
+        assertEquals( 0, this.rakeCommandBuilder.build().size() );
+
+        this.rakeCommandBuilder.addIfXvfbRun( "false" );
+        assertEquals( 0, this.rakeCommandBuilder.build().size() );
+
+        this.rakeCommandBuilder.addIfXvfbRun( "true" );
+
+        assertEquals( 1, this.rakeCommandBuilder.build().size() );
+
+        Iterator<String> commandsIterator = this.rakeCommandBuilder.build().iterator();
+
+        assertEquals( RakeCommandBuilder.XVFB_RUN_ARG, commandsIterator.next() );
+    }        
+    
+    
+    @Test
     public void testAddIfVerbose() throws Exception {
 
         this.rakeCommandBuilder.addIfVerbose( null );
