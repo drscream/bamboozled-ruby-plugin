@@ -138,6 +138,7 @@ Please contribute! We will readily accept contributions and try to stay on top o
 - [x] Make available via [Atlassian UPM](https://marketplace.atlassian.com/plugins/com.alienfast.bamboozled.ruby.bamboozled-ruby-plugin) (@rosskevin)
 
 ### To contribute:
+[Setup your development environment according to the wiki](https://github.com/alienfast/bamboozled-ruby-plugin/wiki/Development) (and feel free to update the instructions with anything missing)
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
