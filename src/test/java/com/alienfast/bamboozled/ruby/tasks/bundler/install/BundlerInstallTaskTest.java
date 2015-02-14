@@ -36,7 +36,7 @@ public class BundlerInstallTaskTest extends AbstractTaskTest {
         this.bundlerInstallTask.setCapabilityContext( this.capabilityContext );
 
         when( this.capability.getValue() ).thenReturn( getRubyRuntime().getRubyExecutablePath() );
-        when( this.capabilitySet.getCapability( getRubyLabel().toCapabilityLabel() ) ).thenReturn( this.capability );
+        when( this.capabilitySet.getCapability( getRubyLabel().toCapabilityKey() ) ).thenReturn( this.capability );
         when( this.capabilityContext.getCapabilitySet() ).thenReturn( this.capabilitySet );
 
         getConfigurationMap().put( "ruby", getRubyRuntime().getRubyRuntimeName() );

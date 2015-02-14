@@ -2,6 +2,7 @@ package com.alienfast.bamboozled.ruby.tasks.rake;
 
 import java.util.List;
 
+import com.alienfast.bamboozled.ruby.rt.RubyCapabilityDefaultsHelper;
 import com.alienfast.bamboozled.ruby.rt.RubyLabel;
 import com.alienfast.bamboozled.ruby.rt.RubyLocator;
 import com.alienfast.bamboozled.ruby.rt.RubyRuntime;
@@ -9,6 +10,7 @@ import com.alienfast.bamboozled.ruby.rt.RuntimeLocatorException;
 import com.alienfast.bamboozled.ruby.rt.rvm.RvmUtils;
 import com.alienfast.bamboozled.ruby.tasks.AbstractRubyTask;
 import com.atlassian.bamboo.configuration.ConfigurationMap;
+import com.atlassian.bamboo.v2.build.agent.capability.Capability;
 import com.google.common.base.Preconditions;
 
 /**
@@ -49,7 +51,9 @@ public class RakeTask extends AbstractRubyTask {
 
         // RAILS_ENV=test xvfb-run -a bundle exec rake parallel:features
         return new RakeCommandBuilder( rvmRubyLocator, rubyRuntime, rubyExecutablePath )
-                .addIfXvfbRun( xvfbRunFlag )
+        
+        
+                .addIfXvfbRun( xvfbRunFlag )  XXXX: need to set exe here
                 .addRubyExecutable()
                 .addIfBundleExec( bundleExecFlag )
                 .addRakeExecutable( bundleExecFlag )
@@ -59,5 +63,15 @@ public class RakeTask extends AbstractRubyTask {
                 .addIfTrace( traceFlag )
                 .addTargets( targetList )
                 .build();
+    }
+    
+    
+    protected String getXvfbRunExecutablePath() {
+
+        final Capability capability = this.getCapabilityContext().getCapabilitySet().getCapability( RubyCapabilityDefaultsHelper.XVFB_RUN_CAPABILITY );
+        Preconditions.checkNotNull( capability, "Capability" );
+        final String exe = capability.getValue();
+        Preconditions.checkNotNull( exe, "xvfbRunExecutable" );
+        return exe;
     }
 }

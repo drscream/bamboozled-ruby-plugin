@@ -44,7 +44,7 @@ public class BundlerCliTaskTest extends AbstractTaskTest {
         this.bundlerCliTask.setCapabilityContext( this.capabilityContext );
 
         when( this.capability.getValue() ).thenReturn( getRubyRuntime().getRubyExecutablePath() );
-        when( this.capabilitySet.getCapability( getRubyLabel().toCapabilityLabel() ) ).thenReturn( this.capability );
+        when( this.capabilitySet.getCapability( getRubyLabel().toCapabilityKey() ) ).thenReturn( this.capability );
         when( this.capabilityContext.getCapabilitySet() ).thenReturn( this.capabilitySet );
 
         setupBuildContext( this.bundlerCliTask );

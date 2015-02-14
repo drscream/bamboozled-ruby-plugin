@@ -41,7 +41,7 @@ public class RakeTaskTest extends AbstractTaskTest {
         this.rakeTask.setCapabilityContext( this.capabilityContext );
 
         when( this.capability.getValue() ).thenReturn( this.getRubyRuntime().getRubyExecutablePath() );
-        when( this.capabilitySet.getCapability( this.getRubyLabel().toCapabilityLabel() ) ).thenReturn( this.capability );
+        when( this.capabilitySet.getCapability( this.getRubyLabel().toCapabilityKey() ) ).thenReturn( this.capability );
         when( this.capabilityContext.getCapabilitySet() ).thenReturn( this.capabilitySet );
         
         setupBuildContext( this.rakeTask );

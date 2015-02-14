@@ -54,7 +54,7 @@ public class RubyLabel {
         }
     }
 
-    public String toCapabilityLabel() {
+    public String toCapabilityKey() {
 
         return String.format( "%s.%s", RUBY_CAPABILITY_PREFIX, this );
     }
