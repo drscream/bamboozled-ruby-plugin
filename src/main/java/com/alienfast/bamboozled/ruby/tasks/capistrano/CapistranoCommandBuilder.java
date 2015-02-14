@@ -15,7 +15,7 @@ import com.alienfast.bamboozled.ruby.tasks.AbstractBundleExecCommandBuilder;
 public class CapistranoCommandBuilder extends AbstractBundleExecCommandBuilder<CapistranoCommandBuilder> {
 
     public static final String CAP_COMMAND = "cap";
-    public static final String DEBUG_ARG = "--debug";
+    public static final String TRACE_ARG = "--trace";
 
     public CapistranoCommandBuilder(RubyLocator rvmRubyLocator, RubyRuntime rubyRuntime, String rubyExecutablePath) {
 
@@ -42,13 +42,13 @@ public class CapistranoCommandBuilder extends AbstractBundleExecCommandBuilder<C
     /**
      * Will conditionally append the verbose switch if verbose flag is "true".
      *
-     * @param debugFlag String which takes null or "true".
+     * @param traceFlag String which takes null or "true".
      * @return Capistrano command builder.
      */
-    public CapistranoCommandBuilder addIfDebug( @Nullable String debugFlag ) {
+    public CapistranoCommandBuilder addIfTrace( @Nullable String traceFlag ) {
 
-        if ( BooleanUtils.toBoolean( debugFlag ) ) {
-            getCommandList().add( DEBUG_ARG );
+        if ( BooleanUtils.toBoolean( traceFlag ) ) {
+            getCommandList().add( TRACE_ARG );
         }
         return this;
     }

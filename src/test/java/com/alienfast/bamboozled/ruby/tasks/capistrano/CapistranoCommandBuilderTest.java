@@ -93,10 +93,10 @@ public class CapistranoCommandBuilderTest {
     }
 
     @Test
-    public void testAddIfDebug() throws Exception {
+    public void testAddIfTrace() throws Exception {
 
-        this.capistranoCommandBuilder.addIfDebug( "true" );
-        assertThat( this.capistranoCommandBuilder.build(), hasItem( "--debug" ) );
+        this.capistranoCommandBuilder.addIfTrace( "true" );
+        assertThat( this.capistranoCommandBuilder.build(), hasItem( "--trace" ) );
 
     }
 
@@ -116,7 +116,7 @@ public class CapistranoCommandBuilderTest {
                 .addRubyExecutable()
                 .addIfBundleExec( bundleExecFlag )
                 .addCapistranoExecutable( bundleExecFlag )
-                .addIfDebug( "true" )
+                .addIfTrace( "true" )
                 .addIfVerbose( "true" )
                 .addTasks( Lists.newArrayList( TEST_TASK ) );
         assertThat( this.capistranoCommandBuilder.build().size(), is( 7 ) );

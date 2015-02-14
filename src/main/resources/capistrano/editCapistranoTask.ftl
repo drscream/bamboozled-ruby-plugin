@@ -23,8 +23,8 @@
                   name='bundleexec'
                   toggle='true' /]
 
-[@ww.checkbox labelKey='capistrano.debug'
-                  name='debug'
+[@ww.checkbox labelKey='capistrano.trace'
+                  name='trace'
                   toggle='true' /]
 
 [@ww.checkbox labelKey='capistrano.verbose'

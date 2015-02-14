@@ -19,7 +19,7 @@ public class CapistranoTask extends AbstractRubyTask {
     public static final String TASKS = "tasks";
     public static final String BUNDLE_EXEC = "bundleexec";
     public static final String VERBOSE = "verbose";
-    public static final String DEBUG = "debug";
+    public static final String TRACE = "trace";
 
     @Override
     protected List<String> buildCommandList( RubyLabel rubyRuntimeLabel, ConfigurationMap config ) throws RuntimeLocatorException {
@@ -31,7 +31,7 @@ public class CapistranoTask extends AbstractRubyTask {
 
         final String bundleExecFlag = config.get( BUNDLE_EXEC );
         final String verboseFlag = config.get( VERBOSE );
-        final String debugFlag = config.get( DEBUG );
+        final String traceFlag = config.get( TRACE );
 
         final List<String> tasksList = RvmUtils.splitTokens( tasks );
 
@@ -43,7 +43,7 @@ public class CapistranoTask extends AbstractRubyTask {
                 .addRubyExecutable()
                 .addIfBundleExec( bundleExecFlag )
                 .addCapistranoExecutable( bundleExecFlag )
-                .addIfDebug( debugFlag )
+                .addIfTrace( traceFlag )
                 .addIfVerbose( verboseFlag )
                 .addTasks( tasksList )
                 .build();

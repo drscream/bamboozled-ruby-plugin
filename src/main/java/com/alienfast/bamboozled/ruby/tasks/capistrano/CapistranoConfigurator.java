@@ -23,7 +23,7 @@ public class CapistranoConfigurator extends AbstractRubyTaskConfigurator {
             CapistranoTask.ENVIRONMENT,
             CapistranoTask.BUNDLE_EXEC,
             CapistranoTask.VERBOSE,
-            CapistranoTask.DEBUG );
+            CapistranoTask.TRACE );
 
     @Override
     protected Set<String> getFieldsToCopy() {
