@@ -17,17 +17,19 @@ import com.alienfast.bamboozled.ruby.tasks.AbstractBundleExecCommandBuilder;
  */
 public class RakeCommandBuilder extends AbstractBundleExecCommandBuilder<RakeCommandBuilder> {
 
-    public static final String XVFB_RUN_ARG = "xvfb-run -a";
+    public static final String XVFB_RUN_ARG = "-a";
     public static final String RAKE_COMMAND = "rake";
 
     public static final String RAKEFILE_ARG = "-f";
     public static final String RAKELIBDIR_ARG = "--rakelibdir";
 
     public static final String TRACE_ARG = "--trace";
+    private String xvfbRunExecutablePath;
 
-    public RakeCommandBuilder(RubyLocator rvmRubyLocator, RubyRuntime rubyRuntime, String rubyExecutablePath) {
+    public RakeCommandBuilder(RubyLocator rvmRubyLocator, RubyRuntime rubyRuntime, String rubyExecutablePath, String xvfbRunExecutablePath) {
 
         super( rvmRubyLocator, rubyRuntime, rubyExecutablePath );
+        setXvfbRunExecutablePath( xvfbRunExecutablePath );
     }
 
     /**
@@ -39,11 +41,15 @@ public class RakeCommandBuilder extends AbstractBundleExecCommandBuilder<RakeCom
     public RakeCommandBuilder addIfXvfbRun( @Nullable String xvfbRunFlag ) {
 
         if ( BooleanUtils.toBoolean( xvfbRunFlag ) ) {
+            log.info( "Adding {} {}", getXvfbRunExecutablePath(), XVFB_RUN_ARG );
+            
+            getCommandList().add( getXvfbRunExecutablePath() );
             getCommandList().add( XVFB_RUN_ARG );
+            log.info( "Added {} {}: {}", getXvfbRunExecutablePath(), XVFB_RUN_ARG, getCommandList().toString() );
         }
         return this;
-    }           
-    
+    }
+
     /**
      * Append the rake executable to the command list.
      *
@@ -116,6 +122,16 @@ public class RakeCommandBuilder extends AbstractBundleExecCommandBuilder<RakeCom
 
         getCommandList().addAll( targets );
         return this;
+    }
+
+    protected String getXvfbRunExecutablePath() {
+
+        return xvfbRunExecutablePath;
+    }
+
+    protected void setXvfbRunExecutablePath( String xvfbRunExecutablePath ) {
+
+        this.xvfbRunExecutablePath = xvfbRunExecutablePath;
     }
 
 }

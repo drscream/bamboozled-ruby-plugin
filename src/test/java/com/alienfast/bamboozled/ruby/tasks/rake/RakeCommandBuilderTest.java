@@ -45,9 +45,9 @@ public class RakeCommandBuilderTest {
                         this.rubyExecutablePath,
                         AbstractBundleExecCommandBuilder.BUNDLE_COMMAND ) ).thenReturn( RvmFixtures.BUNDLER_PATH );
 
-        this.rakeCommandBuilder = new RakeCommandBuilder( this.rvmRubyLocator, this.rubyRuntime, RvmFixtures
-                .getMRIRubyRuntimeDefaultGemSet()
-                .getRubyExecutablePath() );
+        this.rakeCommandBuilder = new RakeCommandBuilder( this.rvmRubyLocator, this.rubyRuntime, 
+                RvmFixtures.getMRIRubyRuntimeDefaultGemSet().getRubyExecutablePath(), 
+                "/usr/bin/xvfb-run" );
     }
 
     @Test
@@ -151,10 +151,11 @@ public class RakeCommandBuilderTest {
 
         this.rakeCommandBuilder.addIfXvfbRun( "true" );
 
-        assertEquals( 1, this.rakeCommandBuilder.build().size() );
+        assertEquals( 2, this.rakeCommandBuilder.build().size() );
 
         Iterator<String> commandsIterator = this.rakeCommandBuilder.build().iterator();
 
+        assertEquals( "/usr/bin/xvfb-run", commandsIterator.next() );
         assertEquals( RakeCommandBuilder.XVFB_RUN_ARG, commandsIterator.next() );
     }        
     

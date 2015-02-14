@@ -49,6 +49,9 @@ public abstract class AbstractTaskTest {
     protected Capability capability;
 
     @Mock
+    protected Capability xvfbRunCapability;
+
+    @Mock
     protected CapabilitySet capabilitySet;
 
     @Mock

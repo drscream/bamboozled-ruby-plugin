@@ -16,6 +16,7 @@ import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.alienfast.bamboozled.ruby.fixtures.RvmFixtures;
+import com.alienfast.bamboozled.ruby.rt.RubyCapabilityDefaultsHelper;
 import com.alienfast.bamboozled.ruby.rt.RuntimeLocatorException;
 import com.alienfast.bamboozled.ruby.tasks.AbstractBundleExecCommandBuilder;
 import com.alienfast.bamboozled.ruby.tasks.AbstractTaskTest;
@@ -44,6 +45,11 @@ public class RakeTaskTest extends AbstractTaskTest {
         when( this.capabilitySet.getCapability( this.getRubyLabel().toCapabilityKey() ) ).thenReturn( this.capability );
         when( this.capabilityContext.getCapabilitySet() ).thenReturn( this.capabilitySet );
         
+        // setup xvfb-run
+        when( this.xvfbRunCapability.getValue() ).thenReturn( "/usr/bin/xvfb-run");
+        when( this.capabilitySet.getCapability( RubyCapabilityDefaultsHelper.XVFB_RUN_CAPABILITY ) ).thenReturn( this.xvfbRunCapability );
+        when( this.capabilityContext.getCapabilitySet() ).thenReturn( this.capabilitySet );
+
         setupBuildContext( this.rakeTask );
     }
 

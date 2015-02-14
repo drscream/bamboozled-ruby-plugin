@@ -23,7 +23,7 @@ public class RubyCapabilityDefaultsHelper implements CapabilityDefaultsHelper {
 
     private static final String XVFB_RUN_EXE = "xvfb-run";
 
-    public static final String XVFB_RUN_CAPABILITY = "system.executable.xvfb-run";
+    public static final String XVFB_RUN_CAPABILITY =  CapabilityDefaultsHelper.CAPABILITY_BUILDER_PREFIX + "." + XVFB_RUN_EXE;
 
     private static final Logger log = LoggerFactory.getLogger( RubyCapabilityDefaultsHelper.class );
 
@@ -57,7 +57,7 @@ public class RubyCapabilityDefaultsHelper implements CapabilityDefaultsHelper {
     }
 
     
-    protected void resolveExeCapabilites( CapabilitySet capabilitySet, String exeName, String mandatoryCapabilityKey ) {
+    protected void resolveExeCapabilites( CapabilitySet capabilitySet, String exeName, String capabilityKey ) {
 
         List<String> paths = Lists.newArrayList(StringUtils.split(SystemProperty.PATH.getValue(), File.pathSeparator));
 //        if (SystemUtils.IS_OS_WINDOWS)
@@ -71,9 +71,9 @@ public class RubyCapabilityDefaultsHelper implements CapabilityDefaultsHelper {
             File file = new File(path, executableName);
             if (file.exists())
             {
-                log.debug("Detected " + mandatoryCapabilityKey + " at `" + file.getAbsolutePath() + "'");
-                final Capability capability = new CapabilityImpl(mandatoryCapabilityKey, file.getAbsolutePath());
-                log.info( "Adding {}", capability );
+                log.info("Adding " + capabilityKey + " at `" + file.getAbsolutePath() + "'");
+                final Capability capability = new CapabilityImpl(capabilityKey, file.getAbsolutePath());
+                log.info( "Added {}", capability );
                 capabilitySet.addCapability(capability);
             }
         }
@@ -97,9 +97,9 @@ public class RubyCapabilityDefaultsHelper implements CapabilityDefaultsHelper {
                             rubyRuntimeLocatorService.getRuntimeManagerName(),
                             rubyRuntime.getRubyRuntimeName() );
                     final String capabilityKey = rubyLabel.toCapabilityKey();
+                    log.info("Adding " + capabilityKey);
                     final Capability capability = new CapabilityImpl( capabilityKey, rubyRuntime.getRubyExecutablePath() );
-
-                    log.info( "Adding {}", capability );
+                    log.info( "Added {}", capability );
                     capabilitySet.addCapability( capability );
                 }
             }

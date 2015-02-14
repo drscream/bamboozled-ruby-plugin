@@ -44,16 +44,14 @@ public class RakeTask extends AbstractRubyTask {
         final String traceFlag = config.get( TRACE );
 
         final List<String> targetList = RvmUtils.splitTokens( targets );
-
         final RubyRuntime rubyRuntime = rvmRubyLocator.getRubyRuntime( rubyRuntimeLabel.getRubyRuntime() ); // TODO Fix Error handling
-
         final String rubyExecutablePath = getRubyExecutablePath( rubyRuntimeLabel );
+        final String xvfbRunExecutablePath = getXvfbRunExecutablePath();
+        
 
         // RAILS_ENV=test xvfb-run -a bundle exec rake parallel:features
-        return new RakeCommandBuilder( rvmRubyLocator, rubyRuntime, rubyExecutablePath )
-        
-        
-                .addIfXvfbRun( xvfbRunFlag )  XXXX: need to set exe here
+        return new RakeCommandBuilder( rvmRubyLocator, rubyRuntime, rubyExecutablePath, xvfbRunExecutablePath )               
+                .addIfXvfbRun( xvfbRunFlag )
                 .addRubyExecutable()
                 .addIfBundleExec( bundleExecFlag )
                 .addRakeExecutable( bundleExecFlag )
