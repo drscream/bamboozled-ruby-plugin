@@ -5,7 +5,7 @@
 	<groupId>com.alienfast.bamboozled.ruby</groupId>
 	<artifactId>bamboozled-ruby-plugin</artifactId>
 	<!-- Lets line up major.minor with the Bamboo release, and just use the build_number for our releases -->
-	<version>5.1.1</version>
+	<version>5.7.2</version>
 	<name>Bamboozled Ruby Plugin</name>
 	<description>Bamboo plugin for continuous integration/continuous deployment with Ruby and RVM.</description>
 	<packaging>atlassian-plugin</packaging>
@@ -19,13 +19,6 @@
 			<email>kevin.ross@alienfast.com</email>
 			<roles>
 				<role>developer</role>
-			</roles>
-		</developer>
-		<developer>
-			<name>Mark Wolfe</name>
-			<email>mark@wolfe.id.au</email>
-			<roles>
-				<role>Original developer of rake-bamboo-plugin forked at version 2.1</role>
 			</roles>
 		</developer>
 	</developers>

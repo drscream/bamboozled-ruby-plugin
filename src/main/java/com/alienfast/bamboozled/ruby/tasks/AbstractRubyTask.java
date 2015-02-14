@@ -69,6 +69,7 @@ public abstract class AbstractRubyTask implements CommonTaskType {
 
         final TaskResultBuilder taskResultBuilder = TaskResultBuilder.newBuilder( commonTaskContext );
         final TaskContext taskContext = Narrow.to( commonTaskContext, TaskContext.class );
+        final BuildLogger buildLogger = taskContext.getBuildLogger();
 
         // move this crazy resolution out of here.
         resolveContext( taskContext, commonTaskContext );
@@ -77,8 +78,10 @@ public abstract class AbstractRubyTask implements CommonTaskType {
 
         try {
 
-            @SuppressWarnings( "unused" )
-            final BuildLogger buildLogger = taskContext.getBuildLogger();
+            if( rubyRuntimeLabel == null ) {
+                throw new RuntimeLocatorException("A ruby runtime has not been chosen for this plan.  Please see the miscellaneous tab to choose a plan-wide ruby runtime.");
+            }
+            
             final RubyLabel rubyLabel = RubyLabel.fromString( rubyRuntimeLabel );
 
             final ConfigurationMap config = commonTaskContext.getConfigurationMap();
@@ -96,7 +99,6 @@ public abstract class AbstractRubyTask implements CommonTaskType {
             externalProcess.execute();
 
             taskResultBuilder.checkReturnCode( externalProcess, 0 );
-
         }
         catch (IllegalArgumentException e) {
             buildLogger.addErrorLogEntry( "Could not run ruby task: " + e.getMessage(), e );

@@ -24,7 +24,7 @@ public class SystemRubyLocatorTest {
 
     @Mock
     FileSystemHelper fileSystemHelper;
-
+    
     @Mock
     SystemRubyLocator systemRubyLocator;
 
