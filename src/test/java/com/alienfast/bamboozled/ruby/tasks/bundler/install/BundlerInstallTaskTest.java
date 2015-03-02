@@ -27,21 +27,22 @@ public class BundlerInstallTaskTest extends AbstractTaskTest {
 
     private BundlerInstallTask bundlerInstallTask = new BundlerInstallTask();
 
+    @Override
     @Before
     public void setUp() throws Exception {
 
-        this.bundlerInstallTask.setEnvironmentVariableAccessor( this.environmentVariableAccessor );
-        this.bundlerInstallTask.setProcessService( this.processService );
-        this.bundlerInstallTask.setRubyLocatorServiceFactory( this.rubyLocatorServiceFactory );
-        this.bundlerInstallTask.setCapabilityContext( this.capabilityContext );
+        this.bundlerInstallTask.setEnvironmentVariableAccessor( getEnvironmentVariableAccessor() );
+        this.bundlerInstallTask.setProcessService( getProcessService() );
+        this.bundlerInstallTask.setRubyLocatorServiceFactory( getRubyLocatorServiceFactory() );
+        this.bundlerInstallTask.setCapabilityContext( getCapabilityContext() );
 
-        when( this.capability.getValue() ).thenReturn( getRubyRuntime().getRubyExecutablePath() );
-        when( this.capabilitySet.getCapability( getRubyLabel().toCapabilityKey() ) ).thenReturn( this.capability );
-        when( this.capabilityContext.getCapabilitySet() ).thenReturn( this.capabilitySet );
+        when( getCapability().getValue() ).thenReturn( getRubyRuntime().getRubyExecutablePath() );
+        when( getCapabilitySet().getCapability( getRubyLabel().toCapabilityKey() ) ).thenReturn( getCapability() );
+        when( getCapabilityContext().getCapabilitySet() ).thenReturn( getCapabilitySet() );
 
         getConfigurationMap().put( "ruby", getRubyRuntime().getRubyRuntimeName() );
 
-        when( this.rubyLocatorServiceFactory.acquireRubyLocator( eq( "RVM" ) ) ).thenReturn( this.rvmRubyLocator );
+        when( getRubyLocatorServiceFactory().acquireRubyLocator( eq( "RVM" ) ) ).thenReturn( getRvmRubyLocator() );
 
         setupBuildContext( this.bundlerInstallTask );
     }
@@ -50,9 +51,9 @@ public class BundlerInstallTaskTest extends AbstractTaskTest {
     @Test
     public void testBuildCommandList() throws RuntimeLocatorException {
 
-        when( this.rvmRubyLocator.getRubyRuntime( getRubyRuntime().getRubyRuntimeName() ) ).thenReturn( getRubyRuntime() );
+        when( getRvmRubyLocator().getRubyRuntime( getRubyRuntime().getRubyRuntimeName() ) ).thenReturn( getRubyRuntime() );
         when(
-                this.rvmRubyLocator.buildExecutablePath(
+                getRvmRubyLocator().buildExecutablePath(
                         getRubyRuntime().getRubyRuntimeName(),
                         getRubyExecutablePath(),
                         BundlerInstallCommandBuilder.BUNDLE_COMMAND ) ).thenReturn( RvmFixtures.BUNDLER_PATH );
@@ -70,9 +71,9 @@ public class BundlerInstallTaskTest extends AbstractTaskTest {
     @Test
     public void testBuildCommandListWithPathAndBinStubs() throws RuntimeLocatorException {
 
-        when( this.rvmRubyLocator.getRubyRuntime( getRubyRuntime().getRubyRuntimeName() ) ).thenReturn( getRubyRuntime() );
+        when( getRvmRubyLocator().getRubyRuntime( getRubyRuntime().getRubyRuntimeName() ) ).thenReturn( getRubyRuntime() );
         when(
-                this.rvmRubyLocator.buildExecutablePath(
+                getRvmRubyLocator().buildExecutablePath(
                         getRubyRuntime().getRubyRuntimeName(),
                         getRubyExecutablePath(),
                         BundlerInstallCommandBuilder.BUNDLE_COMMAND ) ).thenReturn( RvmFixtures.BUNDLER_PATH );
@@ -97,7 +98,7 @@ public class BundlerInstallTaskTest extends AbstractTaskTest {
     public void testBuildEnvironment() throws RuntimeLocatorException {
 
         when(
-                this.rvmRubyLocator.buildEnv(
+                getRvmRubyLocator().buildEnv(
                         getRubyRuntime().getRubyRuntimeName(),
                         getRubyExecutablePath(),
                         Maps.<String, String> newHashMap() ) ).thenReturn( Maps.<String, String> newHashMap() );

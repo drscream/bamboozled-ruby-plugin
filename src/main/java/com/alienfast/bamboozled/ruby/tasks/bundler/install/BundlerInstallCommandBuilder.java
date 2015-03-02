@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import com.alienfast.bamboozled.ruby.rt.RubyLocator;
 import com.alienfast.bamboozled.ruby.rt.RubyRuntime;
 import com.alienfast.bamboozled.ruby.tasks.AbstractCommandBuilder;
+import com.atlassian.bamboo.v2.build.agent.capability.CapabilityContext;
 
 /**
  * Builder to assemble the bundler command list.
@@ -18,9 +19,9 @@ public class BundlerInstallCommandBuilder extends AbstractCommandBuilder<Bundler
     public static final String BIN_STUBS_ARG = "--binstubs";
     public static final String INSTALL_ARG = "install";
 
-    public BundlerInstallCommandBuilder(RubyLocator rvmRubyLocator, RubyRuntime rubyRuntime, String rubyExecutablePath) {
+    public BundlerInstallCommandBuilder(CapabilityContext capabilityContext, RubyLocator rvmRubyLocator, RubyRuntime rubyRuntime, String rubyExecutablePath) {
 
-        super( rvmRubyLocator, rubyRuntime, rubyExecutablePath );
+        super(capabilityContext, rvmRubyLocator, rubyRuntime, rubyExecutablePath );
     }
 
     /**

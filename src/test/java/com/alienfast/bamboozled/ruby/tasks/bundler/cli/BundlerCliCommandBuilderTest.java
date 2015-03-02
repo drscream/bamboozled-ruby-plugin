@@ -9,41 +9,35 @@ import java.util.Iterator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.alienfast.bamboozled.ruby.fixtures.RvmFixtures;
-import com.alienfast.bamboozled.ruby.rt.RubyRuntime;
-import com.alienfast.bamboozled.ruby.rt.rvm.RvmRubyLocator;
+import com.alienfast.bamboozled.ruby.tasks.AbstractBuilderTest;
 import com.alienfast.bamboozled.ruby.tasks.AbstractBundleExecCommandBuilder;
-import com.alienfast.bamboozled.ruby.tasks.bundler.cli.BundlerCliCommandBuilder;
 
 /**
  * Test the rake command builder.
  */
 @RunWith( MockitoJUnitRunner.class )
-public class BundlerCliCommandBuilderTest {
-
-    @Mock
-    RvmRubyLocator rvmRubyLocator;
-
-    final RubyRuntime rubyRuntime = RvmFixtures.getMRIRubyRuntimeDefaultGemSet();
-    final String rubyExecutablePath = RvmFixtures.getMRIRubyRuntimeDefaultGemSet().getRubyExecutablePath();
+public class BundlerCliCommandBuilderTest extends AbstractBuilderTest {
 
     BundlerCliCommandBuilder bundlerCliCommandBuilder;
 
+    @Override
     @Before
     public void setUp() throws Exception {
 
         when(
-                this.rvmRubyLocator.buildExecutablePath(
-                        this.rubyRuntime.getRubyRuntimeName(),
-                        this.rubyExecutablePath,
+                getRvmRubyLocator().buildExecutablePath(
+                        getRubyRuntime().getRubyRuntimeName(),
+                        getRubyExecutablePath(),
                         AbstractBundleExecCommandBuilder.BUNDLE_COMMAND ) ).thenReturn( RvmFixtures.BUNDLER_PATH );
 
-        this.bundlerCliCommandBuilder = new BundlerCliCommandBuilder( this.rvmRubyLocator, this.rubyRuntime, RvmFixtures
-                .getMRIRubyRuntimeDefaultGemSet()
-                .getRubyExecutablePath() );
+        this.bundlerCliCommandBuilder = new BundlerCliCommandBuilder(
+                getCapabilityContext(),
+                getRvmRubyLocator(),
+                getRubyRuntime(),
+                getRubyExecutablePath() );
     }
 
     @Test
@@ -55,7 +49,7 @@ public class BundlerCliCommandBuilderTest {
 
         Iterator<String> commandsIterator = this.bundlerCliCommandBuilder.build().iterator();
 
-        assertThat( this.rubyRuntime.getRubyExecutablePath(), equalTo( commandsIterator.next() ) );
+        assertThat( getRubyExecutablePath(), equalTo( commandsIterator.next() ) );
     }
 
     //

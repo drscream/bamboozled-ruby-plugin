@@ -121,13 +121,13 @@ public class RubyBuildConfigurationPlugin extends BaseBuildConfigurationAwarePlu
                 log.debug( customConfig.get( key ).toString() );
             }
         }
-        String result = (String) customConfig.get( name );
+        String result = customConfig.get( name );
         return result;
     }
 
     public PlanManager getPlanManager() {
 
-        return planManager;
+        return this.planManager;
     }
 
     public void setPlanManager( PlanManager planManager ) {

@@ -57,7 +57,7 @@ public class RubyLocatorTest {
 
         Map<String, String> envVars = this.rvmRubyLocator.buildEnv(
                 "ruby-1.9.3-p0@default",
-                "/Users/markw/.rvm/versions/ruby-1.9.3-p/bin/ruby",
+                "/Users/kross/.rvm/versions/ruby-1.9.3-p/bin/ruby",
                 currentEnvVars );
 
         assertTrue( envVars.containsKey( EnvUtils.MY_RUBY_HOME ) );
@@ -118,10 +118,10 @@ public class RubyLocatorTest {
     @Test
     public void testListRubyRuntimes() throws Exception {
 
-        when( this.fileSystemHelper.listPathDirNames( "/home/markw/.rvm/rubies" ) ).thenReturn(
+        when( this.fileSystemHelper.listPathDirNames( "/home/kross/.rvm/rubies" ) ).thenReturn(
                 Lists.newArrayList( "jruby-1.6.5", "ruby-1.9.3-p0" ) );
 
-        when( this.fileSystemHelper.listPathDirNames( "/home/markw/.rvm/gems" ) )
+        when( this.fileSystemHelper.listPathDirNames( "/home/kross/.rvm/gems" ) )
                 .thenReturn(
                         Lists.newArrayList(
                                 "jruby-1.6.5",
@@ -158,7 +158,7 @@ public class RubyLocatorTest {
     @Test
     public void testHasRuby() throws Exception {
 
-        when( this.fileSystemHelper.listPathDirNames( "/home/markw/.rvm/rubies" ) ).thenReturn(
+        when( this.fileSystemHelper.listPathDirNames( "/home/kross/.rvm/rubies" ) ).thenReturn(
                 Lists.newArrayList( "jruby-1.6.5", "ruby-1.9.3-p0" ) );
 
         assertTrue( this.rvmRubyLocator.hasRuby( "ruby-1.9.3-p0" ) );

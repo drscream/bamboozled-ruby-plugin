@@ -21,7 +21,7 @@ import com.alienfast.bamboozled.ruby.util.FileSystemHelper;
 @RunWith( MockitoJUnitRunner.class )
 public class RbenvRubyRuntimeLocatorServiceTest {
 
-    private static final String TEST_HOME_DIR = "/Users/markw";
+    private static final String TEST_HOME_DIR = "/Users/kross";
     private static final String RBENV_DIR = TEST_HOME_DIR + "/.rbenv";
 
     private RbenvRubyRuntimeLocatorService rbenvRubyRuntimeLocatorService;

@@ -2,8 +2,6 @@ package com.alienfast.bamboozled.ruby.tasks.bundler.cli;
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
-
 import com.alienfast.bamboozled.ruby.rt.RubyLabel;
 import com.alienfast.bamboozled.ruby.rt.RubyLocator;
 import com.alienfast.bamboozled.ruby.rt.RubyRuntime;
@@ -11,8 +9,6 @@ import com.alienfast.bamboozled.ruby.rt.RuntimeLocatorException;
 import com.alienfast.bamboozled.ruby.rt.rvm.RvmUtils;
 import com.alienfast.bamboozled.ruby.tasks.AbstractRubyTask;
 import com.atlassian.bamboo.configuration.ConfigurationMap;
-import com.atlassian.bamboo.deployments.projects.DeploymentProject;
-import com.atlassian.bamboo.v2.build.BuildContext;
 import com.google.common.base.Preconditions;
 
 /**
@@ -30,7 +26,7 @@ public class BundlerCliTask extends AbstractRubyTask {
     protected List<String> buildCommandList( RubyLabel rubyRuntimeLabel, ConfigurationMap config ) throws RuntimeLocatorException {
 
         final String arguments = config.get( ARGUMENTS );
-        Preconditions.checkArgument( arguments != null ); 
+        Preconditions.checkArgument( arguments != null );
 
         final String bundleExecFlag = config.get( BUNDLE_EXEC );
         final String verboseFlag = config.get( VERBOSE );
@@ -42,7 +38,7 @@ public class BundlerCliTask extends AbstractRubyTask {
         final RubyRuntime rubyRuntime = rubyLocator.getRubyRuntime( rubyRuntimeLabel.getRubyRuntime() ); // TODO Fix Error handling
         final String rubyExecutablePath = getRubyExecutablePath( rubyRuntimeLabel );
 
-        return new BundlerCliCommandBuilder( rubyLocator, rubyRuntime, rubyExecutablePath )
+        return new BundlerCliCommandBuilder( getCapabilityContext(), rubyLocator, rubyRuntime, rubyExecutablePath )
                 .addRubyExecutable()
                 .addBundleExecutable()
                 .addIfBundleExec( bundleExecFlag )
@@ -52,12 +48,12 @@ public class BundlerCliTask extends AbstractRubyTask {
                 .build();
     }
 
-//    protected BundlerCliCommandBuilder newBuilder(RubyLabel rubyRuntimeLabel){
-//        
-//        final RubyLocator rubyLocator = getRubyLocator( rubyRuntimeLabel.getRubyRuntimeManager() ); // TODO Fix Error handling
-//        final RubyRuntime rubyRuntime = rubyLocator.getRubyRuntime( rubyRuntimeLabel.getRubyRuntime() ); // TODO Fix Error handling
-//        final String rubyExecutablePath = getRubyExecutablePath( rubyRuntimeLabel );
-//
-//        return (BundlerCliCommandBuilder) BundlerCliCommandBuilder.class.getConstructor( new Object[]{RubyLocator.class,RubyRuntime.class, String.class}).newInstance(new Object[]{rubyLocator, rubyRuntime, rubyExecutablePath});
-//    } 
+    //    protected BundlerCliCommandBuilder newBuilder(RubyLabel rubyRuntimeLabel){
+    //        
+    //        final RubyLocator rubyLocator = getRubyLocator( rubyRuntimeLabel.getRubyRuntimeManager() ); // TODO Fix Error handling
+    //        final RubyRuntime rubyRuntime = rubyLocator.getRubyRuntime( rubyRuntimeLabel.getRubyRuntime() ); // TODO Fix Error handling
+    //        final String rubyExecutablePath = getRubyExecutablePath( rubyRuntimeLabel );
+    //
+    //        return (BundlerCliCommandBuilder) BundlerCliCommandBuilder.class.getConstructor( new Object[]{RubyLocator.class,RubyRuntime.class, String.class}).newInstance(new Object[]{rubyLocator, rubyRuntime, rubyExecutablePath});
+    //    } 
 }

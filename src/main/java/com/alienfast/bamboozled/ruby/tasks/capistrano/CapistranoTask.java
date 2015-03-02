@@ -39,7 +39,7 @@ public class CapistranoTask extends AbstractRubyTask {
 
         final String rubyExecutablePath = getRubyExecutablePath( rubyRuntimeLabel );
 
-        return new CapistranoCommandBuilder( rubyLocator, rubyRuntime, rubyExecutablePath )
+        return new CapistranoCommandBuilder(getCapabilityContext(), rubyLocator, rubyRuntime, rubyExecutablePath )
                 .addRubyExecutable()
                 .addIfBundleExec( bundleExecFlag )
                 .addCapistranoExecutable( bundleExecFlag )

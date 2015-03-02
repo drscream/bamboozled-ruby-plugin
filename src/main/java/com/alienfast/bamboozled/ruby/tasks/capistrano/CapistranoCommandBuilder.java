@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import com.alienfast.bamboozled.ruby.rt.RubyLocator;
 import com.alienfast.bamboozled.ruby.rt.RubyRuntime;
 import com.alienfast.bamboozled.ruby.tasks.AbstractBundleExecCommandBuilder;
+import com.atlassian.bamboo.v2.build.agent.capability.CapabilityContext;
 
 /**
  * Assemble the command list for cap.
@@ -17,9 +18,9 @@ public class CapistranoCommandBuilder extends AbstractBundleExecCommandBuilder<C
     public static final String CAP_COMMAND = "cap";
     public static final String TRACE_ARG = "--trace";
 
-    public CapistranoCommandBuilder(RubyLocator rvmRubyLocator, RubyRuntime rubyRuntime, String rubyExecutablePath) {
+    public CapistranoCommandBuilder(CapabilityContext capabilityContext, RubyLocator rvmRubyLocator, RubyRuntime rubyRuntime, String rubyExecutablePath) {
 
-        super( rvmRubyLocator, rubyRuntime, rubyExecutablePath );
+        super(capabilityContext, rvmRubyLocator, rubyRuntime, rubyExecutablePath );
     }
 
     /**

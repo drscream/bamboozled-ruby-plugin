@@ -16,9 +16,9 @@ public class RbenvUtilsTest {
     @Test
     public void testBuildRbenvRubiesPath() throws Exception {
 
-        String rubiesPath = RbenvUtils.buildRbenvRubiesPath( "/Users/markw/.rbenv" );
+        String rubiesPath = RbenvUtils.buildRbenvRubiesPath( "/Users/kross/.rbenv" );
 
-        assertThat( rubiesPath, equalTo( "/Users/markw/.rbenv/versions" ) );
+        assertThat( rubiesPath, equalTo( "/Users/kross/.rbenv/versions" ) );
     }
 
     @Test
@@ -33,11 +33,11 @@ public class RbenvUtilsTest {
     @Test
     public void testBuildRubyExecutablePath() throws Exception {
 
-        // /Users/markw/.rbenv/versions/1.9.3-p194/bin/ruby
+        // /Users/kross/.rbenv/versions/1.9.3-p194/bin/ruby
 
-        String rubyBinPath = RbenvUtils.buildRubyExecutablePath( "/Users/markw/.rbenv", "1.9.3-p194" );
+        String rubyBinPath = RbenvUtils.buildRubyExecutablePath( "/Users/kross/.rbenv", "1.9.3-p194" );
 
-        assertThat( rubyBinPath, equalTo( "/Users/markw/.rbenv/versions/1.9.3-p194/bin/ruby" ) );
+        assertThat( rubyBinPath, equalTo( "/Users/kross/.rbenv/versions/1.9.3-p194/bin/ruby" ) );
 
     }
 

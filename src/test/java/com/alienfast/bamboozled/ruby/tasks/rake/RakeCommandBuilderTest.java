@@ -8,46 +8,66 @@ import java.util.Iterator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.alienfast.bamboozled.ruby.fixtures.RvmFixtures;
-import com.alienfast.bamboozled.ruby.rt.RubyRuntime;
-import com.alienfast.bamboozled.ruby.rt.rvm.RvmRubyLocator;
+import com.alienfast.bamboozled.ruby.rt.RubyCapabilityDefaultsHelper;
+import com.alienfast.bamboozled.ruby.tasks.AbstractBuilderTest;
 import com.alienfast.bamboozled.ruby.tasks.AbstractBundleExecCommandBuilder;
-import com.alienfast.bamboozled.ruby.tasks.rake.RakeCommandBuilder;
 
 /**
  * Test the rake command builder.
  */
 @RunWith( MockitoJUnitRunner.class )
-public class RakeCommandBuilderTest {
-
-    @Mock
-    RvmRubyLocator rvmRubyLocator;
-
-    final RubyRuntime rubyRuntime = RvmFixtures.getMRIRubyRuntimeDefaultGemSet();
-    final String rubyExecutablePath = RvmFixtures.getMRIRubyRuntimeDefaultGemSet().getRubyExecutablePath();
+public class RakeCommandBuilderTest extends AbstractBuilderTest {
 
     RakeCommandBuilder rakeCommandBuilder;
 
+    @Override
     @Before
     public void setUp() throws Exception {
 
+        super.setUp();
         when(
-                this.rvmRubyLocator.buildExecutablePath(
-                        this.rubyRuntime.getRubyRuntimeName(),
-                        this.rubyExecutablePath,
+                getRvmRubyLocator().buildExecutablePath(
+                        getRubyRuntime().getRubyRuntimeName(),
+                        getRubyExecutablePath(),
                         RakeCommandBuilder.RAKE_COMMAND ) ).thenReturn( RvmFixtures.RAKE_PATH );
         when(
-                this.rvmRubyLocator.buildExecutablePath(
-                        this.rubyRuntime.getRubyRuntimeName(),
-                        this.rubyExecutablePath,
+                getRvmRubyLocator().buildExecutablePath(
+                        getRubyRuntime().getRubyRuntimeName(),
+                        getRubyExecutablePath(),
                         AbstractBundleExecCommandBuilder.BUNDLE_COMMAND ) ).thenReturn( RvmFixtures.BUNDLER_PATH );
 
-        this.rakeCommandBuilder = new RakeCommandBuilder( this.rvmRubyLocator, this.rubyRuntime, 
-                RvmFixtures.getMRIRubyRuntimeDefaultGemSet().getRubyExecutablePath(), 
-                "/usr/bin/xvfb-run" );
+        this.rakeCommandBuilder = new RakeCommandBuilder( getCapabilityContext(), getRvmRubyLocator(), getRubyRuntime(), RvmFixtures
+                .getMRIRubyRuntimeDefaultGemSet()
+                .getRubyExecutablePath() );
+
+        when( this.rakeCommandBuilder.getXvfbRunExecutablePath() ).thenReturn( "/usr/bin/xvfb-run" );
+    }
+
+    /**
+     * Same as {@link #testAddRubyExecutable()} but explicitly setting the xvfb-run to be null. 
+     * @see https://github.com/alienfast/bamboozled-ruby-plugin/issues/7 
+     * @throws Exception
+     */
+    @Test
+    public void testNoXvfbRunAvailable() throws Exception {
+
+        when( getCapabilitySet().getCapability( RubyCapabilityDefaultsHelper.XVFB_RUN_CAPABILITY ) ).thenReturn( null );
+
+        try {
+            this.rakeCommandBuilder.getXvfbRunExecutablePath();
+            throw new RuntimeException( "Expected precondition check to throw null pointer exception." );
+        }
+        catch (NullPointerException n) {
+            //  this is exactly as expected           
+        }
+
+        this.rakeCommandBuilder.addRubyExecutable();
+        assertEquals( 1, this.rakeCommandBuilder.build().size() );
+        Iterator<String> commandsIterator = this.rakeCommandBuilder.build().iterator();
+        assertEquals( getRubyRuntime().getRubyExecutablePath(), commandsIterator.next() );
     }
 
     @Test
@@ -55,10 +75,8 @@ public class RakeCommandBuilderTest {
 
         this.rakeCommandBuilder.addRubyExecutable();
         assertEquals( 1, this.rakeCommandBuilder.build().size() );
-
         Iterator<String> commandsIterator = this.rakeCommandBuilder.build().iterator();
-
-        assertEquals( this.rubyRuntime.getRubyExecutablePath(), commandsIterator.next() );
+        assertEquals( getRubyRuntime().getRubyExecutablePath(), commandsIterator.next() );
     }
 
     @Test
@@ -124,7 +142,7 @@ public class RakeCommandBuilderTest {
     @Test
     public void testAddIfBundleExec() throws Exception {
 
-        this.rakeCommandBuilder.addIfBundleExec(  null );
+        this.rakeCommandBuilder.addIfBundleExec( null );
         assertEquals( 0, this.rakeCommandBuilder.build().size() );
 
         this.rakeCommandBuilder.addIfBundleExec( "false" );
@@ -138,12 +156,12 @@ public class RakeCommandBuilderTest {
 
         commandsIterator.next(); // bundle
         assertEquals( AbstractBundleExecCommandBuilder.BUNDLE_EXEC_ARG, commandsIterator.next() );
-    }    
-    
+    }
+
     @Test
     public void testAddIfXvfbRun() throws Exception {
 
-        this.rakeCommandBuilder.addIfXvfbRun(  null );
+        this.rakeCommandBuilder.addIfXvfbRun( null );
         assertEquals( 0, this.rakeCommandBuilder.build().size() );
 
         this.rakeCommandBuilder.addIfXvfbRun( "false" );
@@ -157,9 +175,8 @@ public class RakeCommandBuilderTest {
 
         assertEquals( "/usr/bin/xvfb-run", commandsIterator.next() );
         assertEquals( RakeCommandBuilder.XVFB_RUN_ARG, commandsIterator.next() );
-    }        
-    
-    
+    }
+
     @Test
     public void testAddIfVerbose() throws Exception {
 

@@ -16,7 +16,6 @@ import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.alienfast.bamboozled.ruby.fixtures.RvmFixtures;
-import com.alienfast.bamboozled.ruby.rt.RubyCapabilityDefaultsHelper;
 import com.alienfast.bamboozled.ruby.rt.RuntimeLocatorException;
 import com.alienfast.bamboozled.ruby.tasks.AbstractBundleExecCommandBuilder;
 import com.alienfast.bamboozled.ruby.tasks.AbstractTaskTest;
@@ -32,23 +31,20 @@ public class RakeTaskTest extends AbstractTaskTest {
 
     private RakeTask rakeTask = new RakeTask();
 
+    @Override
     @Before
     public void setUp() throws Exception {
 
-        this.rakeTask.setEnvironmentVariableAccessor( this.environmentVariableAccessor );
-        this.rakeTask.setProcessService( this.processService );
-        this.rakeTask.setCapabilityContext( this.capabilityContext );
-        this.rakeTask.setRubyLocatorServiceFactory( this.rubyLocatorServiceFactory );
-        this.rakeTask.setCapabilityContext( this.capabilityContext );
+        super.setUp();
+        this.rakeTask.setEnvironmentVariableAccessor( getEnvironmentVariableAccessor() );
+        this.rakeTask.setProcessService( getProcessService() );
+        this.rakeTask.setCapabilityContext( getCapabilityContext() );
+        this.rakeTask.setRubyLocatorServiceFactory( getRubyLocatorServiceFactory() );
+        this.rakeTask.setCapabilityContext( getCapabilityContext() );
 
-        when( this.capability.getValue() ).thenReturn( this.getRubyRuntime().getRubyExecutablePath() );
-        when( this.capabilitySet.getCapability( this.getRubyLabel().toCapabilityKey() ) ).thenReturn( this.capability );
-        when( this.capabilityContext.getCapabilitySet() ).thenReturn( this.capabilitySet );
-        
         // setup xvfb-run
-        when( this.xvfbRunCapability.getValue() ).thenReturn( "/usr/bin/xvfb-run");
-        when( this.capabilitySet.getCapability( RubyCapabilityDefaultsHelper.XVFB_RUN_CAPABILITY ) ).thenReturn( this.xvfbRunCapability );
-        when( this.capabilityContext.getCapabilitySet() ).thenReturn( this.capabilitySet );
+        //        when( this.xvfbRunCapability.getValue() ).thenReturn( "/usr/bin/xvfb-run");
+        //        when( this.capabilitySet.getCapability( RubyCapabilityDefaultsHelper.XVFB_RUN_CAPABILITY ) ).thenReturn( this.xvfbRunCapability );
 
         setupBuildContext( this.rakeTask );
     }
@@ -57,34 +53,34 @@ public class RakeTaskTest extends AbstractTaskTest {
     @Test
     public void testBuildCommandList() throws RuntimeLocatorException {
 
-        this.getConfigurationMap().put( "ruby", this.getRubyRuntime().getRubyRuntimeName() );
-        this.getConfigurationMap().put( "targets", DB_MIGRATE_TARGET );
-        this.getConfigurationMap().put( "bundleexec", "true" );
-        this.getConfigurationMap().put( "verbose", "false" );
-        this.getConfigurationMap().put( "trace", "false" );
+        getConfigurationMap().put( "ruby", getRubyRuntime().getRubyRuntimeName() );
+        getConfigurationMap().put( "targets", DB_MIGRATE_TARGET );
+        getConfigurationMap().put( "bundleexec", "true" );
+        getConfigurationMap().put( "verbose", "false" );
+        getConfigurationMap().put( "trace", "false" );
 
-        when( this.rubyLocatorServiceFactory.acquireRubyLocator( eq( "RVM" ) ) ).thenReturn( this.rvmRubyLocator );
+        when( getRubyLocatorServiceFactory().acquireRubyLocator( eq( "RVM" ) ) ).thenReturn( getRvmRubyLocator() );
 
-        when( this.rvmRubyLocator.getRubyRuntime( this.getRubyRuntime().getRubyRuntimeName() ) ).thenReturn( this.getRubyRuntime() );
+        when( getRvmRubyLocator().getRubyRuntime( getRubyRuntime().getRubyRuntimeName() ) ).thenReturn( getRubyRuntime() );
 
         when(
-                this.rvmRubyLocator.buildExecutablePath(
-                        this.getRubyRuntime().getRubyRuntimeName(),
-                        this.getRubyExecutablePath(),
+                getRvmRubyLocator().buildExecutablePath(
+                        getRubyRuntime().getRubyRuntimeName(),
+                        getRubyExecutablePath(),
                         RakeCommandBuilder.RAKE_COMMAND ) ).thenReturn( RvmFixtures.RAKE_PATH );
         when(
-                this.rvmRubyLocator.buildExecutablePath(
-                        this.getRubyRuntime().getRubyRuntimeName(),
-                        this.getRubyExecutablePath(),
+                getRvmRubyLocator().buildExecutablePath(
+                        getRubyRuntime().getRubyRuntimeName(),
+                        getRubyExecutablePath(),
                         AbstractBundleExecCommandBuilder.BUNDLE_COMMAND ) ).thenReturn( RvmFixtures.BUNDLER_PATH );
 
-        final List<String> commandList = this.rakeTask.buildCommandList( this.getRubyLabel(), this.getConfigurationMap() );
+        final List<String> commandList = this.rakeTask.buildCommandList( getRubyLabel(), getConfigurationMap() );
 
         assertEquals( 5, commandList.size() );
 
         final Iterator<String> commandsIterator = commandList.iterator();
 
-        assertEquals( this.getRubyRuntime().getRubyExecutablePath(), commandsIterator.next() );
+        assertEquals( getRubyRuntime().getRubyExecutablePath(), commandsIterator.next() );
         assertEquals( RvmFixtures.BUNDLER_PATH, commandsIterator.next() );
         assertEquals( BUNDLE_EXEC_ARG, commandsIterator.next() );
         assertEquals( RakeCommandBuilder.RAKE_COMMAND, commandsIterator.next() );
@@ -95,17 +91,17 @@ public class RakeTaskTest extends AbstractTaskTest {
     @Test
     public void testBuildEnvironment() throws RuntimeLocatorException {
 
-        this.getConfigurationMap().put( "ruby", this.getRubyRuntime().getRubyRuntimeName() );
+        getConfigurationMap().put( "ruby", getRubyRuntime().getRubyRuntimeName() );
 
-        when( this.rubyLocatorServiceFactory.acquireRubyLocator( eq( "RVM" ) ) ).thenReturn( this.rvmRubyLocator );
+        when( getRubyLocatorServiceFactory().acquireRubyLocator( eq( "RVM" ) ) ).thenReturn( getRvmRubyLocator() );
 
         when(
-                this.rvmRubyLocator.buildEnv(
-                        this.getRubyRuntime().getRubyRuntimeName(),
-                        this.getRubyExecutablePath(),
+                getRvmRubyLocator().buildEnv(
+                        getRubyRuntime().getRubyRuntimeName(),
+                        getRubyExecutablePath(),
                         Maps.<String, String> newHashMap() ) ).thenReturn( Maps.<String, String> newHashMap() );
 
-        final Map<String, String> envVars = this.rakeTask.buildEnvironment( this.getRubyLabel(), this.getConfigurationMap() );
+        final Map<String, String> envVars = this.rakeTask.buildEnvironment( getRubyLabel(), getConfigurationMap() );
 
         assertTrue( envVars.size() == 0 );
     }

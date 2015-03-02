@@ -8,48 +8,42 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.alienfast.bamboozled.ruby.fixtures.RvmFixtures;
-import com.alienfast.bamboozled.ruby.rt.RubyRuntime;
-import com.alienfast.bamboozled.ruby.rt.rvm.RvmRubyLocator;
+import com.alienfast.bamboozled.ruby.tasks.AbstractBuilderTest;
 import com.alienfast.bamboozled.ruby.tasks.AbstractBundleExecCommandBuilder;
-import com.alienfast.bamboozled.ruby.tasks.capistrano.CapistranoCommandBuilder;
 import com.google.common.collect.Lists;
 
 /**
  * Test the Capistrano command builder.
  */
 @RunWith( MockitoJUnitRunner.class )
-public class CapistranoCommandBuilderTest {
+public class CapistranoCommandBuilderTest extends AbstractBuilderTest {
 
     private static final String TEST_TASK = "cold:deploy";
 
-    @Mock
-    private RvmRubyLocator rvmRubyLocator;
-
-    private final RubyRuntime rubyRuntime = RvmFixtures.getMRIRubyRuntimeDefaultGemSet();
-    private final String rubyExecutablePath = RvmFixtures.getMRIRubyRuntimeDefaultGemSet().getRubyExecutablePath();
-
     private CapistranoCommandBuilder capistranoCommandBuilder;
 
+    @Override
     @Before
     public void setUp() throws Exception {
 
-        this.capistranoCommandBuilder = new CapistranoCommandBuilder( this.rvmRubyLocator, this.rubyRuntime, RvmFixtures
-                .getMRIRubyRuntimeDefaultGemSet()
-                .getRubyExecutablePath() );
+        this.capistranoCommandBuilder = new CapistranoCommandBuilder(
+                getCapabilityContext(),
+                getRvmRubyLocator(),
+                getRubyRuntime(),
+                getRubyExecutablePath() );
 
         when(
-                this.rvmRubyLocator.buildExecutablePath(
-                        this.rubyRuntime.getRubyRuntimeName(),
-                        this.rubyExecutablePath,
+                getRvmRubyLocator().buildExecutablePath(
+                        getRubyRuntime().getRubyRuntimeName(),
+                        getRubyExecutablePath(),
                         CapistranoCommandBuilder.CAP_COMMAND ) ).thenReturn( RvmFixtures.CAP_PATH );
         when(
-                this.rvmRubyLocator.buildExecutablePath(
-                        this.rubyRuntime.getRubyRuntimeName(),
-                        this.rubyExecutablePath,
+                getRvmRubyLocator().buildExecutablePath(
+                        getRubyRuntime().getRubyRuntimeName(),
+                        getRubyExecutablePath(),
                         AbstractBundleExecCommandBuilder.BUNDLE_COMMAND ) ).thenReturn( RvmFixtures.BUNDLER_PATH );
 
     }
@@ -58,7 +52,7 @@ public class CapistranoCommandBuilderTest {
     public void testAddRubyExecutable() throws Exception {
 
         this.capistranoCommandBuilder.addRubyExecutable();
-        assertThat( this.capistranoCommandBuilder.build(), hasItem( this.rubyRuntime.getRubyExecutablePath() ) );
+        assertThat( this.capistranoCommandBuilder.build(), hasItem( getRubyRuntime().getRubyExecutablePath() ) );
     }
 
     @Test

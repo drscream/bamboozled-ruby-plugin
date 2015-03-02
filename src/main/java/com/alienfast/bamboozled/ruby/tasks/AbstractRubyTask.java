@@ -78,10 +78,11 @@ public abstract class AbstractRubyTask implements CommonTaskType {
 
         try {
 
-            if( rubyRuntimeLabel == null ) {
-                throw new RuntimeLocatorException("A ruby runtime has not been chosen for this plan.  Please see the miscellaneous tab to choose a plan-wide ruby runtime.");
+            if ( rubyRuntimeLabel == null ) {
+                throw new RuntimeLocatorException(
+                        "A ruby runtime has not been chosen for this plan.  Please see the miscellaneous tab to choose a plan-wide ruby runtime." );
             }
-            
+
             final RubyLabel rubyLabel = RubyLabel.fromString( rubyRuntimeLabel );
 
             final ConfigurationMap config = commonTaskContext.getConfigurationMap();
@@ -157,8 +158,9 @@ public abstract class AbstractRubyTask implements CommonTaskType {
 
     protected String getRubyExecutablePath( final RubyLabel rubyRuntimeLabel ) {
 
-        final Capability capability = this.getCapabilityContext().getCapabilitySet().getCapability( rubyRuntimeLabel.toCapabilityKey() );
-        Preconditions.checkNotNull( capability, "Capability" );
+        final Capability capability = getCapabilityContext().getCapabilitySet().getCapability( rubyRuntimeLabel.toCapabilityKey() );
+        Preconditions.checkNotNull( capability, "Capability  for ruby " + rubyRuntimeLabel.toCapabilityKey()
+                + ".  Please be sure to \"Detect server capabilities\" in the Administration console, and the path is valid." );
         final String rubyRuntimeExecutable = capability.getValue();
         Preconditions.checkNotNull( rubyRuntimeExecutable, "rubyRuntimeExecutable" );
         return rubyRuntimeExecutable;
@@ -168,13 +170,13 @@ public abstract class AbstractRubyTask implements CommonTaskType {
 
         this.log.info( "Using manager {} runtime {}", rubyRuntimeLabel.getRubyRuntimeManager(), rubyRuntimeLabel.getRubyRuntime() );
 
-        final Map<String, String> currentEnvVars = this.getEnvironmentVariableAccessor().getEnvironment();
+        final Map<String, String> currentEnvVars = getEnvironmentVariableAccessor().getEnvironment();
 
         // Get the variables from our configuration
         final String taskEnvironmentVariables = config.get( ENVIRONMENT );
         final String globalEnvironmentVariables = RubyBuildConfigurationPlugin.getRubyEnvironmentVariables( getBuildDefinition() );
 
-        Map<String, String> configEnvVars = this.getEnvironmentVariableAccessor().splitEnvironmentAssignments(
+        Map<String, String> configEnvVars = getEnvironmentVariableAccessor().splitEnvironmentAssignments(
                 globalEnvironmentVariables + " " + taskEnvironmentVariables );
 
         final RubyLocator rubyLocator = getRubyLocator( rubyRuntimeLabel.getRubyRuntimeManager() );
@@ -208,22 +210,22 @@ public abstract class AbstractRubyTask implements CommonTaskType {
 
     protected EnvironmentVariableAccessor getEnvironmentVariableAccessor() {
 
-        return environmentVariableAccessor;
+        return this.environmentVariableAccessor;
     }
 
     protected CapabilityContext getCapabilityContext() {
 
-        return capabilityContext;
+        return this.capabilityContext;
     }
 
     protected ProcessService getProcessService() {
 
-        return processService;
+        return this.processService;
     }
 
     public DeploymentProjectService getDeploymentProjectService() {
 
-        return deploymentProjectService;
+        return this.deploymentProjectService;
     }
 
     public void setDeploymentProjectService( DeploymentProjectService deploymentProjectService ) {
@@ -233,7 +235,7 @@ public abstract class AbstractRubyTask implements CommonTaskType {
 
     public PlanManager getPlanManager() {
 
-        return planManager;
+        return this.planManager;
     }
 
     public void setPlanManager( PlanManager planManager ) {
@@ -263,7 +265,7 @@ public abstract class AbstractRubyTask implements CommonTaskType {
 
     public BuildDefinition getBuildDefinition() {
 
-        return buildDefinition;
+        return this.buildDefinition;
     }
 
     public void setBuildDefinition( BuildDefinition buildDefinition ) {

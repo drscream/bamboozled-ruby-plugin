@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 
 import com.alienfast.bamboozled.ruby.rt.RubyLocator;
 import com.alienfast.bamboozled.ruby.rt.RubyRuntime;
+import com.atlassian.bamboo.v2.build.agent.capability.CapabilityContext;
 
 public class AbstractBundleExecCommandBuilder<T extends AbstractBundleExecCommandBuilder<?>> extends AbstractCommandBuilder<T> {
 
@@ -12,9 +13,10 @@ public class AbstractBundleExecCommandBuilder<T extends AbstractBundleExecComman
     public static final String BUNDLE_COMMAND = "bundle";
     public static final String VERBOSE_ARG = "--verbose";
 
-    public AbstractBundleExecCommandBuilder(RubyLocator rubyLocator, RubyRuntime rubyRuntime, String rubyExecutablePath) {
+    public AbstractBundleExecCommandBuilder(CapabilityContext capabilityContext, RubyLocator rubyLocator, RubyRuntime rubyRuntime,
+            String rubyExecutablePath) {
 
-        super( rubyLocator, rubyRuntime, rubyExecutablePath );
+        super( capabilityContext, rubyLocator, rubyRuntime, rubyExecutablePath );
     }
 
     /**

@@ -10,37 +10,33 @@ import java.util.Iterator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.alienfast.bamboozled.ruby.fixtures.RvmFixtures;
-import com.alienfast.bamboozled.ruby.rt.RubyRuntime;
-import com.alienfast.bamboozled.ruby.rt.rvm.RvmRubyLocator;
-import com.alienfast.bamboozled.ruby.tasks.bundler.install.BundlerInstallCommandBuilder;
+import com.alienfast.bamboozled.ruby.tasks.AbstractBuilderTest;
 
 /**
  * Test the bundler command builder.
  */
 @RunWith( MockitoJUnitRunner.class )
-public class BundlerInstallCommandBuilderTest {
-
-    @Mock
-    private RvmRubyLocator rvmRubyLocator;
-
-    private final RubyRuntime rubyRuntime = RvmFixtures.getMRIRubyRuntimeDefaultGemSet();
-    private final String rubyExecutablePath = RvmFixtures.getMRIRubyRuntimeDefaultGemSet().getRubyExecutablePath();
+public class BundlerInstallCommandBuilderTest extends AbstractBuilderTest {
 
     private BundlerInstallCommandBuilder bundlerCommandBuilder;
 
+    @Override
     @Before
     public void setUp() throws Exception {
 
         when(
-                this.rvmRubyLocator.buildExecutablePath(
-                        this.rubyRuntime.getRubyRuntimeName(),
-                        this.rubyExecutablePath,
+                getRvmRubyLocator().buildExecutablePath(
+                        getRubyRuntime().getRubyRuntimeName(),
+                        getRubyExecutablePath(),
                         BundlerInstallCommandBuilder.BUNDLE_COMMAND ) ).thenReturn( RvmFixtures.BUNDLER_PATH );
-        this.bundlerCommandBuilder = new BundlerInstallCommandBuilder( this.rvmRubyLocator, this.rubyRuntime, this.rubyExecutablePath );
+        this.bundlerCommandBuilder = new BundlerInstallCommandBuilder(
+                getCapabilityContext(),
+                getRvmRubyLocator(),
+                getRubyRuntime(),
+                getRubyExecutablePath() );
 
     }
 
@@ -49,7 +45,7 @@ public class BundlerInstallCommandBuilderTest {
 
         this.bundlerCommandBuilder.addRubyExecutable();
         assertThat( this.bundlerCommandBuilder.build().size(), is( 1 ) );
-        assertThat( this.bundlerCommandBuilder.build(), hasItems( this.rubyRuntime.getRubyExecutablePath() ) );
+        assertThat( this.bundlerCommandBuilder.build(), hasItems( getRubyExecutablePath() ) );
 
     }
 
@@ -95,7 +91,7 @@ public class BundlerInstallCommandBuilderTest {
 
         Iterator<String> commandTokens = this.bundlerCommandBuilder.build().iterator();
 
-        assertThat( commandTokens.next(), is( this.rubyRuntime.getRubyExecutablePath() ) );
+        assertThat( commandTokens.next(), is( getRubyExecutablePath() ) );
         assertThat( commandTokens.next(), is( RvmFixtures.BUNDLER_PATH ) );
         assertThat( commandTokens.next(), is( "install" ) );
         assertThat( commandTokens.next(), is( "--path" ) );

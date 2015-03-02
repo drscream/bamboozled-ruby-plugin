@@ -11,7 +11,7 @@ import com.alienfast.bamboozled.ruby.rt.rvm.RvmRubyRuntimeLocatorService.Constan
  */
 public final class RvmFixtures {
 
-    public static final String USER_HOME = "/home/markw";
+    public static final String USER_HOME = "/home/kross";
     public static final String TEST_CURRENT_PATH = "/usr/bin:/bin";
 
     public static final String GEM_HOME = USER_HOME + "/.rvm/gems/ruby-1.9.3-p0";

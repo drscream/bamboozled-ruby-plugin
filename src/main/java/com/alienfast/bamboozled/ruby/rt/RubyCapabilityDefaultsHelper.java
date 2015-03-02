@@ -23,7 +23,7 @@ public class RubyCapabilityDefaultsHelper implements CapabilityDefaultsHelper {
 
     private static final String XVFB_RUN_EXE = "xvfb-run";
 
-    public static final String XVFB_RUN_CAPABILITY =  CapabilityDefaultsHelper.CAPABILITY_BUILDER_PREFIX + "." + XVFB_RUN_EXE;
+    public static final String XVFB_RUN_CAPABILITY = CapabilityDefaultsHelper.CAPABILITY_BUILDER_PREFIX + "." + XVFB_RUN_EXE;
 
     private static final Logger log = LoggerFactory.getLogger( RubyCapabilityDefaultsHelper.class );
 
@@ -51,34 +51,31 @@ public class RubyCapabilityDefaultsHelper implements CapabilityDefaultsHelper {
     public CapabilitySet addDefaultCapabilities( @NotNull CapabilitySet capabilitySet ) {
 
         resolveRubyRuntimeCapabilites( capabilitySet );
-        resolveExeCapabilites(capabilitySet, XVFB_RUN_EXE, XVFB_RUN_CAPABILITY);
+        resolveExeCapabilites( capabilitySet, XVFB_RUN_EXE, XVFB_RUN_CAPABILITY );
 
         return capabilitySet;
     }
 
-    
     protected void resolveExeCapabilites( CapabilitySet capabilitySet, String exeName, String capabilityKey ) {
 
-        List<String> paths = Lists.newArrayList(StringUtils.split(SystemProperty.PATH.getValue(), File.pathSeparator));
-//        if (SystemUtils.IS_OS_WINDOWS)
-//        {
-//            paths.addAll(getDefaultWindowPaths());
-//        }
-        final String executableName = SystemUtils.IS_OS_WINDOWS ? exeName+ ".exe" : exeName;
+        List<String> paths = Lists.newArrayList( StringUtils.split( SystemProperty.PATH.getValue(), File.pathSeparator ) );
+        //        if (SystemUtils.IS_OS_WINDOWS)
+        //        {
+        //            paths.addAll(getDefaultWindowPaths());
+        //        }
+        final String executableName = SystemUtils.IS_OS_WINDOWS ? exeName + ".exe" : exeName;
 
-        for (String path : paths)
-        {
-            File file = new File(path, executableName);
-            if (file.exists())
-            {
-                log.info("Adding " + capabilityKey + " at `" + file.getAbsolutePath() + "'");
-                final Capability capability = new CapabilityImpl(capabilityKey, file.getAbsolutePath());
+        for (String path : paths) {
+            File file = new File( path, executableName );
+            if ( file.exists() ) {
+                log.info( "Adding " + capabilityKey + " at `" + file.getAbsolutePath() + "'" );
+                final Capability capability = new CapabilityImpl( capabilityKey, file.getAbsolutePath() );
                 log.info( "Added {}", capability );
-                capabilitySet.addCapability(capability);
+                capabilitySet.addCapability( capability );
             }
         }
     }
-    
+
     protected void resolveRubyRuntimeCapabilites( CapabilitySet capabilitySet ) {
 
         log.info( "Resolving ruby runtime managers." );
@@ -97,7 +94,7 @@ public class RubyCapabilityDefaultsHelper implements CapabilityDefaultsHelper {
                             rubyRuntimeLocatorService.getRuntimeManagerName(),
                             rubyRuntime.getRubyRuntimeName() );
                     final String capabilityKey = rubyLabel.toCapabilityKey();
-                    log.info("Adding " + capabilityKey);
+                    log.info( "Adding " + capabilityKey );
                     final Capability capability = new CapabilityImpl( capabilityKey, rubyRuntime.getRubyExecutablePath() );
                     log.info( "Added {}", capability );
                     capabilitySet.addCapability( capability );

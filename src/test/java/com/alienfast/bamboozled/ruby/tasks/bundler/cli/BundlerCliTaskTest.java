@@ -34,18 +34,19 @@ public class BundlerCliTaskTest extends AbstractTaskTest {
 
     private BundlerCliTask bundlerCliTask = new BundlerCliTask();
 
+    @Override
     @Before
     public void setUp() throws Exception {
 
-        this.bundlerCliTask.setEnvironmentVariableAccessor( this.environmentVariableAccessor );
-        this.bundlerCliTask.setProcessService( this.processService );
-        this.bundlerCliTask.setCapabilityContext( this.capabilityContext );
-        this.bundlerCliTask.setRubyLocatorServiceFactory( this.rubyLocatorServiceFactory );
-        this.bundlerCliTask.setCapabilityContext( this.capabilityContext );
+        this.bundlerCliTask.setEnvironmentVariableAccessor( getEnvironmentVariableAccessor() );
+        this.bundlerCliTask.setProcessService( getProcessService() );
+        this.bundlerCliTask.setCapabilityContext( getCapabilityContext() );
+        this.bundlerCliTask.setRubyLocatorServiceFactory( getRubyLocatorServiceFactory() );
+        this.bundlerCliTask.setCapabilityContext( getCapabilityContext() );
 
-        when( this.capability.getValue() ).thenReturn( getRubyRuntime().getRubyExecutablePath() );
-        when( this.capabilitySet.getCapability( getRubyLabel().toCapabilityKey() ) ).thenReturn( this.capability );
-        when( this.capabilityContext.getCapabilitySet() ).thenReturn( this.capabilitySet );
+        when( getCapability().getValue() ).thenReturn( getRubyRuntime().getRubyExecutablePath() );
+        when( getCapabilitySet().getCapability( getRubyLabel().toCapabilityKey() ) ).thenReturn( getCapability() );
+        when( getCapabilityContext().getCapabilitySet() ).thenReturn( getCapabilitySet() );
 
         setupBuildContext( this.bundlerCliTask );
     }
@@ -60,10 +61,10 @@ public class BundlerCliTaskTest extends AbstractTaskTest {
         getConfigurationMap().put( BundlerCliTask.VERBOSE, "false" );
         getConfigurationMap().put( BundlerCliTask.TRACE, "false" );
 
-        when( this.rubyLocatorServiceFactory.acquireRubyLocator( eq( "RVM" ) ) ).thenReturn( this.rvmRubyLocator );
-        when( this.rvmRubyLocator.getRubyRuntime( getRubyRuntime().getRubyRuntimeName() ) ).thenReturn( getRubyRuntime() );
+        when( getRubyLocatorServiceFactory().acquireRubyLocator( eq( "RVM" ) ) ).thenReturn( getRvmRubyLocator() );
+        when( getRvmRubyLocator().getRubyRuntime( getRubyRuntime().getRubyRuntimeName() ) ).thenReturn( getRubyRuntime() );
         when(
-                this.rvmRubyLocator.buildExecutablePath(
+                getRvmRubyLocator().buildExecutablePath(
                         getRubyRuntime().getRubyRuntimeName(),
                         getRubyExecutablePath(),
                         AbstractBundleExecCommandBuilder.BUNDLE_COMMAND ) ).thenReturn( RvmFixtures.BUNDLER_PATH );
@@ -87,10 +88,10 @@ public class BundlerCliTaskTest extends AbstractTaskTest {
 
         getConfigurationMap().put( "ruby", getRubyRuntime().getRubyRuntimeName() );
 
-        when( this.rubyLocatorServiceFactory.acquireRubyLocator( eq( "RVM" ) ) ).thenReturn( this.rvmRubyLocator );
+        when( getRubyLocatorServiceFactory().acquireRubyLocator( eq( "RVM" ) ) ).thenReturn( getRvmRubyLocator() );
 
         when(
-                this.rvmRubyLocator.buildEnv(
+                getRvmRubyLocator().buildEnv(
                         getRubyRuntime().getRubyRuntimeName(),
                         getRubyExecutablePath(),
                         Maps.<String, String> newHashMap() ) ).thenReturn( Maps.<String, String> newHashMap() );

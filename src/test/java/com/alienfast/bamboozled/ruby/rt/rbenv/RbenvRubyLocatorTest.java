@@ -40,15 +40,15 @@ public class RbenvRubyLocatorTest {
     final static RubyRuntime ruby192p290default = new RubyRuntime(
             "1.9.2-p290",
             "default",
-            "/Users/markw/.rbenv/versions/1.9.2-p290/bin/ruby",
+            "/Users/kross/.rbenv/versions/1.9.2-p290/bin/ruby",
             null );
     final static String rubyExecutablePath = ruby192p290default.getRubyExecutablePath();
 
     @Before
     public void setUp() throws Exception {
 
-        this.rbenvRubyLocator = new RbenvRubyLocator( this.fileSystemHelper, "/Users/markw/.rbenv" );
-        when( this.fileSystemHelper.getUserHome() ).thenReturn( "/Users/markw" );
+        this.rbenvRubyLocator = new RbenvRubyLocator( this.fileSystemHelper, "/Users/kross/.rbenv" );
+        when( this.fileSystemHelper.getUserHome() ).thenReturn( "/Users/kross" );
 
     }
 
@@ -68,7 +68,7 @@ public class RbenvRubyLocatorTest {
         assertThat( updatedEnv.get( EnvUtils.GEM_HOME ), nullValue() );
         assertThat( updatedEnv.get( EnvUtils.GEM_PATH ), nullValue() );
 
-        assertThat( updatedEnv.get( EnvUtils.PATH ), equalTo( "/Users/markw/.rbenv/versions/1.9.2-p290/bin:/usr/bin:/bin:/usr/sbin:/sbin" ) );
+        assertThat( updatedEnv.get( EnvUtils.PATH ), equalTo( "/Users/kross/.rbenv/versions/1.9.2-p290/bin:/usr/bin:/bin:/usr/sbin:/sbin" ) );
 
     }
 
@@ -99,7 +99,7 @@ public class RbenvRubyLocatorTest {
     @Test
     public void testListRubyRuntimes() throws Exception {
 
-        when( this.fileSystemHelper.listPathDirNames( eq( "/Users/markw/.rbenv/versions" ) ) ).thenReturn(
+        when( this.fileSystemHelper.listPathDirNames( eq( "/Users/kross/.rbenv/versions" ) ) ).thenReturn(
                 Lists.newArrayList( "1.9.2-p180", "1.9.2-p290", "ree-1.8.7-2011.12" ) );
 
         assertThat( this.rbenvRubyLocator.listRubyRuntimes(), hasItems( ruby192p290default ) );

@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import com.alienfast.bamboozled.ruby.rt.RubyLocator;
 import com.alienfast.bamboozled.ruby.rt.RubyRuntime;
 import com.alienfast.bamboozled.ruby.tasks.AbstractBundleExecCommandBuilder;
+import com.atlassian.bamboo.v2.build.agent.capability.CapabilityContext;
 
 /**
  * Builder to assemble the rake command list.
@@ -18,9 +19,10 @@ public class BundlerCliCommandBuilder extends AbstractBundleExecCommandBuilder<B
 
     public static final String TRACE_ARG = "--trace";
 
-    public BundlerCliCommandBuilder(RubyLocator rvmRubyLocator, RubyRuntime rubyRuntime, String rubyExecutablePath) {
+    public BundlerCliCommandBuilder(CapabilityContext capabilityContext, RubyLocator rvmRubyLocator, RubyRuntime rubyRuntime,
+            String rubyExecutablePath) {
 
-        super( rvmRubyLocator, rubyRuntime, rubyExecutablePath );
+        super( capabilityContext, rvmRubyLocator, rubyRuntime, rubyExecutablePath );
     }
 
     /**

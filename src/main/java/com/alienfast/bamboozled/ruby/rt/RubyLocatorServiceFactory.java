@@ -9,7 +9,6 @@ import com.alienfast.bamboozled.ruby.rt.rbenv.RbenvRubyRuntimeLocatorService;
 import com.alienfast.bamboozled.ruby.rt.rvm.RvmRubyRuntimeLocatorService;
 import com.alienfast.bamboozled.ruby.rt.system.SystemRubyRuntimeLocatorService;
 import com.alienfast.bamboozled.ruby.rt.windows.WindowsRubyRuntimeLocatorService;
-import com.alienfast.bamboozled.ruby.util.PathNotFoundException;
 import com.google.common.collect.Lists;
 
 /**

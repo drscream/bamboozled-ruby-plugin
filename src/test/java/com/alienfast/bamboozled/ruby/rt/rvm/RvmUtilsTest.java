@@ -51,11 +51,11 @@ public class RvmUtilsTest {
     public void testBuildGemHomePath() {
 
         String gemSetDirectoryName;
-        gemSetDirectoryName = RvmUtils.buildGemHomePath( "/home/markw/.rvm/gems", "ruby-1.9.3-p0", "default" );
-        assertThat( "/home/markw/.rvm/gems/ruby-1.9.3-p0", equalTo( gemSetDirectoryName ) );
+        gemSetDirectoryName = RvmUtils.buildGemHomePath( "/home/kross/.rvm/gems", "ruby-1.9.3-p0", "default" );
+        assertThat( "/home/kross/.rvm/gems/ruby-1.9.3-p0", equalTo( gemSetDirectoryName ) );
 
-        gemSetDirectoryName = RvmUtils.buildGemHomePath( "/home/markw/.rvm/gems", "ruby-1.9.3-p0", "rails31" );
-        assertThat( "/home/markw/.rvm/gems/ruby-1.9.3-p0@rails31", equalTo( gemSetDirectoryName ) );
+        gemSetDirectoryName = RvmUtils.buildGemHomePath( "/home/kross/.rvm/gems", "ruby-1.9.3-p0", "rails31" );
+        assertThat( "/home/kross/.rvm/gems/ruby-1.9.3-p0@rails31", equalTo( gemSetDirectoryName ) );
     }
 
     @Test
@@ -63,14 +63,14 @@ public class RvmUtilsTest {
 
         String binPath;
 
-        binPath = RvmUtils.buildBinPath( "/home/markw/.rvm/rubies", "/home/markw/.rvm/gems", "ruby-1.9.3-p0", "default" );
+        binPath = RvmUtils.buildBinPath( "/home/kross/.rvm/rubies", "/home/kross/.rvm/gems", "ruby-1.9.3-p0", "default" );
         assertThat(
-                "/home/markw/.rvm/gems/ruby-1.9.3-p0/bin:/home/markw/.rvm/gems/ruby-1.9.3-p0@global/bin:/home/markw/.rvm/rubies/ruby-1.9.3-p0/bin",
+                "/home/kross/.rvm/gems/ruby-1.9.3-p0/bin:/home/kross/.rvm/gems/ruby-1.9.3-p0@global/bin:/home/kross/.rvm/rubies/ruby-1.9.3-p0/bin",
                 equalTo( binPath ) );
 
-        binPath = RvmUtils.buildBinPath( "/home/markw/.rvm/rubies", "/home/markw/.rvm/gems", "ruby-1.9.3-p0", "rails31" );
+        binPath = RvmUtils.buildBinPath( "/home/kross/.rvm/rubies", "/home/kross/.rvm/gems", "ruby-1.9.3-p0", "rails31" );
         assertThat(
-                "/home/markw/.rvm/gems/ruby-1.9.3-p0@rails31/bin:/home/markw/.rvm/gems/ruby-1.9.3-p0@global/bin:/home/markw/.rvm/rubies/ruby-1.9.3-p0/bin",
+                "/home/kross/.rvm/gems/ruby-1.9.3-p0@rails31/bin:/home/kross/.rvm/gems/ruby-1.9.3-p0@global/bin:/home/kross/.rvm/rubies/ruby-1.9.3-p0/bin",
                 equalTo( binPath ) );
     }
 
@@ -79,8 +79,8 @@ public class RvmUtilsTest {
 
         String rubyBinPath;
 
-        rubyBinPath = RvmUtils.buildRubyBinPath( "/home/markw/.rvm/rubies", "ruby-1.9.3-p0" );
-        assertThat( "/home/markw/.rvm/rubies/ruby-1.9.3-p0/bin", equalTo( rubyBinPath ) );
+        rubyBinPath = RvmUtils.buildRubyBinPath( "/home/kross/.rvm/rubies", "ruby-1.9.3-p0" );
+        assertThat( "/home/kross/.rvm/rubies/ruby-1.9.3-p0/bin", equalTo( rubyBinPath ) );
     }
 
     @Test

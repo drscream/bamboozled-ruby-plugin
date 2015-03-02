@@ -33,7 +33,7 @@ public abstract class AbstractRubyTaskConfigurator extends AbstractTaskConfigura
     private UIConfigSupport uiConfigBean;
 
     private PlanManager planManager;
-    
+
     public void setUiConfigBean( final UIConfigSupport uiConfigBean ) {
 
         this.uiConfigBean = uiConfigBean;
@@ -58,7 +58,7 @@ public abstract class AbstractRubyTaskConfigurator extends AbstractTaskConfigura
         context.put( MODE, CREATE_MODE );
         context.put( CTX_UI_CONFIG_BEAN, this.uiConfigBean ); // NOTE: This is not normally necessary and will be fixed in 3.3.3
 
-        RubyBuildConfigurationPlugin.populateContext(getPlanManager(), context );
+        RubyBuildConfigurationPlugin.populateContext( getPlanManager(), context );
     }
 
     @Override
@@ -70,7 +70,7 @@ public abstract class AbstractRubyTaskConfigurator extends AbstractTaskConfigura
         context.put( MODE, EDIT_MODE );
         context.put( CTX_UI_CONFIG_BEAN, this.uiConfigBean ); // NOTE: This is not normally necessary and will be fixed in 3.3.3
 
-        RubyBuildConfigurationPlugin.populateContext(getPlanManager(), context );
+        RubyBuildConfigurationPlugin.populateContext( getPlanManager(), context );
     }
 
     @Override
@@ -79,7 +79,7 @@ public abstract class AbstractRubyTaskConfigurator extends AbstractTaskConfigura
         log.debug( "populateContextForView" );
         this.taskConfiguratorHelper.populateContextWithConfiguration( context, taskDefinition, getFieldsToCopy() );
 
-        RubyBuildConfigurationPlugin.populateContext(getPlanManager(), context );
+        RubyBuildConfigurationPlugin.populateContext( getPlanManager(), context );
     }
 
     @Override
@@ -93,15 +93,13 @@ public abstract class AbstractRubyTaskConfigurator extends AbstractTaskConfigura
         //        }
     }
 
-    
     public PlanManager getPlanManager() {
-    
-        return planManager;
+
+        return this.planManager;
     }
 
-    
     public void setPlanManager( PlanManager planManager ) {
-    
+
         this.planManager = planManager;
     }
 }

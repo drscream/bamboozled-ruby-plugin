@@ -30,17 +30,18 @@ public class CapistranoTaskTest extends AbstractTaskTest {
 
     private CapistranoTask capistranoTask = new CapistranoTask();
 
+    @Override
     @Before
     public void setUp() throws Exception {
 
-        this.capistranoTask.setEnvironmentVariableAccessor( this.environmentVariableAccessor );
-        this.capistranoTask.setProcessService( this.processService );
-        this.capistranoTask.setRubyLocatorServiceFactory( this.rubyLocatorServiceFactory );
-        this.capistranoTask.setCapabilityContext( this.capabilityContext );
+        this.capistranoTask.setEnvironmentVariableAccessor( getEnvironmentVariableAccessor() );
+        this.capistranoTask.setProcessService( getProcessService() );
+        this.capistranoTask.setRubyLocatorServiceFactory( getRubyLocatorServiceFactory() );
+        this.capistranoTask.setCapabilityContext( getCapabilityContext() );
 
-        when( this.capability.getValue() ).thenReturn( this.getRubyRuntime().getRubyExecutablePath() );
-        when( this.capabilitySet.getCapability( this.getRubyLabel().toCapabilityKey() ) ).thenReturn( this.capability );
-        when( this.capabilityContext.getCapabilitySet() ).thenReturn( this.capabilitySet );
+        when( getCapability().getValue() ).thenReturn( getRubyRuntime().getRubyExecutablePath() );
+        when( getCapabilitySet().getCapability( getRubyLabel().toCapabilityKey() ) ).thenReturn( getCapability() );
+        when( getCapabilityContext().getCapabilitySet() ).thenReturn( getCapabilitySet() );
 
         setupBuildContext( this.capistranoTask );
     }
@@ -49,31 +50,31 @@ public class CapistranoTaskTest extends AbstractTaskTest {
     @Override
     public void testBuildCommandList() throws RuntimeLocatorException {
 
-        this.getConfigurationMap().put( "ruby", this.getRubyRuntime().getRubyRuntimeName() );
-        this.getConfigurationMap().put( "tasks", DEPLOY_SETUP_TASKS );
-        this.getConfigurationMap().put( "bundleexec", "true" );
-        this.getConfigurationMap().put( "verbose", "false" );
-        this.getConfigurationMap().put( "debug", "false" );
+        getConfigurationMap().put( "ruby", getRubyRuntime().getRubyRuntimeName() );
+        getConfigurationMap().put( "tasks", DEPLOY_SETUP_TASKS );
+        getConfigurationMap().put( "bundleexec", "true" );
+        getConfigurationMap().put( "verbose", "false" );
+        getConfigurationMap().put( "debug", "false" );
 
-        when( this.rubyLocatorServiceFactory.acquireRubyLocator( eq( "RVM" ) ) ).thenReturn( this.rvmRubyLocator );
+        when( getRubyLocatorServiceFactory().acquireRubyLocator( eq( "RVM" ) ) ).thenReturn( getRvmRubyLocator() );
 
-        when( this.rvmRubyLocator.getRubyRuntime( this.getRubyRuntime().getRubyRuntimeName() ) ).thenReturn( this.getRubyRuntime() );
+        when( getRvmRubyLocator().getRubyRuntime( getRubyRuntime().getRubyRuntimeName() ) ).thenReturn( getRubyRuntime() );
         when(
-                this.rvmRubyLocator.buildExecutablePath(
-                        this.getRubyRuntime().getRubyRuntimeName(),
-                        this.getRubyExecutablePath(),
+                getRvmRubyLocator().buildExecutablePath(
+                        getRubyRuntime().getRubyRuntimeName(),
+                        getRubyExecutablePath(),
                         CapistranoCommandBuilder.CAP_COMMAND ) ).thenReturn( RvmFixtures.CAP_PATH );
         when(
-                this.rvmRubyLocator.buildExecutablePath(
-                        this.getRubyRuntime().getRubyRuntimeName(),
-                        this.getRubyExecutablePath(),
+                getRvmRubyLocator().buildExecutablePath(
+                        getRubyRuntime().getRubyRuntimeName(),
+                        getRubyExecutablePath(),
                         AbstractBundleExecCommandBuilder.BUNDLE_COMMAND ) ).thenReturn( RvmFixtures.BUNDLER_PATH );
 
-        final List<String> commandList = this.capistranoTask.buildCommandList( this.getRubyLabel(), this.getConfigurationMap() );
+        final List<String> commandList = this.capistranoTask.buildCommandList( getRubyLabel(), getConfigurationMap() );
 
         final Iterator<String> commandsIterator = commandList.iterator();
 
-        assertThat( commandsIterator.next(), is( this.getRubyRuntime().getRubyExecutablePath() ) );
+        assertThat( commandsIterator.next(), is( getRubyRuntime().getRubyExecutablePath() ) );
         assertThat( commandsIterator.next(), is( RvmFixtures.BUNDLER_PATH ) );
         assertThat( commandsIterator.next(), is( "exec" ) );
         assertThat( commandsIterator.next(), is( "cap" ) );
@@ -86,17 +87,17 @@ public class CapistranoTaskTest extends AbstractTaskTest {
     @Override
     public void testBuildEnvironment() throws RuntimeLocatorException {
 
-        this.getConfigurationMap().put( "ruby", this.getRubyRuntime().getRubyRuntimeName() );
+        getConfigurationMap().put( "ruby", getRubyRuntime().getRubyRuntimeName() );
 
-        when( this.rubyLocatorServiceFactory.acquireRubyLocator( eq( "RVM" ) ) ).thenReturn( this.rvmRubyLocator );
+        when( getRubyLocatorServiceFactory().acquireRubyLocator( eq( "RVM" ) ) ).thenReturn( getRvmRubyLocator() );
 
         when(
-                this.rvmRubyLocator.buildEnv(
-                        this.getRubyRuntime().getRubyRuntimeName(),
-                        this.getRubyExecutablePath(),
+                getRvmRubyLocator().buildEnv(
+                        getRubyRuntime().getRubyRuntimeName(),
+                        getRubyExecutablePath(),
                         Maps.<String, String> newHashMap() ) ).thenReturn( Maps.<String, String> newHashMap() );
 
-        final Map<String, String> envVars = this.capistranoTask.buildEnvironment( this.getRubyLabel(), this.getConfigurationMap() );
+        final Map<String, String> envVars = this.capistranoTask.buildEnvironment( getRubyLabel(), getConfigurationMap() );
 
         assertThat( envVars.size(), is( 0 ) );
 
