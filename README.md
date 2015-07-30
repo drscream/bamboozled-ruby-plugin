@@ -19,15 +19,10 @@ Notes:
 1.  The RVM utilized is exclusively designated in the Bamboo Plan Miscellaneous tab and does not recognize any files such as .rvmrc, .ruby-version or .ruby-manager.  
 2.  If your latest RVM gemset is not showing up in the dropdown,  navigate to the Bamboo `Administration | Server capabilities` and click `Detect server capabilities`
 
-## Download
-[Download the plugin binary](https://www.dropbox.com/sh/of18yggwwfs7i69/sGDkijyaPW) or get via [Atlassian UPM](https://marketplace.atlassian.com/plugins/com.alienfast.bamboozled.ruby.bamboozled-ruby-plugin)
-
 ## Installation and Usage
 This is still a bit clunky, but a shared runtime configuration is much more maintainable than the known alternatives.  (ideas are welcome)
 
-1. Install the `bamboozled-ruby-plugin`
-  * Obtain via the Atlassian Plugin site (TODO)
-  * or [download the binary](https://www.dropbox.com/sh/of18yggwwfs7i69/sGDkijyaPW) and upload to via the Bamboo universal plugin manager. 
+1. Install via [Atlassian UPM](https://marketplace.atlassian.com/plugins/com.alienfast.bamboozled.ruby.bamboozled-ruby-plugin)
 2. Navigate to the Bamboo `Administration | Server capabilities` and click `Detect server capabilities`, this will detect existing RVM/ruby and their associated gemsets.
 3. Configure a *New* Plan:
   * `Create | Create a new plan` and fill out appropriate information then click `Configure tasks`
@@ -128,7 +123,6 @@ Please contribute! We will readily accept contributions and try to stay on top o
 
 ### To Do:
 - [ ] More reuse to reduce duplicate code
-- [x] Make available via [Atlassian UPM](https://marketplace.atlassian.com/plugins/com.alienfast.bamboozled.ruby.bamboozled-ruby-plugin) (@rosskevin)
 
 ### To contribute:
 [Setup your development environment according to the wiki](https://github.com/alienfast/bamboozled-ruby-plugin/wiki/Development) (and feel free to update the instructions with anything missing)

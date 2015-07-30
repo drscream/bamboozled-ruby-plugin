@@ -158,7 +158,18 @@ public abstract class AbstractRubyTask implements CommonTaskType {
 
     protected String getRubyExecutablePath( final RubyLabel rubyRuntimeLabel ) {
 
-        final Capability capability = getCapabilityContext().getCapabilitySet().getCapability( rubyRuntimeLabel.toCapabilityKey() );
+        this.log.info( "getRubyExecutablePath(" + rubyRuntimeLabel + ")" + "\n\tcapabilityKey: " + rubyRuntimeLabel.toCapabilityKey()
+                + "\n\tcapabilities: " + this.getCapabilityContext().getCapabilitySet().getCapabilities() );
+
+        Capability capability = getCapabilityContext().getCapabilitySet().getCapability( rubyRuntimeLabel.toCapabilityKey() );
+
+        if ( null == capability ) {
+            // This may be a remote agent, attempt workaround to capability by substituting 'command'             
+            String label = rubyRuntimeLabel.toCapabilityKey().replaceFirst( "ruby", "command" );
+            this.log.info( "modified " + rubyRuntimeLabel.toCapabilityKey() + " to " + label + " for remote agent." );
+            capability = this.getCapabilityContext().getCapabilitySet().getCapability( label );
+        }
+
         Preconditions.checkNotNull( capability, "Capability  for ruby " + rubyRuntimeLabel.toCapabilityKey()
                 + ".  Please be sure to \"Detect server capabilities\" in the Administration console, and the path is valid." );
         final String rubyRuntimeExecutable = capability.getValue();
