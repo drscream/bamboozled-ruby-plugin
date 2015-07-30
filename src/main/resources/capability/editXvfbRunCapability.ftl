@@ -1,1 +1,1 @@
-[@ww.textfield labelKey='agent.capability.type.system.executable.xvfbrun.value' name="xvfbRunExecutable" description=capabilityType.getExecutableDescription()/]
+[@ww.textfield labelKey='agent.capability.type.system.executable.ruby.value' name="rubyExecutable" description=capabilityType.getExecutableDescription()/]

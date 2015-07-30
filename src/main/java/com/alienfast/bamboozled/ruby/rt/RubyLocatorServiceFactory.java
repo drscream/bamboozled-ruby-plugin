@@ -28,7 +28,7 @@ public class RubyLocatorServiceFactory {
                 new RvmRubyRuntimeLocatorService(),
                 new WindowsRubyRuntimeLocatorService() );
 
-        log.info( "Loaded ruby runtime managers {} ", this.rubyRuntimeLocatorServices );
+        //        log.info( "Loaded ruby runtime managers {} ", this.rubyRuntimeLocatorServices );
     }
 
     public RubyLocatorServiceFactory(SystemRubyRuntimeLocatorService systemRubyRuntimeLocatorService,
@@ -41,8 +41,7 @@ public class RubyLocatorServiceFactory {
                 rvmRubyRuntimeLocatorService,
                 windowsRubyRuntimeLocatorService );
 
-        log.info( "Loaded ruby runtime managers {} ", this.rubyRuntimeLocatorServices );
-
+        //        log.info( "Loaded ruby runtime managers {} ", this.rubyRuntimeLocatorServices );
     }
 
     public List<RubyRuntimeLocatorService> getLocatorServices() {

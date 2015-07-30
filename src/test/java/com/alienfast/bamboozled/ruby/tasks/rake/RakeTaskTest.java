@@ -41,11 +41,6 @@ public class RakeTaskTest extends AbstractTaskTest {
         this.rakeTask.setCapabilityContext( getCapabilityContext() );
         this.rakeTask.setRubyLocatorServiceFactory( getRubyLocatorServiceFactory() );
         this.rakeTask.setCapabilityContext( getCapabilityContext() );
-
-        // setup xvfb-run
-        //        when( this.xvfbRunCapability.getValue() ).thenReturn( "/usr/bin/xvfb-run");
-        //        when( this.capabilitySet.getCapability( RubyCapabilityDefaultsHelper.XVFB_RUN_CAPABILITY ) ).thenReturn( this.xvfbRunCapability );
-
         setupBuildContext( this.rakeTask );
     }
 

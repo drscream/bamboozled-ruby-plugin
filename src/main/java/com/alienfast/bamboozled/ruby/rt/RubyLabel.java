@@ -2,7 +2,7 @@ package com.alienfast.bamboozled.ruby.rt;
 
 import java.util.StringTokenizer;
 
-import com.atlassian.bamboo.v2.build.agent.capability.CapabilityDefaultsHelper;
+import com.alienfast.bamboozled.ruby.capability.RubyCapabilityTypeModule;
 
 /**
  * Used to represent a ruby instance managed by a ruby runtime manager.
@@ -11,7 +11,6 @@ public class RubyLabel {
 
     // This is to support existing deployments where the registered runtimes lack a runtime manager prefix.
     static final String DEFAULT_RUNTIME_MANAGER = "RVM";
-    private static final String RUBY_CAPABILITY_PREFIX = CapabilityDefaultsHelper.CAPABILITY_BUILDER_PREFIX + ".ruby";
 
     private String rubyRuntimeManager;
     private String rubyRuntime;
@@ -54,9 +53,14 @@ public class RubyLabel {
         }
     }
 
+    public static RubyLabel fromKey( String key ) {
+
+        return fromString( key.replaceFirst( RubyCapabilityTypeModule.RUBY_CAPABILITY_KEY + ".", "" ) );
+    }
+
     public String toCapabilityKey() {
 
-        return String.format( "%s.%s", RUBY_CAPABILITY_PREFIX, this );
+        return String.format( "%s.%s", RubyCapabilityTypeModule.RUBY_CAPABILITY_KEY, this );
     }
 
     @Override

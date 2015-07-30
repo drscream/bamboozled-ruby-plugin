@@ -13,7 +13,12 @@
 		<param name="vendor-logo">images/vendor_logo_alienfast.png</param>
 	</plugin-info>
 
-	<capabilityType key="system.executable.xvfbrun" name="xvfb-run" class="com.alienfast.bamboozled.ruby.capability.XvfbRunCapabilityTypeModule" sortOrder="5000">
+	<capabilityType key="system.executable.ruby" name="Ruby" class="com.alienfast.bamboozled.ruby.capability.RubyCapabilityTypeModule" sortOrder="113">
+		<description>The ruby capability type</description>
+		<resource type="freemarker" name="edit" location="capability/editRubyCapability.ftl" />
+	</capabilityType>
+
+	<capabilityType key="system.executable.xvfbrun" name="Xvfb Run" class="com.alienfast.bamboozled.ruby.capability.XvfbRunCapabilityTypeModule" sortOrder="114">
 		<description>The xvfb-run capability type</description>
 		<resource type="freemarker" name="edit" location="capability/editXvfbRunCapability.ftl" />
 	</capabilityType>
