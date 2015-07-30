@@ -6,7 +6,7 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.Nullable;
 
-import com.alienfast.bamboozled.ruby.rt.RubyCapabilityDefaultsHelper;
+import com.alienfast.bamboozled.ruby.capability.XvfbRunCapabilityTypeModule;
 import com.alienfast.bamboozled.ruby.rt.RubyLocator;
 import com.alienfast.bamboozled.ruby.rt.RubyRuntime;
 import com.alienfast.bamboozled.ruby.tasks.AbstractBundleExecCommandBuilder;
@@ -38,8 +38,11 @@ public class RakeCommandBuilder extends AbstractBundleExecCommandBuilder<RakeCom
     protected String getXvfbRunExecutablePath() {
 
         final Capability capability = getCapabilityContext().getCapabilitySet().getCapability(
-                RubyCapabilityDefaultsHelper.XVFB_RUN_CAPABILITY );
-        Preconditions.checkNotNull( capability, "Capability for xvfb-run.  Please be sure to \"Detect server capabilities\" in the Administration console, and the the xvfb-run path is valid." );
+                XvfbRunCapabilityTypeModule.XVFB_RUN_CAPABILITY_KEY );
+        Preconditions
+                .checkNotNull(
+                        capability,
+                        "Capability for xvfb-run.  Please be sure to \"Detect server capabilities\" in the Administration console, and the the xvfb-run path is valid." );
         final String exe = capability.getValue();
         Preconditions.checkNotNull( exe, "xvfbRunExecutable" );
         return exe;

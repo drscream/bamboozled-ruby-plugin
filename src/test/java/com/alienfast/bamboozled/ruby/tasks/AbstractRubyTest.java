@@ -4,8 +4,8 @@ import static org.mockito.Mockito.when;
 
 import org.mockito.Mock;
 
+import com.alienfast.bamboozled.ruby.capability.XvfbRunCapabilityTypeModule;
 import com.alienfast.bamboozled.ruby.fixtures.RvmFixtures;
-import com.alienfast.bamboozled.ruby.rt.RubyCapabilityDefaultsHelper;
 import com.alienfast.bamboozled.ruby.rt.RubyLabel;
 import com.alienfast.bamboozled.ruby.rt.RubyLocatorServiceFactory;
 import com.alienfast.bamboozled.ruby.rt.RubyRuntime;
@@ -50,7 +50,7 @@ public abstract class AbstractRubyTest {
 
         // setup xvfb-run
         when( getXvfbRunCapability().getValue() ).thenReturn( "/usr/bin/xvfb-run" );
-        when( getCapabilitySet().getCapability( RubyCapabilityDefaultsHelper.XVFB_RUN_CAPABILITY ) ).thenReturn( getXvfbRunCapability() );
+        when( getCapabilitySet().getCapability( XvfbRunCapabilityTypeModule.XVFB_RUN_CAPABILITY_KEY ) ).thenReturn( getXvfbRunCapability() );
         when( getCapabilityContext().getCapabilitySet() ).thenReturn( getCapabilitySet() );
     }
 

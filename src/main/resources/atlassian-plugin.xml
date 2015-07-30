@@ -3,21 +3,26 @@
 		<description>${project.description}</description>
 		<version>${project.version}</version>
 		<vendor name="${project.organization.name}" url="${project.organization.url}" />
-		
-        <!-- Support for the following marketing assets has been implemented -->
-        <param name="plugin-icon">images/addon_icn_bamboozled.png</param>
-        <param name="plugin-logo">images/addon_logo_bamboozled.png</param>
-        <!-- Support for the following marketing assets will be implemented soon -->
-        <param name="plugin-banner">images/banner.gif</param>
-        <param name="vendor-icon">images/vendor_icn_alienfast.png</param>
-        <param name="vendor-logo">images/vendor_logo_alienfast.png</param>		
+
+		<!-- Support for the following marketing assets has been implemented -->
+		<param name="plugin-icon">images/addon_icn_bamboozled.png</param>
+		<param name="plugin-logo">images/addon_logo_bamboozled.png</param>
+		<!-- Support for the following marketing assets will be implemented soon -->
+		<param name="plugin-banner">images/banner.gif</param>
+		<param name="vendor-icon">images/vendor_icn_alienfast.png</param>
+		<param name="vendor-logo">images/vendor_logo_alienfast.png</param>
 	</plugin-info>
+
+	<capabilityType key="system.executable.xvfbrun" name="xvfb-run" class="com.alienfast.bamboozled.ruby.capability.XvfbRunCapabilityTypeModule" sortOrder="5000">
+		<description>The xvfb-run capability type</description>
+		<resource type="freemarker" name="edit" location="capability/editXvfbRunCapability.ftl" />
+	</capabilityType>
 
 	<additionalBuildConfigurationPlugin key="ruby.environment" name="Ruby Environment" class="com.alienfast.bamboozled.ruby.config.RubyBuildConfigurationPlugin">
 		<description>Plugin to configure ruby environment for all of this plan's build tasks.</description>
-		
+
 		<capabilityDefaultsHelper class="com.alienfast.bamboozled.ruby.rt.RubyCapabilityDefaultsHelper" />
-		
+
 		<resource type="freemarker" name="edit" location="config/editRubyEnvironment.ftl" />
 		<resource type="freemarker" name="view" location="config/viewRubyEnvironment.ftl" />
 	</additionalBuildConfigurationPlugin>
@@ -25,18 +30,18 @@
 	<taskType name="Bundler Install" class="com.alienfast.bamboozled.ruby.tasks.bundler.install.BundlerInstallTask" key="task.bundler.install">
 
 		<description>Use Bundler to install project dependencies.</description>
-		<resource type="download" name="icon" location="images/icn_bundler_install.png"/>
+		<resource type="download" name="icon" location="images/icn_bundler_install.png" />
 
 		<!--This binds to the ui for create and edit and saves settings -->
 		<configuration class="com.alienfast.bamboozled.ruby.tasks.bundler.install.BundlerInstallConfigurator" />
 
 		<!--This detects the ruby installations on the system -->
-  		<capabilityDefaultsHelper class="com.alienfast.bamboozled.ruby.rt.RubyCapabilityDefaultsHelper" />
+		<capabilityDefaultsHelper class="com.alienfast.bamboozled.ruby.rt.RubyCapabilityDefaultsHelper" />
 
 		<category name="builder" />
 
 		<!--Some magic that makes a list of executables appear in a box on the UI -->
-		<executable key="ruby" nameKey="builder.ruby.executableName" pathHelpKey="builder.ruby.helpPath" primaryCapabilityProvider="false"/>
+		<executable key="ruby" nameKey="builder.ruby.executableName" pathHelpKey="builder.ruby.helpPath" primaryCapabilityProvider="false" />
 
 		<!--The UI fragments used to configure the plugin -->
 		<resource type="freemarker" name="edit" location="bundler/install/editBundlerInstallTask.ftl" />
@@ -47,18 +52,18 @@
 	<taskType name="Bundler CLI" class="com.alienfast.bamboozled.ruby.tasks.bundler.cli.BundlerCliTask" key="task.bundler.cli">
 
 		<description>Use Bundler with any command line options.</description>
-		<resource type="download" name="icon" location="images/icn_bundler_cli.png"/>
+		<resource type="download" name="icon" location="images/icn_bundler_cli.png" />
 
 		<!--This binds to the ui for create and edit and saves settings -->
 		<configuration class="com.alienfast.bamboozled.ruby.tasks.bundler.cli.BundlerCliConfigurator" />
 
 		<!--This detects the ruby installations on the system -->
-  		<capabilityDefaultsHelper class="com.alienfast.bamboozled.ruby.rt.RubyCapabilityDefaultsHelper" />
- 
+		<capabilityDefaultsHelper class="com.alienfast.bamboozled.ruby.rt.RubyCapabilityDefaultsHelper" />
+
 		<category name="builder" />
 
 		<!--Some magic that makes a list of executables appear in a box on the UI -->
-		<executable key="ruby" nameKey="builder.ruby.executableName" pathHelpKey="builder.ruby.helpPath" primaryCapabilityProvider="false"/>
+		<executable key="ruby" nameKey="builder.ruby.executableName" pathHelpKey="builder.ruby.helpPath" primaryCapabilityProvider="false" />
 
 		<!--The UI fragments used to configure the plugin -->
 		<resource type="freemarker" name="edit" location="bundler/cli/editBundlerCliTask.ftl" />
@@ -69,18 +74,18 @@
 	<taskType name="Rake" class="com.alienfast.bamboozled.ruby.tasks.rake.RakeTask" key="task.rake">
 
 		<description>Use to run any Rake task.</description>
-		<resource type="download" name="icon" location="images/icn_rake.png"/>
+		<resource type="download" name="icon" location="images/icn_rake.png" />
 
 		<!--This binds to the ui for create and edit and saves settings -->
 		<configuration class="com.alienfast.bamboozled.ruby.tasks.rake.RakeConfigurator" />
 
 		<!--This detects the ruby installations on the system -->
-  		<capabilityDefaultsHelper class="com.alienfast.bamboozled.ruby.rt.RubyCapabilityDefaultsHelper" />
- 
+		<capabilityDefaultsHelper class="com.alienfast.bamboozled.ruby.rt.RubyCapabilityDefaultsHelper" />
+
 		<category name="builder" />
 
 		<!--Some magic that makes a list of executables appear in a box on the UI -->
-		<executable key="ruby" nameKey="builder.ruby.executableName" pathHelpKey="builder.ruby.helpPath" primaryCapabilityProvider="false"/>
+		<executable key="ruby" nameKey="builder.ruby.executableName" pathHelpKey="builder.ruby.helpPath" primaryCapabilityProvider="false" />
 
 		<!--The UI fragments used to configure the plugin -->
 		<resource type="freemarker" name="edit" location="rake/editRakeTask.ftl" />
@@ -91,18 +96,18 @@
 	<taskType name="Capistrano" class="com.alienfast.bamboozled.ruby.tasks.capistrano.CapistranoTask" key="task.capistrano">
 
 		<description>Use to run Capistrano.</description>
-		<resource type="download" name="icon" location="images/icn_capistrano.png"/>
+		<resource type="download" name="icon" location="images/icn_capistrano.png" />
 
 		<!--This binds to the ui for create and edit and saves settings -->
 		<configuration class="com.alienfast.bamboozled.ruby.tasks.capistrano.CapistranoConfigurator" />
 
 		<!--This detects the ruby installations on the system -->
-  		<capabilityDefaultsHelper class="com.alienfast.bamboozled.ruby.rt.RubyCapabilityDefaultsHelper" />
- 
+		<capabilityDefaultsHelper class="com.alienfast.bamboozled.ruby.rt.RubyCapabilityDefaultsHelper" />
+
 		<category name="builder" />
 
 		<!--Some magic that makes a list of executables appear in a box on the UI -->
-		<executable key="ruby" nameKey="builder.ruby.executableName" pathHelpKey="builder.ruby.helpPath" primaryCapabilityProvider="false"/>
+		<executable key="ruby" nameKey="builder.ruby.executableName" pathHelpKey="builder.ruby.helpPath" primaryCapabilityProvider="false" />
 
 		<!--The UI fragments used to configure the plugin -->
 		<resource type="freemarker" name="edit" location="capistrano/editCapistranoTask.ftl" />

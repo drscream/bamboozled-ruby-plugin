@@ -21,9 +21,8 @@ import com.google.common.collect.Lists;
  */
 public class RubyCapabilityDefaultsHelper implements CapabilityDefaultsHelper {
 
-    private static final String XVFB_RUN_EXE = "xvfb-run";
-
-    public static final String XVFB_RUN_CAPABILITY = CapabilityDefaultsHelper.CAPABILITY_BUILDER_PREFIX + "." + XVFB_RUN_EXE;
+    //    private static final String XVFB_RUN_EXE = "xvfb-run";
+    //    public static final String XVFB_RUN_CAPABILITY = CapabilityDefaultsHelper.CAPABILITY_BUILDER_PREFIX + "." + XVFB_RUN_EXE;
 
     private static final Logger log = LoggerFactory.getLogger( RubyCapabilityDefaultsHelper.class );
 
@@ -51,7 +50,7 @@ public class RubyCapabilityDefaultsHelper implements CapabilityDefaultsHelper {
     public CapabilitySet addDefaultCapabilities( @NotNull CapabilitySet capabilitySet ) {
 
         resolveRubyRuntimeCapabilites( capabilitySet );
-        resolveExeCapabilites( capabilitySet, XVFB_RUN_EXE, XVFB_RUN_CAPABILITY );
+        //        resolveExeCapabilites( capabilitySet, XVFB_RUN_EXE, XVFB_RUN_CAPABILITY );
 
         return capabilitySet;
     }

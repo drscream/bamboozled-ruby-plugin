@@ -10,8 +10,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import com.alienfast.bamboozled.ruby.capability.XvfbRunCapabilityTypeModule;
 import com.alienfast.bamboozled.ruby.fixtures.RvmFixtures;
-import com.alienfast.bamboozled.ruby.rt.RubyCapabilityDefaultsHelper;
 import com.alienfast.bamboozled.ruby.tasks.AbstractBuilderTest;
 import com.alienfast.bamboozled.ruby.tasks.AbstractBundleExecCommandBuilder;
 
@@ -54,7 +54,7 @@ public class RakeCommandBuilderTest extends AbstractBuilderTest {
     @Test
     public void testNoXvfbRunAvailable() throws Exception {
 
-        when( getCapabilitySet().getCapability( RubyCapabilityDefaultsHelper.XVFB_RUN_CAPABILITY ) ).thenReturn( null );
+        when( getCapabilitySet().getCapability( XvfbRunCapabilityTypeModule.XVFB_RUN_CAPABILITY_KEY ) ).thenReturn( null );
 
         try {
             this.rakeCommandBuilder.getXvfbRunExecutablePath();
