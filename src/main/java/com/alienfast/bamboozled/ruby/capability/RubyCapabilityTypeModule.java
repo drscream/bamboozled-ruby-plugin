@@ -14,13 +14,14 @@ import com.alienfast.bamboozled.ruby.rt.RubyRuntimeLocatorService;
 import com.atlassian.bamboo.util.BambooFilenameUtils;
 import com.atlassian.bamboo.v2.build.agent.capability.AbstractExecutableCapabilityTypeModule;
 import com.atlassian.bamboo.v2.build.agent.capability.Capability;
+import com.atlassian.bamboo.v2.build.agent.capability.CapabilityDefaultsHelper;
 import com.atlassian.bamboo.v2.build.agent.capability.CapabilityImpl;
 import com.atlassian.bamboo.v2.build.agent.capability.CapabilitySet;
 import com.google.common.collect.Lists;
 
 public class RubyCapabilityTypeModule extends AbstractExecutableCapabilityTypeModule {
 
-    public static final String RUBY_CAPABILITY_KEY = "system.executable.ruby";
+    public static final String RUBY_CAPABILITY_KEY = CapabilityDefaultsHelper.CAPABILITY_BUILDER_PREFIX + ".ruby";
     public static final String RUBY_EXECUTABLE_KEY = "rubyExecutable";
     public static final String RUBY_EXECUTABLE = "ruby";
     private static final String FIELD_RUBY_LABEL = "rubyLabel";
@@ -108,7 +109,7 @@ public class RubyCapabilityTypeModule extends AbstractExecutableCapabilityTypeMo
         RubyLabel rubyLabel = RubyLabel.fromKey( key );
         String label = rubyLabel.toString();
         log.info( "Returning {} for key {}", label, key );
-        // Returning ruby for key system.executable.ruby.RVM ruby-2.2.0@af_core
+        // Returning ruby for key system.builder.ruby.RVM ruby-2.2.0@af_core
         return label;
     }
 

@@ -13,7 +13,7 @@
 		<param name="vendor-logo">images/vendor_logo_alienfast.png</param>
 	</plugin-info>
 
-	<capabilityType key="system.executable.ruby" name="Ruby" class="com.alienfast.bamboozled.ruby.capability.RubyCapabilityTypeModule" sortOrder="113">
+	<capabilityType key="system.builder.ruby" name="Ruby" class="com.alienfast.bamboozled.ruby.capability.RubyCapabilityTypeModule" sortOrder="113">
 		<description>The ruby capability type</description>
 		<resource type="freemarker" name="edit" location="capability/editRubyCapability.ftl" />
 	</capabilityType>

@@ -1,2 +1,2 @@
-[@ww.textfield labelKey='agent.capability.type.system.executable.ruby.key' name="rubyLabel"/]
-[@ww.textfield labelKey='agent.capability.type.system.executable.ruby.value' name="rubyPath"/]
+[@ww.textfield labelKey='agent.capability.type.system.builder.ruby.key' name="rubyLabel"/]
+[@ww.textfield labelKey='agent.capability.type.system.builder.ruby.value' name="rubyPath"/]

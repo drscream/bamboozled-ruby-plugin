@@ -13,7 +13,7 @@ public class RubyLabelTest {
     @Test
     public void testFromKey() throws Exception {
 
-        RubyLabel label = RubyLabel.fromKey( "system.executable.ruby.RVM ruby-2.2.0@af_core" );
+        RubyLabel label = RubyLabel.fromKey( "system.builder.ruby.RVM ruby-2.2.0@af_core" );
 
         assertThat( label.getRubyRuntimeManager(), equalTo( RubyLabel.DEFAULT_RUNTIME_MANAGER ) );
         assertThat( label.getRubyRuntime(), equalTo( "ruby-2.2.0@af_core" ) );

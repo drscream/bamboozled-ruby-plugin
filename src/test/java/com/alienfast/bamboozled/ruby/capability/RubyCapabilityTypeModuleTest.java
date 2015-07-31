@@ -62,10 +62,10 @@ public class RubyCapabilityTypeModuleTest {
         this.rubyCapabilityTypeModule.addDefaultCapabilities( this.capabilitySet );
 
         verify( this.capabilitySet ).addCapability(
-                new CapabilityImpl( "system.executable.ruby.RVM " + rubyRuntimeMRI.getRubyRuntimeName(), rubyRuntimeMRI
+                new CapabilityImpl( "system.builder.ruby.RVM " + rubyRuntimeMRI.getRubyRuntimeName(), rubyRuntimeMRI
                         .getRubyExecutablePath() ) );
         verify( this.capabilitySet ).addCapability(
-                new CapabilityImpl( "system.executable.ruby.RVM " + rubyRuntimeJRuby.getRubyRuntimeName(), rubyRuntimeJRuby
+                new CapabilityImpl( "system.builder.ruby.RVM " + rubyRuntimeJRuby.getRubyRuntimeName(), rubyRuntimeJRuby
                         .getRubyExecutablePath() ) );
     }
 }
