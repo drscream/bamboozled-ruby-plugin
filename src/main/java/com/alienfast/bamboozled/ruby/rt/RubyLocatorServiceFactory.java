@@ -62,11 +62,13 @@ public class RubyLocatorServiceFactory {
                     return rubyRuntimeLocatorService.getRubyLocator();
                 }
                 else {
-                    throw new RuntimeLocatorException( "Unable to locate Runtime Manager installation." );
+                    throw new RuntimeLocatorException( "Unable to locate Runtime Manager installation for - " + rubyRuntimeManager
+                            + ".  Please make sure to detect server capabilities and ensure that those paths still exist." );
                 }
             }
         }
 
-        throw new RuntimeLocatorException( "Unable to locate runtime manager for - " + rubyRuntimeManager );
+        throw new RuntimeLocatorException( "Unable to locate Runtime Manager for - " + rubyRuntimeManager
+                + ".  Please make sure to detect server capabilities and ensure that those paths still exist." );
     }
 }

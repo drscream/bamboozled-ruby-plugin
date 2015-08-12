@@ -38,7 +38,7 @@ public class RbenvRubyRuntimeLocatorService implements RubyRuntimeLocatorService
 
         // No RVM on windows at the moment.
         if ( SystemUtils.IS_OS_WINDOWS ) {
-            log.warn( "Windows isn't support for RVM installations" );
+            log.warn( "Windows isn't supported for rbenv installations" );
             return null;
         }
 
