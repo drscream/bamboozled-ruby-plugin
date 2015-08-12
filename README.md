@@ -1,6 +1,6 @@
 # Bamboozled Ruby Plugin
 
-This continuous integration/continuous deployment plugin for Atlassian [Bamboo](http://www.atlassian.com/software/bamboo/overview) enables easy configuration of build and deployment tasks to run various ruby based build tools including bundler, rake, and capistrano.
+This continuous integration/continuous deployment plugin for Atlassian [Bamboo](http://www.atlassian.com/software/bamboo/overview) enables easy configuration of build and deployment tasks to run various ruby based build tools including bundler, rake, and capistrano.  Supports auto detection of capabilities on [remote agents](https://github.com/alienfast/bamboozled-ruby-plugin/wiki/Remote-Agents) for `ruby` and `xvfb-run` types, as well as allows for configured shared capabilies.
 
 ## Features for both build and deploy plans
 Via [Bamboo](http://www.atlassian.com/software/bamboo/overview) tasks, this plugin enables configure a ruby runtime environment once per plan and run:
@@ -30,7 +30,7 @@ This is still a bit clunky, but a shared runtime configuration is much more main
   * Now follow the existing plan instructions starting with second bullet below  
 4. Existing Plan
   * Choose `Actions | Configure plan`
-  * Choose the `Miscellaneous` tab to select the appropriate RVM or ruby runtime and set any common environment variables
+  * Choose the `Miscellaneous` tab to **select the appropriate RVM or ruby runtime** and set any common environment variables
   * Choose the `Tasks` tab
   * Choose the `Stage` i.e. `Default Stage`
   * Click `Add task` and choose your weapon of choice i.e. `Bundler Install`, `Bundler CLI`, `Rake`, or `Capistrano`
