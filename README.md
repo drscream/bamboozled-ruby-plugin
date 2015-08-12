@@ -30,7 +30,7 @@ This is still a bit clunky, but a shared runtime configuration is much more main
   * Now follow the existing plan instructions starting with second bullet below  
 4. Existing Plan
   * Choose `Actions | Configure plan`
-  * Choose the `Miscellaneous` tab to select the appropriate RVM or ruby runtime and set any common environment variables
+  * Choose the `Miscellaneous` tab to **select the appropriate RVM or ruby runtime** and set any common environment variables
   * Choose the `Tasks` tab
   * Choose the `Stage` i.e. `Default Stage`
   * Click `Add task` and choose your weapon of choice i.e. `Bundler Install`, `Bundler CLI`, `Rake`, or `Capistrano`
