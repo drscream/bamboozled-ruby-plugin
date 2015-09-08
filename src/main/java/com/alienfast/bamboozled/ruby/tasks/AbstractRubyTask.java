@@ -73,7 +73,8 @@ public abstract class AbstractRubyTask implements CommonTaskType {
         // move this crazy resolution out of here.
         resolveContext( taskContext, commonTaskContext );
 
-        final BuildLogger buildLogger = taskContext.getBuildLogger();
+        // capture logger from the commonTaskContext instead of the taskContext (which can be null in deployment scenarios)
+        final BuildLogger buildLogger = commonTaskContext.getBuildLogger();
 
         final String rubyRuntimeLabel = RubyBuildConfigurationPlugin.getRubyRuntime( getBuildDefinition() );
 
