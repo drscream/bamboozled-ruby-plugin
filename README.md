@@ -2,6 +2,9 @@
 
 This continuous integration/continuous deployment plugin for Atlassian [Bamboo](http://www.atlassian.com/software/bamboo/overview) enables easy configuration of build and deployment tasks to run various ruby based build tools including bundler, rake, and capistrano.  Supports auto detection of capabilities on [remote agents](https://github.com/alienfast/bamboozled-ruby-plugin/wiki/Remote-Agents) for `ruby` and `xvfb-run` types, as well as allows for configured shared capabilies.
 
+## Note: alternative
+Before getting started, it may be of interest to use [docker-rails with Bamboo](https://github.com/alienfast/docker-rails#ci-setup) for fully discrete execution environments.  This is a different approach that does not use a plugin.  Otherwise, continue on! Nothing to see here!
+
 ## Features for both build and deploy plans
 Via [Bamboo](http://www.atlassian.com/software/bamboo/overview) tasks, this plugin enables configure a ruby runtime environment once per plan and run:
 * Bundler
