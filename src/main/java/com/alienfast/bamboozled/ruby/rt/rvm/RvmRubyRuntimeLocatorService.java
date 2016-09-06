@@ -21,7 +21,7 @@ public class RvmRubyRuntimeLocatorService implements RubyRuntimeLocatorService {
 
     public static final String MANAGER_LABEL = "RVM";
 
-    static final String[] KNOWN_RVM_HOME_PATHS = new String[] { "/usr/local/rvm", "/opt/local/rvm" };
+    static final String[] KNOWN_RVM_HOME_PATHS = new String[] { "/usr/local/rvm", "/opt/local/rvm","/usr/share/rvm" };
 
     private final FileSystemHelper fileSystemHelper;
 
