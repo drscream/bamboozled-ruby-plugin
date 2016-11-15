@@ -15,6 +15,7 @@ import com.atlassian.bamboo.plan.TopLevelPlan;
 import com.atlassian.bamboo.plan.cache.ImmutablePlan;
 import com.atlassian.bamboo.plan.configuration.MiscellaneousPlanConfigurationPlugin;
 import com.atlassian.bamboo.utils.error.ErrorCollection;
+import com.atlassian.bamboo.v2.build.BuildConfigurationAwarePlugin;
 import com.atlassian.bamboo.v2.build.BaseBuildConfigurationAwarePlugin;
 import com.atlassian.bamboo.ww2.actions.build.admin.create.BuildConfiguration;
 
