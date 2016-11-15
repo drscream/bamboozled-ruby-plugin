@@ -85,6 +85,11 @@ public class RubyBuildConfigurationPlugin extends BaseBuildConfigurationAwarePlu
     }
 
     @Override
+    public boolean isApplicableTo(@NotNull ImmutablePlan plan) {
+        return false;
+    }
+
+    @Override
     public boolean isConfigurationMissing( BuildConfiguration buildConfiguration ) {
 
         return super.isConfigurationMissing( buildConfiguration );
