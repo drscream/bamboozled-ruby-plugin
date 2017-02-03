@@ -13,9 +13,10 @@ import com.atlassian.bamboo.plan.Plan;
 import com.atlassian.bamboo.plan.PlanManager;
 import com.atlassian.bamboo.plan.TopLevelPlan;
 import com.atlassian.bamboo.plan.cache.ImmutablePlan;
+import com.atlassian.bamboo.plan.configuration.MiscellaneousPlanConfigurationPlugin;
 import com.atlassian.bamboo.utils.error.ErrorCollection;
+import com.atlassian.bamboo.v2.build.BuildConfigurationAwarePlugin;
 import com.atlassian.bamboo.v2.build.BaseBuildConfigurationAwarePlugin;
-import com.atlassian.bamboo.v2.build.configuration.MiscellaneousBuildConfigurationPlugin;
 import com.atlassian.bamboo.ww2.actions.build.admin.create.BuildConfiguration;
 
 /**
@@ -23,7 +24,7 @@ import com.atlassian.bamboo.ww2.actions.build.admin.create.BuildConfiguration;
  * 
  * @author kross
  */
-public class RubyBuildConfigurationPlugin extends BaseBuildConfigurationAwarePlugin implements MiscellaneousBuildConfigurationPlugin {
+public class RubyBuildConfigurationPlugin extends BaseBuildConfigurationAwarePlugin implements MiscellaneousPlanConfigurationPlugin {
 
     private static final Logger log = LoggerFactory.getLogger( RubyBuildConfigurationPlugin.class );
     public static String RUBY_CONFIG_RUNTIME = "custom.ruby-config-runtime";
@@ -82,6 +83,11 @@ public class RubyBuildConfigurationPlugin extends BaseBuildConfigurationAwarePlu
 
         //only top level Plans see this option.
         return plan instanceof TopLevelPlan;
+    }
+
+    @Override
+    public boolean isApplicableTo(@NotNull ImmutablePlan plan) {
+        return false;
     }
 
     @Override
