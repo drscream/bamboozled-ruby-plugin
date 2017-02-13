@@ -5,18 +5,25 @@
     <groupId>com.alienfast.bamboozled.ruby</groupId>
     <artifactId>bamboozled-ruby-plugin</artifactId>
     <!-- Lets line up major.minor with the Bamboo release, and just use the build_number for our releases -->
-    <version>5.10.4</version>
+    <version>5.14.1</version>
     <name>Bamboozled Ruby Plugin</name>
     <description>Bamboo plugin for continuous integration/continuous deployment with Ruby and RVM.</description>
     <packaging>atlassian-plugin</packaging>
     <organization>
-        <name>AlienFast</name>
-        <url>http://www.alienfast.com/</url>
+        <name>SkyLime GmbH</name>
+        <url>http://www.skylime.net/</url>
     </organization>
     <developers>
         <developer>
             <name>Kevin Ross</name>
             <email>kevin.ross@alienfast.com</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Thomas Merkel</name>
+            <email>thomas.merkel@skylime.net</email>
             <roles>
                 <role>developer</role>
             </roles>
@@ -30,9 +37,9 @@
         </license>
     </licenses>
     <scm>
-        <connection>scm:git:ssh://git@github.com:alienfast/bamboozled-ruby-plugin.git</connection>
-        <url>scm:git:ssh://git@github.com/alienfast/bamboozled-ruby-plugin.git</url>
-        <developerConnection>scm:git:ssh://git@github.com/alienfast/bamboozled-ruby-plugin.git</developerConnection>
+        <connection>scm:git:ssh://git@github.com:drscream/bamboozled-ruby-plugin.git</connection>
+        <url>scm:git:ssh://git@github.com/drscream/bamboozled-ruby-plugin.git</url>
+        <developerConnection>scm:git:ssh://git@github.com/drscream/bamboozled-ruby-plugin.git</developerConnection>
     </scm>
     <properties>
         <bamboo.version>5.14.1</bamboo.version>
@@ -137,10 +144,8 @@
             </extension>
         </extensions>
     </build>
-    <!-- <distributionManagement> <repository> <id>alienfast</id> <name>AlienFast Repository</name> <url>scp://repo.alienfast.com/repository</url> <layout>default</layout> </repository> 
-		</distributionManagement> -->
     <issueManagement>
         <system>github</system>
-        <url>https://github.com/alienfast/bamboozled-ruby-plugin/issues</url>
+        <url>https://github.com/drscream/bamboozled-ruby-plugin/issues</url>
     </issueManagement>
 </project>
