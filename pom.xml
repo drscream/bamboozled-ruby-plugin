@@ -5,7 +5,7 @@
     <groupId>com.alienfast.bamboozled.ruby</groupId>
     <artifactId>bamboozled-ruby-plugin</artifactId>
     <!-- Lets line up major.minor with the Bamboo release, and just use the build_number for our releases -->
-    <version>5.14.1</version>
+    <version>6.0.0</version>
     <name>Bamboozled Ruby Plugin</name>
     <description>Bamboo plugin for continuous integration/continuous deployment with Ruby and RVM.</description>
     <packaging>atlassian-plugin</packaging>
@@ -43,7 +43,7 @@
     </scm>
     <properties>
         <bamboo.version>5.14.1</bamboo.version>
-        <bamboo.data.version>5.7.2</bamboo.data.version>
+        <bamboo.data.version>6.0.0</bamboo.data.version>
         <amps.version>5.1.6</amps.version>
     </properties>
     <dependencies>
